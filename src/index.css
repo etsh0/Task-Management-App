@@ -34,12 +34,21 @@
 
 @layer components {
   .primary-btn {
-    @apply bg-[linear-gradient(135deg,#003D9B_0%,#0052CC_100%)] shadow-[0px_1px_2px_0px_#0000000D] rounded-xs py-2.5 px-6 text-body-md font-semibold leading-5 cursor-pointer;
+    @apply bg-[linear-gradient(135deg,#003D9B_0%,#0052CC_100%)] shadow-[0px_1px_2px_0px_#0000000D] rounded-lg md:rounded-xs py-2.5 px-6 text-body-md text-white font-semibold leading-5 cursor-pointer;
   }
   .secondary-btn {
     @apply rounded-xs py-2.5 px-6 text-primary text-body-md font-semibold bg-background;
   }
   .ghost-action-btn {
     @apply rounded-xs py-2.5 px-6 text-slate-two text-body-md font-semibold bg-background;
+  }
+  .heading-h1 {
+    @apply text-[28px] md:text-[30px] font-semibold leading-9 tracking-[-0.75] text-slate-one;
+  }
+  .p-style {
+    @apply text-body-md text-slate-two leading-5 font-normal;
+  }
+  .label {
+    @apply flex flex-col gap-1.5 text-label-sm text-slate-two uppercase leading-[16.5px] tracking-[0.55px] font-bold;
   }
 }
