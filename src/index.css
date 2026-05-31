@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@import 'tailwindcss';
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+@theme {
+  /* Action Blue & Tonal Range */
+  --color-primary: #003d9b;
+  --color-primary-container: #0052cc;
+  --color-surface-highest: #d7e2ff;
+  --color-surface-low: #f1f3ff;
+  --color-background: #f9f9ff;
+
+  /* Slate Neutrals */
+  --color-slate-one: #041b3c;
+  --color-slate-two: #4f5f7b;
+  --color-slate-three: #c3c6d6;
+
+  /* Semantic */
+  --color-success: #82f9be;
+  --color-error: #ba1a1a;
+  --color-warning: #ffb300;
+
+  /* Typography */
+  --text-display-lg: 56px;
+  --text-headline-lg: 32px;
+  --text-title-md: 18px;
+  --text-body-md: 14px;
+  --text-label-sm: 11px;
+}
+
+@layer components {
+  .primary-btn {
+    @apply bg-[linear-gradient(135deg,#003D9B_0%,#0052CC_100%)] shadow-[0px_1px_2px_0px_#0000000D] rounded-xs py-2.5 px-6 text-body-md font-semibold leading-5 cursor-pointer;
+  }
+  .secondary-btn {
+    @apply rounded-xs py-2.5 px-6 text-primary text-body-md font-semibold bg-background;
+  }
+  .ghost-action-btn {
+    @apply rounded-xs py-2.5 px-6 text-slate-two text-body-md font-semibold bg-background;
+  }
+}
