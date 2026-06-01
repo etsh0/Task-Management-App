@@ -48,6 +48,9 @@
   .p-style {
     @apply text-body-md text-slate-two leading-5 font-normal;
   }
+  .input {
+    @apply py-3.5 px-4 rounded-sm bg-surface-highest text-[16px] text-[#737685] font-normal w-full focus:outline-0;
+  }
   .label {
     @apply flex flex-col gap-1.5 text-label-sm text-slate-two uppercase leading-[16.5px] tracking-[0.55px] font-bold;
   }

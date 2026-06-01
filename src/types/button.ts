@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export type ButtonProps = {
-  text: string;
+  children: ReactNode;
 };
