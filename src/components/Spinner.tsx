@@ -1,11 +1,10 @@
-import { BiLoaderAlt } from 'react-icons/bi';
-
 export default function Spinner() {
   return (
     <>
-      <div>
-        <BiLoaderAlt className="animate-spin text-xl" />
-      </div>
+      <div
+        className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent"
+        aria-label="Loading"
+      />
     </>
   );
 }
