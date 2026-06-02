@@ -54,7 +54,7 @@ export default function Form() {
 
   return (
     <>
-      <div className="md:p-12 bg-[#FFFFFF] md:shadow-[0px_24px_48px_0px_#041B3C0F] h-full w-xl max-w-xl">
+      <div className="md:p-12 bg-[#FFFFFF] md:shadow-[0px_24px_48px_0px_#041B3C0F] h-full w-120 max-w-120">
         <div className="heading text-center pt-8 pb-10">
           <h1 className="heading-h1 mb-2 ">Welcome Back</h1>
           <p className="p-style">
@@ -147,7 +147,7 @@ export default function Form() {
             </label>
             <Link
               className="text-primary text-body-md leading-5 font-medium hidden md:block"
-              to={''}
+              to={'/forgot-password'}
             >
               Forgot Password?
             </Link>

@@ -1,7 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../../../components/Button';
-import CheckIcon from '../../../../assets/icons/CheckIcon';
-import UncheckedIcon from '../../../../assets/icons/UncheckedIcon';
 import EyeIcon from '../../../../assets/icons/EyeIcon';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,6 +10,7 @@ import { useTogglePassword } from '../../../../hooks/useTogglePassword';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import Spinner from '../../../../components/Spinner';
+import ValidationItem from '../../../../components/ValidationItem';
 
 export default function Form() {
   const { visible, typeInput, toggle } = useTogglePassword();
@@ -156,28 +155,24 @@ export default function Form() {
             </label>
           </div>
           <div className="password-validation w-full bg-surface-highest rounded-lg p-4 flex flex-col gap-2">
-            <div className="text-label-sm text-[#434654] leading-[16.5px] flex items-center gap-2">
-              {passwordChecks.hasLength ? <CheckIcon /> : <UncheckedIcon />}
-              At least 8 characters
-            </div>
-            <div className="text-label-sm text-[#434654] leading-[16.5px] flex items-center gap-2">
-              {passwordChecks.hasUpperCase &&
-              passwordChecks.hasLowerCase &&
-              passwordChecks.hasDigit ? (
-                <CheckIcon />
-              ) : (
-                <UncheckedIcon />
-              )}
-              One uppercase, lowercase, and digit
-            </div>
-            <div className="text-label-sm text-[#434654] leading-[16.5px] flex items-center gap-2">
-              {passwordChecks.hasSpecialChar ? (
-                <CheckIcon />
-              ) : (
-                <UncheckedIcon />
-              )}
-              One special character
-            </div>
+            <ValidationItem
+              isValid={passwordChecks.hasLength}
+              text="At least 8 characters"
+            />
+            <ValidationItem
+              isValid={
+                !!(
+                  passwordChecks.hasUpperCase &&
+                  passwordChecks.hasLowerCase &&
+                  passwordChecks.hasDigit
+                )
+              }
+              text="One uppercase, lowercase, and digit"
+            />
+            <ValidationItem
+              isValid={!!passwordChecks.hasSpecialChar}
+              text="One special character"
+            />
           </div>
           <Button>{isLoading ? <Spinner /> : 'Create Account'}</Button>
         </form>

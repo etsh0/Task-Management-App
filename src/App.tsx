@@ -3,6 +3,8 @@ import Signup from './pages/auth/Signup';
 import Login from './pages/auth/Login';
 import { ToastContainer } from 'react-toastify';
 import AuthLayout from './layouts/AuthLayout';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import ResetPassword from './pages/auth/ResetPassword';
 
 export default function App() {
   return (
@@ -17,6 +19,8 @@ export default function App() {
           <Route element={<AuthLayout />}>
             <Route path="sign-up" element={<Signup />} />
             <Route path="login" element={<Login />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="reset-password" element={<ResetPassword />} />
           </Route>
         </Routes>
       </BrowserRouter>

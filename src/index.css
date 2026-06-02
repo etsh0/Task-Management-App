@@ -30,6 +30,8 @@
   --text-title-md: 18px;
   --text-body-md: 14px;
   --text-label-sm: 11px;
+
+  --color-border: #c3c6d626;
 }
 
 @layer components {
@@ -43,13 +45,13 @@
     @apply rounded-xs py-2.5 px-6 text-slate-two text-body-md font-semibold bg-background;
   }
   .heading-h1 {
-    @apply text-[28px] md:text-[30px] font-semibold leading-9 tracking-[-0.75] text-slate-one;
+    @apply text-[24px] md:text-[30px] font-semibold leading-9 tracking-[-0.75] text-slate-one;
   }
   .p-style {
     @apply text-body-md text-slate-two leading-5 font-normal;
   }
   .input {
-    @apply py-3.5 px-4 rounded-sm bg-surface-highest text-[16px] text-[#737685] font-normal w-full focus:outline-0;
+    @apply py-3.5 px-4 rounded-sm bg-surface-highest text-[16px] text-[#737685] font-normal w-full focus:outline-0 border border-border;
   }
   .label {
     @apply flex flex-col gap-1.5 text-label-sm text-slate-two uppercase leading-[16.5px] tracking-[0.55px] font-bold;
