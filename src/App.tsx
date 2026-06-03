@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import AuthLayout from './layouts/AuthLayout';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
+import AppLayout from './layouts/AppLayout/AppLayout';
 
 export default function App() {
   return (
@@ -12,8 +13,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* main layout */}
-          <Route path="/" element={<div>main layout</div>}>
-            <Route index element={<div>project page</div>} />
+          <Route path="/" element={<AppLayout />}>
+            <Route index element={<div></div>} />
           </Route>
           {/* auth pages */}
           <Route element={<AuthLayout />}>
