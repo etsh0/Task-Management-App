@@ -7,13 +7,14 @@ import MailIcon from '../../../../assets/icons/MailIcon';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema } from '../schema/login-schema';
-import type { FormInputs } from '../type';
+import type { CookiesTypes, FormInputs } from '../type';
 import { handleSignin } from '../api';
 import { toast } from 'react-toastify';
 import { useTogglePassword } from '../../../../hooks/useTogglePassword';
 import EyeIcon from '../../../../assets/icons/EyeIcon';
 import LockIcon from '../../../../assets/icons/LockIcon';
 import ArrowRight from '../../../../assets/icons/ArrowRight';
+import { SaveAuthCookies } from '../cookie';
 
 export default function Form() {
   const { visible, typeInput, toggle } = useTogglePassword();
@@ -41,12 +42,21 @@ export default function Form() {
         password: data.password,
       };
 
-      await handleSignin(payload);
+      const res = await handleSignin(payload);
+
+      const dataCookies: CookiesTypes = {
+        accessToken: res.access_token,
+        refreshToken: res.refresh_token,
+        rememberMe: data.remember_me,
+      };
+
+      SaveAuthCookies(dataCookies);
+
       navigate('/');
       toast.success('Welcome Back!');
       reset();
-    } catch (error: any) {
-      toast.error(error.message || 'Unable to sign in. Please try again.');
+    } catch (error: unknown) {
+      toast.error('Invalid email or password');
     } finally {
       setIsLoading(false);
     }

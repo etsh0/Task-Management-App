@@ -6,5 +6,10 @@ export type FormInputs = z.infer<typeof LoginSchema>;
 export type SigninPayload = {
   email: string;
   password: string;
-  remember_me?: boolean;
+};
+
+export type CookiesTypes = {
+  accessToken: string;
+  refreshToken: string;
+  rememberMe: boolean;
 };
