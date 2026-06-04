@@ -1,14 +1,73 @@
 import Spinner from '../../../../components/Spinner';
 import Button from '../../../../components/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ArrowLeft from '../../../../assets/icons/ArrowLeft';
 import { Link } from 'react-router-dom';
 import FillCheckIcon from '../../../../assets/icons/FillCheckIcon';
 import ClockIcon from '../../../../assets/icons/ClockIcon';
 import AuthenticationIcon from '../../../../assets/icons/AuthenticationIcon';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { forgotPasswordSchema } from '../schema/forgot-password';
+import type { FormInputs } from '../type';
+import { recoverPassword } from '../api';
+import { formatTime } from '../../../../utils/formatTime';
 
 export default function Form() {
-  const [isLoading] = useState(false);
+
+  const [isLoading, setIsloading] = useState(false);
+  const [isShowResendMsg, setIsShowResendMsg] = useState(false)
+  const [email, setEmail] = useState("")
+  const [timeLeft, setTimeLeft] = useState(5);
+  const [resendCount, setResendCount] = useState(0)
+
+  const {register,handleSubmit, formState:{errors}} = useForm<FormInputs>({
+    mode: 'onChange',
+    resolver: zodResolver(forgotPasswordSchema)
+  })
+
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    setIsloading(true)
+    try {
+      await recoverPassword({email: data.email})
+      setEmail(data.email)
+      setTimeLeft(5)
+      setIsShowResendMsg(true)
+    }
+    catch(error) {
+      console.log(error);
+      
+    }finally {
+      setIsloading(false)
+    }
+  }
+
+  const handleResend = async () => {
+    try {
+      await recoverPassword({email})
+      setResendCount((prev) => prev + 1)
+      setTimeLeft(5)
+      console.log(resendCount, email);      
+    }
+    catch(error) {
+      console.log(error);
+    }
+  }
+
+  useEffect( () => {
+
+    if(timeLeft <= 0) {
+      return
+    }
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev-1)
+    }, 1000);
+
+    return () => clearInterval(timer)
+
+  }, [])
+
+
   return (
     <>
       <div className="md:p-10 bg-[#FFFFFF] md:shadow-[0px_24px_48px_0px_#041B3C0F] h-full w-md max-w-md">
@@ -23,7 +82,7 @@ export default function Form() {
             </p>
           </div>
           <form
-            // onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
             className="w-full flex flex-col gap-6"
           >
             <label className="label" htmlFor="">
@@ -32,13 +91,13 @@ export default function Form() {
                 className="input"
                 type="email"
                 placeholder="Enter your email"
-                // {...register('email')}
+                {...register('email')}
               />
-              {/* {errors.email && (
+              {errors.email && (
                   <span className="text-red-500">{errors.email.message}</span>
-                  )} */}
+                  )}
             </label>
-            <div className="">
+            <div className={`${isShowResendMsg && 'hidden'}`}>
               <Button>{isLoading ? <Spinner /> : 'Send Reset Link'}</Button>
             </div>
           </form>
@@ -51,43 +110,56 @@ export default function Form() {
             </Link>
           </div>
         </div>
-        <div className="pt-10 border-t border-border flex flex-col gap-6">
-          <div className="gap-3 bg-success/20 p-4 rounded-lg hidden md:flex">
-            <FillCheckIcon />
-            <p className="text-[#005235] text-body-md leading-[17.5px]">
-              If an account exists with this email, we’ve sent a password reset
-              link.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 bg-success/20 p-4 rounded-lg md:hidden">
-            <div className="flex gap-3 border-b border-border pb-3">
-              <FillCheckIcon />
-              <p className="text-[#005235] text-body-md leading-[17.5px]">
-                If an account exists with this email, we’ve sent a password
-                reset link.
-              </p>
-            </div>
-            <div className="flex justify-between items-center">
-              <p className="text-[#00523599] uppercase text-label-sm font-bold leading-[16.5px] tracking-[0.55px]">
-                Didn't receive the email?
-              </p>
-              <p className="text-primary text-label-sm font-bold uppercase leading-[16.5px] tracking-[1.1px]">
-                Resend in 05:00
-              </p>
-            </div>
-          </div>
-          <div className="hidden md:flex flex-col gap-3 justify-center items-center">
-            <p className="text-[#434654] uppercase text-label-sm font-bold leading-[16.5px] tracking-[0.55px]">
-              Didn't receive the email?
-            </p>
-            <div className="bg-surface-low flex items-center justify-center gap-2 w-full py-3 ">
-              <ClockIcon />
-              <div className="text-[#737685] text-[16px] font-semibold leading-6">
-                Resend in 05:00
+        {
+          isShowResendMsg && (
+            <div className="pt-10 border-t border-border flex flex-col gap-6">
+              <div className="gap-3 bg-success/20 p-4 rounded-lg hidden md:flex">
+                <FillCheckIcon />
+                <p className="text-[#005235] text-body-md leading-[17.5px]">
+                  If an account exists with this email, we’ve sent a password reset
+                  link.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 bg-success/20 p-4 rounded-lg md:hidden">
+                <div className="flex gap-3 border-b border-border pb-3">
+                  <FillCheckIcon />
+                  <p className="text-[#005235] text-body-md leading-[17.5px]">
+                    If an account exists with this email, we’ve sent a password
+                    reset link.
+                  </p>
+                </div>
+                <div className={`flex justify-between items-center`}>
+                  <p className="text-[#00523599] uppercase text-label-sm font-bold leading-[16.5px] tracking-[0.55px]">
+                    Didn't receive the email?
+                  </p>
+                  <p className="text-primary text-label-sm font-bold uppercase leading-[16.5px] tracking-[1.1px]">
+                    {
+                      timeLeft > 0 ? `Resend in ${formatTime(timeLeft)}` : (
+                        <button onClick={handleSubmit(handleResend)} disabled={timeLeft > 0 || resendCount >= 3} className='disabled:cursor-not-allowed'>
+                          Resend Email
+                        </button>
+                      )
+                    }
+                  </p>
+                </div>
+              </div>
+              <div className="hidden md:flex flex-col gap-3 justify-center items-center">
+                <p className="text-[#434654] uppercase text-label-sm font-bold leading-[16.5px] tracking-[0.55px]">
+                  Didn't receive the email?
+                </p>
+                <button onClick={handleSubmit(handleResend)} disabled={timeLeft > 0 || resendCount >= 3} className="bg-surface-low flex items-center justify-center gap-2 w-full py-3 cursor-pointer disabled:cursor-not-allowed">
+                  <ClockIcon />
+                  <div className="text-[#737685] text-[16px] font-semibold leading-6">
+                    {
+                      timeLeft > 0 ? `Resend in ${formatTime(timeLeft)}` : 'Resend Email'
+                    }
+                  </div>
+                </button>
               </div>
             </div>
-          </div>
-        </div>
+          )
+        }
+
       </div>
     </>
   );

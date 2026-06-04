@@ -1,14 +1,28 @@
 import ArrowLeft2 from '../../../assets/icons/ArrowLeft2';
 import LogoutIcon from '../../../assets/icons/LogoutIcon';
 import Logo from '../../../assets/images/Logo.svg';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import CollapsedLogo from '../../../assets/icons/CollapsedLogo';
 import ArrowRight2 from '../../../assets/icons/ArrowRight2';
 import { navLinks } from '../../../config/navLinks';
+import { logOut } from '../../../services/userLogout';
+import { toast } from 'react-toastify';
 
 export default function DesktopSideBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    try {
+      await logOut()
+      navigate("/login")
+      toast.success("Logged out successfully")
+    }catch(err) {
+      console.log(err);
+      toast.error("Logout failed")
+    }
+  }
 
   return (
     <div
@@ -44,12 +58,12 @@ export default function DesktopSideBar() {
             <span className="text-body-md font-medium leading-5">Collapse</span>
           )}
         </button>
-        <div className="flex items-center gap-3 py-2.5 px-3 text-error cursor-pointer">
+        <button onClick={handleLogout} className="flex items-center gap-3 py-2.5 px-3 text-error cursor-pointer">
           <LogoutIcon />
           {!isCollapsed && (
             <span className="text-body-md font-medium leading-5">Logout</span>
           )}
-        </div>
+        </button>
       </div>
     </div>
   );

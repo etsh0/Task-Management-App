@@ -14,7 +14,11 @@ export default function App() {
         <Routes>
           {/* main layout */}
           <Route path="/" element={<AppLayout />}>
-            <Route index element={<div></div>} />
+            <Route index element={<div>projects</div>} />
+            <Route path='epics' element={<div>epcis</div>} />
+            <Route path='tasks' element={<div>tasks</div>} />
+            <Route path='members' element={<div>members</div>} />
+            <Route path='details' element={<div>details</div>} />
           </Route>
           {/* auth pages */}
           <Route element={<AuthLayout />}>

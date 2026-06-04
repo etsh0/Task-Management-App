@@ -99,7 +99,7 @@ export default function Form() {
                 <span>Password</span>
                 <Link
                   className="md:hidden text-primary text-label-sm font-bold leading-[16.5px]"
-                  to={''}
+                  to={'/forgot-password'}
                 >
                   Forgot?
                 </Link>

@@ -33,7 +33,7 @@ export const navLinks: NavLinkItem[] = [
   {
     name: 'Project Details',
     mobileName: 'Details',
-    path: 'details',
+    path: '/details',
     icon: <ProjectDetailIcon />,
   },
 ];
