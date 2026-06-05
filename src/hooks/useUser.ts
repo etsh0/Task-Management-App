@@ -1,8 +1,19 @@
 import { useEffect, useState } from 'react';
 import { getUserData } from '../services/api/user';
 
-export const useUser = () => {
-  const [user, setUser] = useState(null);
+export interface User {
+  id: string;
+  name: string;
+  job_title: string;
+  email: string;
+}
+
+interface UseUserReturn {
+  user: User | null;
+}
+
+export const useUser = (): UseUserReturn => {
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchUserData = async () => {

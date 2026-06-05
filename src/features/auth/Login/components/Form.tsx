@@ -57,6 +57,8 @@ export default function Form() {
       reset();
     } catch (error: unknown) {
       toast.error('Invalid email or password');
+      console.log(error);
+      
     } finally {
       setIsLoading(false);
     }

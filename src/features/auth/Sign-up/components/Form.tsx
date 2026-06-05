@@ -43,7 +43,7 @@ export default function Form() {
       toast.success('Account created successfully');
       navigate('/');
       reset();
-    } catch (error: any) {
+    } catch (error:unknown) {      
       toast.error(error.message || 'Something went wrong');
     } finally {
       setIsLoading(false);

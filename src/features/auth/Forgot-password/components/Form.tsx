@@ -63,7 +63,7 @@ export default function Form() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [timeLeft]);
 
   return (
     <>
