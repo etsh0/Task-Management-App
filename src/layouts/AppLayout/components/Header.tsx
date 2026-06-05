@@ -1,11 +1,11 @@
-import { useState } from "react";
-import BurgerIcon from "../../../assets/icons/BurgerIcon";
-import { useUser } from "../../../hooks/useUser";
-import { getInitials } from "../../../utils/getInitials";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { logOut } from "../../../services/userLogout";
-import LogoutIcon from "../../../assets/icons/LogoutIcon";
+import { useState } from 'react';
+import BurgerIcon from '../../../assets/icons/BurgerIcon';
+import { useUser } from '../../../hooks/useUser';
+import { getInitials } from '../../../utils/getInitials';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { logOut } from '../../../services/userLogout';
+import LogoutIcon from '../../../assets/icons/LogoutIcon';
 
 interface HeaderProps {
   onBurgerClick: () => void;
@@ -20,11 +20,11 @@ export default function Header({ onBurgerClick }: HeaderProps) {
   const handleLogout = async () => {
     try {
       await logOut();
-      navigate("/login");
-      toast.success("Logged out successfully");
+      navigate('/login');
+      toast.success('Logged out successfully');
     } catch (err) {
       console.log(err);
-      toast.error("Logout failed");
+      toast.error('Logout failed');
     }
   };
 

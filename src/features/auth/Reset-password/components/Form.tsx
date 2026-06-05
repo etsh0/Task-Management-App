@@ -3,12 +3,69 @@ import Button from '../../../../components/Button';
 import Spinner from '../../../../components/Spinner';
 import { useTogglePassword } from '../../../../hooks/useTogglePassword';
 import EyeIcon from '../../../../assets/icons/EyeIcon';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import ValidationItem from '../../../../components/ValidationItem';
+import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { resetPasswordSchema } from './schema/reset-password';
+import type { FormInputs } from '../type';
+import { updatePassword } from '../api';
+import { toast } from 'react-toastify';
 
 export default function Form() {
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { visible, typeInput, toggle } = useTogglePassword();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+    reset,
+  } = useForm<FormInputs>({
+    mode: 'onChange',
+    resolver: zodResolver(resetPasswordSchema),
+  });
+
+  const access_token = searchParams.get('access_token');
+
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    if (!access_token) return;
+    setIsLoading(true);
+
+    try {
+      await updatePassword(data.password, access_token);
+      reset();
+      toast.success(
+        'Your password has been updated successfully. You can now log in',
+      );
+      setTimeout(() => {
+        navigate('/login');
+      }, 3000);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // to watch value of password input
+  const passwordInput = useWatch({
+    control,
+    name: 'password',
+  });
+
+  const password = passwordInput ?? '';
+
+  const passwordChecks = {
+    hasLength: password?.length >= 8 && password.length <= 64,
+    hasUpperCase: /[A-Z]/.test(password),
+    hasLowerCase: /[a-z]/.test(password),
+    hasDigit: /[0-9]/.test(password),
+    hasSpecialChar: /[!@#$%^&*]/.test(password),
+  };
 
   return (
     <>
@@ -20,7 +77,7 @@ export default function Form() {
           </p>
         </div>
         <form
-          // onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className="w-full flex flex-col gap-6"
         >
           <div className="password flex flex-col gap-4">
@@ -31,7 +88,7 @@ export default function Form() {
                   className="input"
                   type={typeInput}
                   placeholder="Password"
-                  // {...register('password')}
+                  {...register('password')}
                 />
                 <div
                   onClick={toggle}
@@ -48,13 +105,13 @@ export default function Form() {
                 className="input"
                 type="password"
                 placeholder="Repeat your password"
-                // {...register('confirm_password')}
+                {...register('confirm_password')}
               />
-              {/* {errors.confirm_password && (
-                    <span className="text-red-500">
-                    {errors.confirm_password.message}
-                    </span>
-                )} */}
+              {errors.confirm_password && (
+                <span className="text-red-500">
+                  {errors.confirm_password.message}
+                </span>
+              )}
             </label>
           </div>
           <div className="password-validation w-full bg-surface-highest rounded-lg p-5 ">
@@ -65,21 +122,47 @@ export default function Form() {
             </div>
             <div className="grid-cols-2 gap-3 mt-4 hidden md:grid">
               <div className="flex flex-col gap-2">
-                <ValidationItem isValid={false} text="8-64 characters" />
-                <ValidationItem isValid={false} text="Lowercase letter" />
-                <ValidationItem isValid={false} text="Special character" />
+                <ValidationItem
+                  isValid={passwordChecks.hasLength}
+                  text="8-64 characters"
+                />
+                <ValidationItem
+                  isValid={passwordChecks.hasLowerCase}
+                  text="Lowercase letter"
+                />
+                <ValidationItem
+                  isValid={passwordChecks.hasSpecialChar}
+                  text="Special character"
+                />
               </div>
               <div className="flex flex-col gap-2">
-                <ValidationItem isValid={false} text="Uppercase letter" />
-                <ValidationItem isValid={false} text="One digit" />
+                <ValidationItem
+                  isValid={passwordChecks.hasUpperCase}
+                  text="Uppercase letter"
+                />
+                <ValidationItem
+                  isValid={passwordChecks.hasDigit}
+                  text="One digit"
+                />
               </div>
             </div>
             <div className="flex flex-col gap-2 mt-4 md:hidden">
-              <ValidationItem isValid={false} text="8-64 characters" />
-              <ValidationItem isValid={false} text="Uppercase & Lowercase" />
-              <ValidationItem isValid={false} text="At least one digit" />
               <ValidationItem
-                isValid={false}
+                isValid={passwordChecks.hasLength}
+                text="8-64 characters"
+              />
+              <ValidationItem
+                isValid={
+                  passwordChecks.hasLowerCase && passwordChecks.hasLowerCase
+                }
+                text="Uppercase & Lowercase"
+              />
+              <ValidationItem
+                isValid={passwordChecks.hasDigit}
+                text="At least one digit"
+              />
+              <ValidationItem
+                isValid={passwordChecks.hasSpecialChar}
                 text="Special character (e.g. !@#$)"
               />
             </div>

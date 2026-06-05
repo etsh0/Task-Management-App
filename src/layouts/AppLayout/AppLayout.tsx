@@ -10,6 +10,18 @@ export default function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
+    const hash = window.location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+    const type = params.get('type');
+    const access_token = params.get('access_token');
+
+    if (type === 'recovery' && access_token) {
+      navigate(`/reset-password?access_token=${access_token}`, {
+        replace: true,
+      });
+      return;
+    }
+
     const token = getAccessToken();
     if (!token) {
       navigate('/login');
