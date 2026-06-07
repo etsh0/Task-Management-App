@@ -141,7 +141,7 @@ export default function Form() {
                 </div>
               </div>
               {errors.password && (
-                <span className="text-error">{errors.password.message}</span>
+                <span className="text-error">Password is required</span>
               )}
             </label>
 
