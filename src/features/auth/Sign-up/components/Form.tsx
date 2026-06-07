@@ -1,16 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
-import Button from '../../../../components/Button';
+import Button from '../../../../shared/components/Button';
 import EyeIcon from '../../../../assets/icons/EyeIcon';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchma } from '../schema/signup-schema';
 import type { FormInputs } from '../type';
 import { handleSignUp } from '../api';
-import { useTogglePassword } from '../../../../hooks/useTogglePassword';
+import { useTogglePassword } from '../../../../shared/hooks/useTogglePassword';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import Spinner from '../../../../components/Spinner';
-import ValidationItem from '../../../../components/ValidationItem';
+import Spinner from '../../../../shared/components/Spinner';
+import ValidationItem from '../../../../shared/components/ValidationItem';
 import EyeoffIcon from '../../../../assets/icons/EyeoffIcon';
 
 

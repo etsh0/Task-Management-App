@@ -1,11 +1,11 @@
-import type { NavLinkItem } from '../types/NavLinkItem';
-import ProjecsIcon from '../assets/icons/ProjecsIcon';
-import ProjectEpicIcon from '../assets/icons/ProjectEpicIcon';
-import ProjectTaskIcon from '../assets/icons/ProjectTaskIcon';
-import ProjectMemberIcon from '../assets/icons/ProjectMemberIcon';
-import ProjectDetailIcon from '../assets/icons/ProjectDetailIcon';
+import ProjecsIcon from '../../assets/icons/ProjecsIcon';
+import ProjectDetailIcon from '../../assets/icons/ProjectDetailIcon';
+import ProjectEpicIcon from '../../assets/icons/ProjectEpicIcon';
+import ProjectMemberIcon from '../../assets/icons/ProjectMemberIcon';
+import ProjectTaskIcon from '../../assets/icons/ProjectTaskIcon';
+import type { linkItem } from '../types/linkItem';
 
-export const navLinks: NavLinkItem[] = [
+export const Links: linkItem[] = [
   {
     name: 'Projects',
     mobileName: 'Projects',

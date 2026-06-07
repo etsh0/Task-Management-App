@@ -5,9 +5,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import CollapsedLogo from '../../../assets/icons/CollapsedLogo';
 import ArrowRight2 from '../../../assets/icons/ArrowRight2';
-import { navLinks } from '../../../config/navLinks';
 import { logOut } from '../../../services/userLogout';
 import { toast } from 'react-toastify';
+import { Links } from '../../../shared/data/Links';
 
 export default function DesktopSideBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -32,7 +32,7 @@ export default function DesktopSideBar() {
         {isCollapsed ? <CollapsedLogo /> : <img src={Logo} alt="" />}
       </div>
       <div className={`links flex flex-col flex-1 gap-1`}>
-        {navLinks.map((link, idx) => (
+        {Links.map((link, idx) => (
           <NavLink
             end
             to={link.path}

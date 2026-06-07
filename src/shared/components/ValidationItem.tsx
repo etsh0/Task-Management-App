@@ -1,5 +1,5 @@
-import CheckIcon from '../assets/icons/CheckIcon';
-import UncheckedIcon from '../assets/icons/UncheckedIcon';
+import CheckIcon from '../../assets/icons/CheckIcon';
+import UncheckedIcon from '../../assets/icons/UncheckedIcon';
 
 type ValidationItemProps = {
   isValid: boolean;

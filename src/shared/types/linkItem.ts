@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-export type NavLinkItem = {
+export type linkItem = {
   name: string;
   mobileName?: string;
   path: string;

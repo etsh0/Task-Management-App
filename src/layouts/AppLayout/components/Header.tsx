@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import BurgerIcon from '../../../assets/icons/BurgerIcon';
-import { useUser } from '../../../hooks/useUser';
-import { getInitials } from '../../../utils/getInitials';
+import { useUser } from '../../../shared/hooks/useUser';
+import { getInitials } from '../../../shared/utils/getInitials';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { logOut } from '../../../services/userLogout';

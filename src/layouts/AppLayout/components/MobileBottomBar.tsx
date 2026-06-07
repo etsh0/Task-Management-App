@@ -1,11 +1,11 @@
-import { navLinks } from '../../../config/navLinks';
 import { NavLink } from 'react-router-dom';
+import { Links } from '../../../shared/data/Links';
 
 export default function MobileBottomBar() {
   return (
     <>
       <div className="h-16 bg-surface-low flex items-center justify-between px-[27.86px] w-full">
-        {navLinks.map((link, idx) => (
+        {Links.map((link, idx) => (
           <NavLink
             end
             to={link.path}

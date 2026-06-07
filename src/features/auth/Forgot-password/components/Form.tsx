@@ -1,5 +1,5 @@
-import Spinner from '../../../../components/Spinner';
-import Button from '../../../../components/Button';
+import Spinner from '../../../../shared/components/Spinner';
+import Button from '../../../../shared/components/Button';
 import { useEffect, useState } from 'react';
 import ArrowLeft from '../../../../assets/icons/ArrowLeft';
 import { Link } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { forgotPasswordSchema } from '../schema/forgot-password';
 import type { FormInputs } from '../type';
 import { recoverPassword } from '../api';
-import { formatTime } from '../../../../utils/formatTime';
+import { formatTime } from '../../../../shared/utils/formatTime';
 
 export default function Form() {
   const [isLoading, setIsloading] = useState(false);

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import Button from '../../../../components/Button';
-import Spinner from '../../../../components/Spinner';
-import { useTogglePassword } from '../../../../hooks/useTogglePassword';
+import Button from '../../../../shared/components/Button';
+import Spinner from '../../../../shared/components/Spinner';
+import { useTogglePassword } from '../../../../shared/hooks/useTogglePassword';
 import EyeIcon from '../../../../assets/icons/EyeIcon';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import ValidationItem from '../../../../components/ValidationItem';
+import ValidationItem from '../../../../shared/components/ValidationItem';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { resetPasswordSchema } from '../schema/reset-password';

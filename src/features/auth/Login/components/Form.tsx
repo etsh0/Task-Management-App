@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Spinner from '../../../../components/Spinner';
-import Button from '../../../../components/Button';
+import Spinner from '../../../../shared/components/Spinner';
+import Button from '../../../../shared/components/Button';
 import MailIcon from '../../../../assets/icons/MailIcon';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema } from '../schema/login-schema';
 import { handleSignin } from '../api';
 import { toast } from 'react-toastify';
-import { useTogglePassword } from '../../../../hooks/useTogglePassword';
+import { useTogglePassword } from '../../../../shared/hooks/useTogglePassword';
 import EyeIcon from '../../../../assets/icons/EyeIcon';
 import ArrowRight from '../../../../assets/icons/ArrowRight';
 import EyeoffIcon from '../../../../assets/icons/EyeoffIcon';
