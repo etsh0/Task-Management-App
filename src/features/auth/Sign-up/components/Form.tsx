@@ -13,6 +13,7 @@ import Spinner from '../../../../components/Spinner';
 import ValidationItem from '../../../../components/ValidationItem';
 import EyeoffIcon from '../../../../assets/icons/EyeoffIcon';
 
+
 export default function Form() {
   const { visible, typeInput, toggle } = useTogglePassword();
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +41,9 @@ export default function Form() {
           ...(data.job_title && { job_title: data.job_title }),
         },
       };
+   
       await handleSignUp(payload);
+
       toast.success('Account created successfully');
       navigate('/');
       reset();

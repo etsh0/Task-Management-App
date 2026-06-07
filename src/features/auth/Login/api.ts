@@ -1,5 +1,6 @@
 import config from '../../../config/env';
-import type { SigninPayload } from './type';
+import { SaveAuthCookies } from './cookie';
+import type { CookiesTypes, SigninPayload } from './type';
 
 export const handleSignin = async (payload: SigninPayload) => {
   const res = await fetch(
@@ -15,6 +16,13 @@ export const handleSignin = async (payload: SigninPayload) => {
   );
 
   const data = await res.json();
+  
+  const tokens:CookiesTypes = {
+    accessToken:data.access_token,
+    refreshToken:data.refresh_token,
+    rememberMe: payload.rememberMe
+  }
+  SaveAuthCookies(tokens)
 
   if (!res.ok) {
     throw new Error(data.msg || 'Log In Faild');

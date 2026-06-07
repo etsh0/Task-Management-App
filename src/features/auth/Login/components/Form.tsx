@@ -6,14 +6,13 @@ import MailIcon from '../../../../assets/icons/MailIcon';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema } from '../schema/login-schema';
-import type { CookiesTypes, FormInputs } from '../type';
 import { handleSignin } from '../api';
 import { toast } from 'react-toastify';
 import { useTogglePassword } from '../../../../hooks/useTogglePassword';
 import EyeIcon from '../../../../assets/icons/EyeIcon';
 import ArrowRight from '../../../../assets/icons/ArrowRight';
-import { SaveAuthCookies } from '../cookie';
 import EyeoffIcon from '../../../../assets/icons/EyeoffIcon';
+import type { FormInputs } from '../type';
 
 export default function Form() {
   const { visible, typeInput, toggle } = useTogglePassword();
@@ -39,18 +38,12 @@ export default function Form() {
       const payload = {
         email: data.email,
         password: data.password,
-      };
-
-      const res = await handleSignin(payload);
-
-      const dataCookies: CookiesTypes = {
-        accessToken: res.access_token,
-        refreshToken: res.refresh_token,
         rememberMe: data.remember_me,
       };
 
-      SaveAuthCookies(dataCookies);
-
+      await handleSignin(payload);
+      console.log(payload);
+      
       navigate('/');
       toast.success('Welcome Back!');
       reset();
