@@ -1,20 +1,10 @@
 import z from 'zod';
 
-export const signupSchma = z
+export const resetPasswordSchema = z
   .object({
-    name: z
-      .string()
-      .min(3, 'Name must be at least 3 characters')
-      .max(50, 'Name must be at most 50 characters')
-      .regex(
-        /^[\p{L}]+(?:\s[\p{L}]+)*$/u,
-        'Name can only contain letters and single spaces between words',
-      ),
-    email: z.string().min(1, 'Email is required').email('Not Valid email'),
-    job_title: z.string().optional(),
     password: z
       .string()
-      .min(8, 'Password is required')
+      .min(8, 'Password must be at least 8 characters')
       .max(64, 'Password must be at most 64 characters')
       .regex(/^\S+$/, 'Password must not contain spaces')
       .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
@@ -24,7 +14,7 @@ export const signupSchma = z
         /[!@#$%^&*]/,
         'Password must contain at least one special character',
       ),
-    confirm_password: z.string(),
+    confirm_password: z.string()
   })
   .refine((data) => data.password === data.confirm_password, {
     message: 'Password do not match',
