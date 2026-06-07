@@ -7,10 +7,11 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import ValidationItem from '../../../../components/ValidationItem';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { resetPasswordSchema } from './schema/reset-password';
+import { resetPasswordSchema } from '../schema/reset-password';
 import type { FormInputs } from '../type';
 import { updatePassword } from '../api';
 import { toast } from 'react-toastify';
+import EyeoffIcon from '../../../../assets/icons/EyeoffIcon';
 
 export default function Form() {
   const [isLoading, setIsLoading] = useState(false);
@@ -81,11 +82,14 @@ export default function Form() {
           className="w-full flex flex-col gap-6"
         >
           <div className="password flex flex-col gap-4">
-            <label className="label" htmlFor="">
+            <label
+              className={`label ${errors.password && 'text-error'}`}
+              htmlFor=""
+            >
               <span className="uppercse">New Password</span>
               <div className="relative">
                 <input
-                  className="input"
+                  className={`input ${errors.password && 'input-error'}`}
                   type={typeInput}
                   placeholder="Password"
                   {...register('password')}
@@ -94,21 +98,24 @@ export default function Form() {
                   onClick={toggle}
                   className="absolute right-3 inset-y-0 top-[35%] cursor-pointer"
                 >
-                  {visible ? <EyeIcon /> : <EyeIcon />}
+                  {visible ? <EyeoffIcon /> : <EyeIcon />}
                 </div>
               </div>
             </label>
 
-            <label className="label" htmlFor="">
+            <label
+              className={`label ${errors.confirm_password && 'text-error'}`}
+              htmlFor=""
+            >
               <span className="uppercase">Confirm Password</span>
               <input
-                className="input"
+                className={`input ${errors.confirm_password && 'input-error'}`}
                 type="password"
                 placeholder="Repeat your password"
                 {...register('confirm_password')}
               />
               {errors.confirm_password && (
-                <span className="text-red-500">
+                <span className="text-error">
                   {errors.confirm_password.message}
                 </span>
               )}

@@ -82,16 +82,19 @@ export default function Form() {
             onSubmit={handleSubmit(onSubmit)}
             className="w-full flex flex-col gap-6"
           >
-            <label className="label" htmlFor="">
+            <label
+              className={`label ${errors.email && 'text-error'}`}
+              htmlFor=""
+            >
               <span className="">Email Address</span>
               <input
-                className="input"
+                className={`input ${errors.email && 'input-error'}`}
                 type="email"
                 placeholder="Enter your email"
                 {...register('email')}
               />
               {errors.email && (
-                <span className="text-red-500">{errors.email.message}</span>
+                <span className="text-error">{errors.email.message}</span>
               )}
             </label>
             <div className={`${isShowResendMsg && 'hidden'}`}>

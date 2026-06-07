@@ -14,7 +14,7 @@ export const signupSchma = z
     job_title: z.string().optional(),
     password: z
       .string()
-      .min(8, 'Password must be at least 8 characters')
+      .min(8, 'Password is required')
       .max(64, 'Password must be at most 64 characters')
       .regex(/^\S+$/, 'Password must not contain spaces')
       .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')

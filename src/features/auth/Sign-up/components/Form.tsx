@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import Spinner from '../../../../components/Spinner';
 import ValidationItem from '../../../../components/ValidationItem';
+import EyeoffIcon from '../../../../assets/icons/EyeoffIcon';
 
 export default function Form() {
   const { visible, typeInput, toggle } = useTogglePassword();
@@ -43,11 +44,9 @@ export default function Form() {
       toast.success('Account created successfully');
       navigate('/');
       reset();
-    } catch (error) {      
+    } catch (error) {
       toast.error(
-        error instanceof Error
-          ? error.message
-          : 'Something went wrong'
+        error instanceof Error ? error.message : 'Something went wrong',
       );
     } finally {
       setIsLoading(false);
@@ -85,31 +84,28 @@ export default function Form() {
           onSubmit={handleSubmit(onSubmit)}
           className="w-full flex flex-col gap-6 pb-4"
         >
-          <label className="label" htmlFor="">
+          <label className={`label ${errors.name && 'text-error'}`} htmlFor="">
             Name
             <input
-              className="input"
+              className={`input ${errors.name && 'input-error'}`}
               type="text"
               placeholder="Enter your full name"
               {...register('name')}
             />
             {errors.name && (
-              <span className="text-red-500">{errors.name.message}</span>
+              <span className="text-error">{errors.name.message}</span>
             )}
-            {/* <span className="text-slate-three normal-case font-normal tracking-normal">
-              3-50 characters, letters only.
-            </span> */}
           </label>
-          <label className="label" htmlFor="">
+          <label className={`label ${errors.email && 'text-error'}`} htmlFor="">
             Email
             <input
-              className="input"
+              className={`input ${errors.email && 'input-error'}`}
               type="email"
               placeholder="yourname@company.com"
               {...register('email')}
             />
             {errors.email && (
-              <span className="text-red-500">{errors.email.message}</span>
+              <span className="text-error">{errors.email.message}</span>
             )}
           </label>
           <label className="label" htmlFor="">
@@ -121,15 +117,18 @@ export default function Form() {
               {...register('job_title')}
             />
             {errors.job_title && (
-              <span className="text-red-500">{errors.job_title.message}</span>
+              <span className="text-error">{errors.job_title.message}</span>
             )}
           </label>
           <div className="password flex flex-col md:flex-row gap-4">
-            <label className="label" htmlFor="">
+            <label
+              className={`label ${errors.password && 'text-error'}`}
+              htmlFor=""
+            >
               Password
               <div className="relative">
                 <input
-                  className="input"
+                  className={`input ${errors.password && 'input-error'}`}
                   type={typeInput}
                   placeholder="Password"
                   {...register('password')}
@@ -138,21 +137,27 @@ export default function Form() {
                   onClick={toggle}
                   className="absolute right-3 inset-y-0 top-[35%] cursor-pointer"
                 >
-                  {visible ? <EyeIcon /> : <EyeIcon />}
+                  {visible ? <EyeoffIcon /> : <EyeIcon />}
                 </div>
               </div>
+              {errors.password && (
+                <span className="text-error">{errors.password.message}</span>
+              )}
             </label>
 
-            <label className="label" htmlFor="">
+            <label
+              className={`label ${errors.confirm_password && 'text-error'}`}
+              htmlFor=""
+            >
               Confirm Password
               <input
-                className="input"
+                className={`input ${errors.confirm_password && 'input-error'}`}
                 type="password"
                 placeholder="Repeat your password"
                 {...register('confirm_password')}
               />
               {errors.confirm_password && (
-                <span className="text-red-500">
+                <span className="text-error">
                   {errors.confirm_password.message}
                 </span>
               )}

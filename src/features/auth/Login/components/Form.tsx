@@ -1,4 +1,3 @@
-// import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Spinner from '../../../../components/Spinner';
@@ -12,9 +11,9 @@ import { handleSignin } from '../api';
 import { toast } from 'react-toastify';
 import { useTogglePassword } from '../../../../hooks/useTogglePassword';
 import EyeIcon from '../../../../assets/icons/EyeIcon';
-import LockIcon from '../../../../assets/icons/LockIcon';
 import ArrowRight from '../../../../assets/icons/ArrowRight';
 import { SaveAuthCookies } from '../cookie';
+import EyeoffIcon from '../../../../assets/icons/EyeoffIcon';
 
 export default function Form() {
   const { visible, typeInput, toggle } = useTogglePassword();
@@ -58,7 +57,6 @@ export default function Form() {
     } catch (error: unknown) {
       toast.error('Invalid email or password');
       console.log(error);
-      
     } finally {
       setIsLoading(false);
     }
@@ -77,26 +75,29 @@ export default function Form() {
           onSubmit={handleSubmit(onSubmit)}
           className="w-full flex flex-col gap-6 pb-4"
         >
-          <label className="label" htmlFor="">
+          <label className={`label ${errors.email && 'text-error'}`} htmlFor="">
             <span className="hidden md:block">Email</span>
             <span className="md:hidden">Email Address</span>
             <div className="relative">
               <input
-                className="input"
+                className={`input ${errors.email && 'input-error'}`}
                 type="email"
                 placeholder="yourname@company.com"
                 {...register('email')}
               />
-              <div className="absolute right-3 top-[35%] md:hidden">
+              <div className="absolute right-3 top-[35%]">
                 <MailIcon />
               </div>
             </div>
             {errors.email && (
-              <span className="text-red-500">{errors.email.message}</span>
+              <span className="text-error">{errors.email.message}</span>
             )}
           </label>
           <div className="password">
-            <label className="label" htmlFor="">
+            <label
+              className={`label ${errors.password && 'text-error'}`}
+              htmlFor=""
+            >
               <div className="flex justify-between">
                 <span>Password</span>
                 <Link
@@ -108,26 +109,24 @@ export default function Form() {
               </div>
               <div className="relative">
                 <input
-                  className="input"
+                  className={`input ${errors.password && 'input-error'}`}
                   type={typeInput}
                   placeholder="Enter your password"
                   {...register('password')}
                 />
-                {errors.password && (
-                  <span className="text-red-500">
-                    {errors.password.message}
-                  </span>
-                )}
+
                 <div
                   onClick={toggle}
-                  className="absolute right-3 inset-y-0 top-[35%] cursor-pointer hidden md:block"
+                  className="absolute right-3 top-[56%] -translate-y-1/2 cursor-pointer"
                 >
-                  {visible ? <EyeIcon /> : <EyeIcon />}
-                </div>
-                <div className="absolute right-3 inset-y-0 top-[30%] cursor-pointer md:hidden">
-                  <LockIcon />
+                  {visible ? <EyeoffIcon /> : <EyeIcon />}
                 </div>
               </div>
+              {errors.password && (
+                <span className="text-error mt-2 block">
+                  {errors.password.message}
+                </span>
+              )}
             </label>
           </div>
           <div className="hidden md:block">
