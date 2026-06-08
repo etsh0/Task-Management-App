@@ -72,8 +72,8 @@ export default function Form() {
 
   return (
     <>
-      <div className="md:p-12 bg-[#FFFFFF] md:shadow-[0px_24px_48px_0px_#041B3C0F] h-full w-xl max-w-xl">
-        <div className="heading md:text-center pt-8 pb-10">
+      <section className="md:p-12 bg-[#FFFFFF] md:shadow-[0px_24px_48px_0px_#041B3C0F] h-full w-xl max-w-xl">
+        <header className="heading md:text-center pt-8 pb-10">
           <h1 className="heading-h1 mb-2 ">Create your workspace</h1>
           <p className="p-style hidden md:block">
             Join the editorial approach to task management.
@@ -82,7 +82,7 @@ export default function Form() {
             Join the curated environment for institutional trust and task
             precision.
           </p>
-        </div>
+        </header>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="w-full flex flex-col gap-6 pb-4"
@@ -194,7 +194,7 @@ export default function Form() {
             Log in
           </Link>
         </p>
-      </div>
+      </section>
     </>
   );
 }

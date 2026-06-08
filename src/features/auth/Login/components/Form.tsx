@@ -57,13 +57,13 @@ export default function Form() {
 
   return (
     <>
-      <div className="md:p-12 bg-[#FFFFFF] md:shadow-[0px_24px_48px_0px_#041B3C0F] h-full w-120 max-w-120">
-        <div className="heading text-center pt-8 pb-10">
+      <section className="md:p-12 bg-[#FFFFFF] md:shadow-[0px_24px_48px_0px_#041B3C0F] h-full w-120 max-w-120">
+        <header className="heading text-center pt-8 pb-10">
           <h1 className="heading-h1 mb-2 ">Welcome Back</h1>
           <p className="p-style">
             Please enter your details to access your workspace
           </p>
-        </div>
+        </header>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="w-full flex flex-col gap-6 pb-4"
@@ -163,7 +163,7 @@ export default function Form() {
             Sign Up
           </Link>
         </p>
-      </div>
+      </section>
     </>
   );
 }

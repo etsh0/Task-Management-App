@@ -67,9 +67,9 @@ export default function Form() {
 
   return (
     <>
-      <div className="md:p-10 bg-[#FFFFFF] md:shadow-[0px_24px_48px_0px_#041B3C0F] h-full w-md max-w-md">
+      <section className="md:p-10 bg-[#FFFFFF] md:shadow-[0px_24px_48px_0px_#041B3C0F] h-full w-md max-w-md">
         <div className="shadow-[0px_24px_48px_0px_#041B3C0F] md:shadow-none p-6 rounded-lg">
-          <div className="heading text-center md:text-left pt-8 pb-10 flex flex-col items-center md:items-start">
+          <header className="heading text-center md:text-left pt-8 pb-10 flex flex-col items-center md:items-start">
             <div className="rounded-xl p-3.5 bg-surface-highest flex items-center justify-center md:hidden mb-6">
               <AuthenticationIcon />
             </div>
@@ -77,7 +77,7 @@ export default function Form() {
             <p className="p-style">
               No worries, we'll send you reset instructions.
             </p>
-          </div>
+          </header>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="w-full flex flex-col gap-6"
@@ -165,7 +165,7 @@ export default function Form() {
             </div>
           </div>
         )}
-      </div>
+      </section>
     </>
   );
 }

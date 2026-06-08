@@ -70,13 +70,13 @@ export default function Form() {
 
   return (
     <>
-      <div className="pt-8 pb-12 px-8 md:p-10 bg-[#FFFFFF] shadow-[0px_24px_48px_0px_#041B3C0F] h-full w-lg max-w-lg">
-        <div className="heading text-center md:text-left pt-8 pb-10 flex flex-col items-center md:items-start">
+      <section className="pt-8 pb-12 px-8 md:p-10 bg-[#FFFFFF] shadow-[0px_24px_48px_0px_#041B3C0F] h-full w-lg max-w-lg">
+        <header className="heading text-center md:text-left pt-8 pb-10 flex flex-col items-center md:items-start">
           <h1 className="heading-h1 mb-2 ">Create a New Password</h1>
           <p className="p-style">
             Create a new, strong password to secure your workstation access.
           </p>
-        </div>
+        </header>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="w-full flex flex-col gap-6"
@@ -187,7 +187,7 @@ export default function Form() {
             <span className="md:hidden">Back to Log in</span>
           </Link>
         </div>
-      </div>
+      </section>
     </>
   );
 }
