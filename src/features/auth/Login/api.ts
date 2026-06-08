@@ -16,13 +16,13 @@ export const handleSignin = async (payload: SigninPayload) => {
   );
 
   const data = await res.json();
-  
-  const tokens:CookiesTypes = {
-    accessToken:data.access_token,
-    refreshToken:data.refresh_token,
-    rememberMe: payload.rememberMe
-  }
-  SaveAuthCookies(tokens)
+
+  const tokens: CookiesTypes = {
+    accessToken: data.access_token,
+    refreshToken: data.refresh_token,
+    rememberMe: payload.rememberMe,
+  };
+  SaveAuthCookies(tokens);
 
   if (!res.ok) {
     throw new Error(data.msg || 'Log In Faild');

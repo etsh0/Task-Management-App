@@ -16,7 +16,7 @@ export default function App() {
           {/* main layout */}
           <Route path="/" element={<AppLayout />}>
             <Route index element={<Navigate to="/project" replace />} />
-            <Route path='project' element={<Projects />} />
+            <Route path="project" element={<Projects />} />
             <Route path="epics" element={<div>epcis</div>} />
             <Route path="tasks" element={<div>tasks</div>} />
             <Route path="members" element={<div>members</div>} />

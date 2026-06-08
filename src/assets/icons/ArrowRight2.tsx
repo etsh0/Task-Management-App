@@ -1,9 +1,8 @@
-
 type props = {
-  className?: string
-}
+  className?: string;
+};
 
-export default function ArrowRight2({className = "w-3 h-3"} : props) {
+export default function ArrowRight2({ className = 'w-3 h-3' }: props) {
   return (
     <div>
       <svg

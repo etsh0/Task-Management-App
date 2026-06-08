@@ -14,7 +14,7 @@ export const resetPasswordSchema = z
         /[!@#$%^&*]/,
         'Password must contain at least one special character',
       ),
-    confirm_password: z.string()
+    confirm_password: z.string(),
   })
   .refine((data) => data.password === data.confirm_password, {
     message: 'Password do not match',

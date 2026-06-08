@@ -6,11 +6,11 @@ export type FormInputs = z.infer<typeof LoginSchema>;
 export type SigninPayload = {
   email: string;
   password: string;
-  rememberMe?:boolean
+  rememberMe?: boolean;
 };
 
 export type CookiesTypes = {
   accessToken: string;
   refreshToken: string;
-  rememberMe?: boolean
+  rememberMe?: boolean;
 };

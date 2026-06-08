@@ -26,7 +26,6 @@ export default function AppLayout() {
     if (!token) {
       navigate('/login');
     }
-    
   }, [navigate]);
 
   return (
