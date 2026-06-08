@@ -38,7 +38,7 @@ export default function AppLayout() {
         />
       )}
       <div className="flex">
-        <div className="">
+        <div className="static">
           <div
             className={`fixed top-0 left-0 h-full z-30 transition-transform duration-300
               sm:translate-x-0 sm:relative sm:z-auto
@@ -51,10 +51,10 @@ export default function AppLayout() {
           </div>
         </div>
         <div className="grow bg-white">
-          <div className="w-full h-16 bg-white border-b-2 border-border px-3 sm:px-8">
+          <div className="w-full h-16 bg-background border-b-2 border-border px-3 sm:px-8">
             <Header onBurgerClick={() => setSidebarOpen(true)} />
           </div>
-          <div className="w-full grow">
+          <div className="w-full h-screen grow bg-background overflow-y-auto">
             <Outlet />
           </div>
         </div>
