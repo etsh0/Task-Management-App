@@ -9,7 +9,7 @@ export const Links: linkItem[] = [
   {
     name: 'Projects',
     mobileName: 'Projects',
-    path: '/',
+    path: '/project',
     icon: <ProjecsIcon />,
   },
   {

@@ -1,5 +1,5 @@
-import config from '../../config/env';
-import { getAccessToken } from '../../features/auth/Login/cookie';
+import config from '../config/env';
+import { getAccessToken } from '../features/auth/Login/cookie';
 
 export const getUserData = async () => {
   const token = getAccessToken();
