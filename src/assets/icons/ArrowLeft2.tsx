@@ -1,10 +1,14 @@
-export default function ArrowLeft2() {
+
+type props = {
+  className?: string
+}
+
+export default function ArrowLeft2({className = "w-3 h-3"} : props) {
   return (
     <div>
       <svg
-        width="12"
-        height="20"
         viewBox="0 0 12 20"
+        className={className}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
