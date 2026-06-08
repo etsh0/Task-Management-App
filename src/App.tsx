@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Signup from './pages/auth/Signup';
 import Login from './pages/auth/Login';
 import { ToastContainer } from 'react-toastify';
@@ -6,7 +6,7 @@ import AuthLayout from './layouts/AuthLayout';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import AppLayout from './layouts/AppLayout/AppLayout';
-import Projects from './features/projects/components/Projects';
+import ProjectsPage from './pages/projects/ProjectsPage';
 
 export default function App() {
   return (
@@ -15,8 +15,7 @@ export default function App() {
         <Routes>
           {/* main layout */}
           <Route path="/" element={<AppLayout />}>
-            <Route index element={<Navigate to="/project" replace />} />
-            <Route path="project" element={<Projects />} />
+            <Route path="project" element={<ProjectsPage />} />
             <Route path="epics" element={<div>epcis</div>} />
             <Route path="tasks" element={<div>tasks</div>} />
             <Route path="members" element={<div>members</div>} />

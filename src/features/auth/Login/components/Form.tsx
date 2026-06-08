@@ -44,7 +44,7 @@ export default function Form() {
       await handleSignin(payload);
       console.log(payload);
 
-      navigate('/');
+      navigate('/project');
       toast.success('Welcome Back!');
       reset();
     } catch (error: unknown) {

@@ -8,7 +8,7 @@ export default function Login() {
   useEffect(() => {
     const token = getAccessToken();
     if (token) {
-      navigate('/');
+      navigate('/project');
     }
   }, [navigate]);
 

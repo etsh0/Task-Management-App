@@ -44,7 +44,7 @@ export default function Form() {
       await handleSignUp(payload);
 
       toast.success('Account created successfully');
-      navigate('/');
+      navigate('/project');
       reset();
     } catch (error) {
       toast.error(
