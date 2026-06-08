@@ -53,7 +53,7 @@ export default function AppLayout() {
           <div className="w-full h-16 bg-background border-b-2 border-border px-3 sm:px-8">
             <Header onBurgerClick={() => setSidebarOpen(true)} />
           </div>
-          <div className="w-full h-screen grow bg-background overflow-y-auto">
+          <div className="w-full grow bg-background">
             <Outlet />
           </div>
         </div>

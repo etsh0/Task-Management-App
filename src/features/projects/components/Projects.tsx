@@ -2,11 +2,15 @@ import Button from '../../../shared/components/Button';
 import AddProjectCard from './AddProjectCard';
 import Pagination from './Pagination';
 import ProjectCard from './ProjectCard';
+// import ProjectsEmptyState from './ProjectsEmptyState';
 
 export default function Projects() {
   return (
     <>
       <section className="px-8 pt-8 pb-20 md:pb-[121.5px]">
+        {/* <div>
+            <ProjectsEmptyState />
+        </div> */}
         <header className="flex items-center justify-between mb-10">
           <div className="flex flex-col gap-1">
             <h2 className="text-[30px] text-slate-one font-semibold leading-9 tracking-[-0.75px]">
