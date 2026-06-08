@@ -4,7 +4,7 @@ import Button from '../../../shared/components/Button';
 export default function ProjectsEmptyState() {
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center text-center">
+      <section className="min-h-screen flex items-center justify-center text-center">
         <div className="flex flex-col gap-10.75 items-center">
           <img className="w-[288px]" src={img} alt="" />
 
@@ -21,7 +21,7 @@ export default function ProjectsEmptyState() {
             <Button>+ Create New Project</Button>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }

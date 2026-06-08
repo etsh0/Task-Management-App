@@ -36,10 +36,10 @@ export default function AppLayout() {
           onClick={() => setSidebarOpen(false)}
         />
       )}
-      <div className="flex">
-        <div className="static">
+      <div className="flex h-screen">
+        <div className="">
           <div
-            className={`fixed top-0 left-0 h-full z-30 transition-transform duration-300
+            className={`fixed top-0 left-0 h-screen z-30 transition-transform duration-300
               sm:translate-x-0 sm:relative sm:z-auto
               ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
           >
@@ -49,11 +49,11 @@ export default function AppLayout() {
             <MobileBottomBar />
           </div>
         </div>
-        <div className="grow bg-white">
-          <div className="w-full h-16 bg-background border-b-2 border-border px-3 sm:px-8">
+        <div className="grow bg-white h-screen flex flex-col overflow-hidden">
+          <div className="w-full h-16 shrink-0 bg-background border-b-2 border-border px-3 sm:px-8">
             <Header onBurgerClick={() => setSidebarOpen(true)} />
           </div>
-          <div className="w-full grow bg-background">
+          <div className="w-full grow bg-background overflow-y-auto">
             <Outlet />
           </div>
         </div>

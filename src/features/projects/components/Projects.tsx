@@ -2,6 +2,8 @@ import Button from '../../../shared/components/Button';
 import AddProjectCard from './AddProjectCard';
 import Pagination from './Pagination';
 import ProjectCard from './ProjectCard';
+// import ProjectsErrorState from './ProjectsErrorState';
+// import ProjectsSkeleton from './ProjectsSkeleton';
 // import ProjectsEmptyState from './ProjectsEmptyState';
 
 export default function Projects() {
@@ -10,6 +12,9 @@ export default function Projects() {
       <section className="px-8 pt-8 pb-20 md:pb-[121.5px]">
         {/* <div>
             <ProjectsEmptyState />
+        </div> */}
+        {/* <div>
+            <ProjectsErrorState />
         </div> */}
         <header className="flex items-center justify-between mb-10">
           <div className="flex flex-col gap-1">
@@ -24,6 +29,7 @@ export default function Projects() {
             <Button>+ Create New Project</Button>
           </div>
         </header>
+        {/* <ProjectsSkeleton/> */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-15 md:pb-[126.5px]">
           <ProjectCard />
           <ProjectCard />

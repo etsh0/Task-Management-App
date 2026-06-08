@@ -26,7 +26,7 @@ export default function DesktopSideBar() {
 
   return (
     <div
-      className={`flex flex-col h-full bg-surface-low py-4 transition-all duration-300 ${isCollapsed ? 'w-20 px-2 items-center' : 'w-[256px] px-4'} `}
+      className={`flex flex-col h-screen bg-surface-low py-4 transition-all duration-300 ${isCollapsed ? 'w-20 px-2 items-center' : 'w-[256px] px-4'} `}
     >
       <div className="pb-8 px-2">
         {isCollapsed ? <CollapsedLogo /> : <img src={Logo} alt="" />}
