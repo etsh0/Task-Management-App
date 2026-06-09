@@ -30,7 +30,7 @@ export default function ProjectsPage() {
 
   if (loading) return <ProjectsSkeleton />;
 
-  if (error && error !== 'UNAUTHORIZED') return <ProjectsErrorState />;
+  // if (error && error !== 'UNAUTHORIZED') return <ProjectsErrorState />;
 
   if (projects.length === 0) return <ProjectsEmptyState />;
 
@@ -46,7 +46,10 @@ export default function ProjectsPage() {
               Manage and curate your projects
             </p>
           </div>
-          <div className="hidden md:block">
+          <div
+            onClick={() => navigate('/project/add')}
+            className="hidden md:block"
+          >
             <Button>+ Create New Project</Button>
           </div>
         </header>

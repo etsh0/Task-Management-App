@@ -9,6 +9,11 @@ interface projectsState {
   error: string | null;
 }
 
+export type addProjectPayload = {
+  name: string;
+  description?: string;
+};
+
 const initialState: projectsState = {
   projects: [],
   loading: false,
@@ -38,13 +43,33 @@ export const getAllProjects = createAsyncThunk(
       }
 
       const data = await res.json();
-      console.log(data);
 
       return data;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return rejectWithValue('NETWORK_ERROR');
     }
+  },
+);
+
+export const addProject = createAsyncThunk(
+  'projects/addProject',
+  async (payload: addProjectPayload) => {
+    const token = getAccessToken();
+    const res = await fetch(config.apiUrl + '/rest/v1/projects', {
+      method: 'POST',
+      headers: {
+        apiKey: config.anonKey,
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      throw new Error('Failed to create project');
+    }
+
+    return await res.json();
   },
 );
 
@@ -65,6 +90,18 @@ export const ProjectsSlice = createSlice({
       .addCase(getAllProjects.rejected, (state, action) => {
         state.loading = false;
         state.error = (action.payload as string) || 'Unknown error';
+      })
+      .addCase(addProject.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addProject.fulfilled, (state, action) => {
+        state.loading = false;
+        state.projects.push(action.payload);
+      })
+      .addCase(addProject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Unknown error';
       });
   },
 });

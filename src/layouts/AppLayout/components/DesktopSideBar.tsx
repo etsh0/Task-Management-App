@@ -34,7 +34,6 @@ export default function DesktopSideBar() {
       <div className={`links flex flex-col flex-1 gap-1`}>
         {Links.map((link, idx) => (
           <NavLink
-            
             to={link.path}
             key={idx}
             className={({ isActive }) =>
