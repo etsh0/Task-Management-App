@@ -7,7 +7,6 @@ export default function MobileBottomBar() {
       <div className="h-16 bg-surface-low flex items-center justify-between px-[27.86px] w-full">
         {Links.map((link, idx) => (
           <NavLink
-            end
             to={link.path}
             key={idx}
             className={({ isActive }) =>
