@@ -15,24 +15,36 @@ const initialState: projectsState = {
   error: null,
 };
 
-export const getAllProjects = createAsyncThunk<Project[]>(
+export const getAllProjects = createAsyncThunk(
   'projects',
-  async () => {
-    const token = getAccessToken();
-    const res = await fetch(config.apiUrl + '/rest/v1/rpc/get_projects', {
-      method: 'GET',
-      headers: {
-        apiKey: config.anonKey,
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = getAccessToken();
+      const res = await fetch(config.apiUrl + '/rest/v1/rpc/get_projects', {
+        method: 'GET',
+        headers: {
+          apiKey: config.anonKey,
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-    if (res.status === 401) throw new Error('UNAUTHORIZED');
-    const data = await res.json();
-    console.log(data);
+      if (res.status === 401) {
+        return rejectWithValue('UNAUTHORIZED');
+      }
 
-    return data;
+      if (!res.ok) {
+        return rejectWithValue('FAILED_TO_FETCH');
+      }
+
+      const data = await res.json();
+      console.log(data);
+
+      return data;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      return rejectWithValue('NETWORK_ERROR');
+    }
   },
 );
 
@@ -51,7 +63,7 @@ export const ProjectsSlice = createSlice({
       })
       .addCase(getAllProjects.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Unknown error';
+        state.error = (action.payload as string) || 'Unknown error';
       });
   },
 });

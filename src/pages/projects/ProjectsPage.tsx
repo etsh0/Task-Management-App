@@ -9,8 +9,10 @@ import { getAllProjects } from '../../store/slices/ProjectsSlice';
 import ProjectsErrorState from '../../features/projects/components/ProjectsErrorState';
 import ProjectsSkeleton from '../../features/projects/components/ProjectsSkeleton';
 import ProjectsEmptyState from '../../features/projects/components/ProjectsEmptyState';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProjectsPage() {
+  const navigate = useNavigate();
   const disPatch = useDispatch<AppDispatch>();
   const { projects, loading, error } = useSelector(
     (state: RootState) => state.projects,
@@ -20,9 +22,15 @@ export default function ProjectsPage() {
     disPatch(getAllProjects());
   }, [disPatch]);
 
+  useEffect(() => {
+    if (error === 'UNAUTHORIZED') {
+      navigate('/login');
+    }
+  }, [error, navigate]);
+
   if (loading) return <ProjectsSkeleton />;
 
-  if (error) return <ProjectsErrorState />;
+  if (error && error !== 'UNAUTHORIZED') return <ProjectsErrorState />;
 
   if (projects.length === 0) return <ProjectsEmptyState />;
 

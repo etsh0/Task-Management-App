@@ -1,3 +1,4 @@
+import { formatDate } from '../../../shared/utils/formatDate';
 import type { Project } from '../type';
 
 type Props = {
@@ -21,7 +22,7 @@ export default function ProjectCard({ project }: Props) {
             CREATED AT
           </span>
           <span className="text-body-md leading-5 font-medium text-[#434654]">
-            {project.created_at}
+            {formatDate(project.created_at)}
           </span>
         </div>
       </div>
