@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import AddProjectCard from '../../features/projects/components/AddProjectCard';
+import AddProjectCard from '../../features/projects/components/addProject/AddProjectCard';
 import Pagination from '../../features/projects/components/Pagination';
 import ProjectCard from '../../features/projects/components/ProjectCard';
 import Button from '../../shared/components/Button';
@@ -22,11 +22,11 @@ export default function ProjectsPage() {
     disPatch(getAllProjects());
   }, [disPatch]);
 
-  useEffect(() => {
-    if (error === 'UNAUTHORIZED') {
-      navigate('/login');
-    }
-  }, [error, navigate]);
+  // useEffect(() => {
+  //   if (error === 'UNAUTHORIZED') {
+  //     navigate('/login');
+  //   }
+  // }, [error, navigate]);
 
   if (loading) return <ProjectsSkeleton />;
 

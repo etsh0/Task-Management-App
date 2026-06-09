@@ -1,4 +1,4 @@
-import PlusIcon from '../../../assets/icons/PlusIcon';
+import PlusIcon from '../../../../assets/icons/PlusIcon';
 
 export default function AddProjectCard() {
   return (

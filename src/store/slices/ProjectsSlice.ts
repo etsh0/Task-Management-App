@@ -56,6 +56,7 @@ export const ProjectsSlice = createSlice({
     builder
       .addCase(getAllProjects.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(getAllProjects.fulfilled, (state, action) => {
         state.loading = false;
