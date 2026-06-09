@@ -42,7 +42,6 @@ export default function Form() {
       };
 
       await handleSignin(payload);
-      console.log(payload);
 
       navigate('/project');
       toast.success('Welcome Back!');
