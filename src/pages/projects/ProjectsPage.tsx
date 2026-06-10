@@ -5,8 +5,11 @@ import ProjectCard from '../../features/projects/components/ProjectCard';
 import Button from '../../shared/components/Button';
 import type { AppDispatch, RootState } from '../../store/store';
 import { useEffect } from 'react';
-import { getAllProjects } from '../../store/slices/ProjectsSlice';
-import ProjectsErrorState from '../../features/projects/components/ProjectsErrorState';
+import {
+  clearSelectedProject,
+  getAllProjects,
+} from '../../store/slices/ProjectsSlice';
+// import ProjectsErrorState from '../../features/projects/components/ProjectsErrorState';
 import ProjectsSkeleton from '../../features/projects/components/ProjectsSkeleton';
 import ProjectsEmptyState from '../../features/projects/components/ProjectsEmptyState';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 export default function ProjectsPage() {
   const navigate = useNavigate();
   const disPatch = useDispatch<AppDispatch>();
-  const { projects, loading, error } = useSelector(
+  const { projects, loading } = useSelector(
     (state: RootState) => state.projects,
   );
 
@@ -34,6 +37,11 @@ export default function ProjectsPage() {
 
   if (projects.length === 0) return <ProjectsEmptyState />;
 
+  const handleAddProject = () => {
+    disPatch(clearSelectedProject());
+    navigate('/project/add');
+  };
+
   return (
     <>
       <section className="px-8 pt-8 pb-20 md:pb-[121.5px]">
@@ -46,10 +54,8 @@ export default function ProjectsPage() {
               Manage and curate your projects
             </p>
           </div>
-          <div
-            onClick={() => navigate('/project/add')}
-            className="hidden md:block"
-          >
+          {/* add project >> serelectedProject = null */}
+          <div onClick={() => handleAddProject()} className="hidden md:block">
             <Button>+ Create New Project</Button>
           </div>
         </header>
@@ -59,7 +65,7 @@ export default function ProjectsPage() {
           ))}
           <AddProjectCard />
         </div>
-        <div className="items-center justify-between py-12 px-8 hidden md:flex">
+        <div className="pagination items-center justify-between py-12 px-8 hidden md:flex">
           <div>
             <p className="text-[12px] text-[#434654] font-medium leading-4.5">
               Showing 5 of 24 active projects

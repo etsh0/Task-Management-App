@@ -5,22 +5,28 @@ import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../../store/store';
-import { addProject } from '../../../../store/slices/ProjectsSlice';
+import {
+  addProject,
+  clearSelectedProject,
+  updateProject,
+} from '../../../../store/slices/ProjectsSlice';
 import Spinner from '../../../../shared/components/Spinner';
 import { toast } from 'react-toastify';
 
-export default function AddProjectForm() {
+export default function ProjectForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const { loading } = useSelector((state: RootState) => state.projects);
+  const { loading, selectedProject } = useSelector(
+    (state: RootState) => state.projects,
+  );
 
   const addProjectSchema = z.object({
     name: z
       .string()
       .min(3, 'Name must be at least 3 characters')
       .max(100, 'Name must be at most 100 characters'),
-    description: z.string().optional(),
+    description: z.string().optional().nullable(),
   });
 
   type FormInputs = z.infer<typeof addProjectSchema>;
@@ -34,6 +40,15 @@ export default function AddProjectForm() {
   } = useForm<FormInputs>({
     mode: 'onChange',
     resolver: zodResolver(addProjectSchema),
+    values: selectedProject
+      ? {
+          name: selectedProject.name,
+          description: selectedProject.description || '',
+        }
+      : {
+          name: '',
+          description: '',
+        },
   });
 
   const descriptionValue = useWatch({
@@ -42,15 +57,30 @@ export default function AddProjectForm() {
   });
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    const payload = {
+    const addPayload = {
       name: data.name,
-      description: data.description,
+      description: data.description || '',
     };
+    const updatePayload = {
+      project_id: selectedProject?.id as string,
+      data: {
+        name: data.name,
+        description: data.description || '',
+      },
+    };
+
     try {
-      await dispatch(addProject(payload));
-      reset();
-      navigate('/project');
-      toast.success('Project created successfully');
+      if (selectedProject) {
+        await dispatch(updateProject(updatePayload));
+        navigate('/project');
+        dispatch(clearSelectedProject());
+        toast.success('Project updated successfully');
+      } else {
+        await dispatch(addProject(addPayload));
+        reset();
+        navigate('/project');
+        toast.success('Project created successfully');
+      }
     } catch (error) {
       toast.error(error.message);
     }
@@ -93,13 +123,22 @@ export default function AddProjectForm() {
         </label>
         <div className="flex items-center justify-between">
           <button
+            type="button"
             onClick={() => navigate('/project')}
             className="text-[#4F5F7B] text-body-md font-bold leading-5 cursor-pointer"
           >
             Back
           </button>
           <div className="w-fit">
-            <Button>{loading ? <Spinner /> : 'Create Project'}</Button>
+            <Button>
+              {loading ? (
+                <Spinner />
+              ) : selectedProject ? (
+                'Save Changes'
+              ) : (
+                'Create Project'
+              )}
+            </Button>
           </div>
         </div>
       </form>

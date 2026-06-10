@@ -15,9 +15,10 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* main layout */}
-          <Route path="/" element={<AppLayout />}>
-            <Route path="project" element={<ProjectsPage />} />
-            <Route path="project/add" element={<AddProjectPage />} />
+          <Route path="/project" element={<AppLayout />}>
+            <Route index element={<ProjectsPage />} />
+            <Route path="add" element={<AddProjectPage />} />
+            <Route path=":projectId/edit" element={<AddProjectPage />} />
             <Route path="epics" element={<div>epcis</div>} />
             <Route path="tasks" element={<div>tasks</div>} />
             <Route path="members" element={<div>members</div>} />

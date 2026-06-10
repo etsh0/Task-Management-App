@@ -7,6 +7,7 @@ interface projectsState {
   projects: Project[];
   loading: boolean;
   error: string | null;
+  selectedProject: Project | null;
 }
 
 export type addProjectPayload = {
@@ -14,10 +15,19 @@ export type addProjectPayload = {
   description?: string;
 };
 
+type UpdateProjectPayload = {
+  project_id: string;
+  data: {
+    name?: string;
+    description?: string;
+  };
+};
+
 const initialState: projectsState = {
   projects: [],
   loading: false,
   error: null,
+  selectedProject: null,
 };
 
 export const getAllProjects = createAsyncThunk(
@@ -73,10 +83,43 @@ export const addProject = createAsyncThunk(
   },
 );
 
+export const updateProject = createAsyncThunk(
+  'project/updateProject',
+  async (payload: UpdateProjectPayload) => {
+    const token = getAccessToken();
+    const res = await fetch(
+      config.apiUrl + `/rest/v1/projects?id=eq.${payload.project_id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          apiKey: config.anonKey,
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload.data),
+      },
+    );
+
+    if (!res.ok) {
+      throw new Error('Failed to update project');
+    }
+
+    const data = await res.json();
+    return data[0];
+  },
+);
+
 export const ProjectsSlice = createSlice({
   name: 'Projects',
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedProject: (state, action) => {
+      state.selectedProject = action.payload;
+    },
+    clearSelectedProject: (state) => {
+      state.selectedProject = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllProjects.pending, (state) => {
@@ -102,8 +145,23 @@ export const ProjectsSlice = createSlice({
       .addCase(addProject.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Unknown error';
+      })
+      .addCase(updateProject.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateProject.fulfilled, (state, action) => {
+        state.projects = state.projects.map((project) =>
+          project.id === action.payload.project_id ? action.payload : project,
+        );
+      })
+      .addCase(updateProject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'FAILED_TO_UPDATE';
       });
   },
 });
 
 export const projectsReducer = ProjectsSlice.reducer;
+export const { setSelectedProject, clearSelectedProject } =
+  ProjectsSlice.actions;
