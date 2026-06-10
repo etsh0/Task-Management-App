@@ -1,7 +1,7 @@
-import ArrowRight2 from '../../../assets/icons/ArrowRight2';
-import MemberIcon from '../../../assets/icons/MemberIcon';
-import Button from '../../../shared/components/Button';
-import type { HeaderProps } from '../type';
+import ArrowRight2 from '../../assets/icons/ArrowRight2';
+import MemberIcon from '../../assets/icons/MemberIcon';
+import Button from './Button';
+import type { HeaderProps } from '../../features/projects/type';
 
 export default function Header({ title, breadcrumb }: HeaderProps) {
   return (

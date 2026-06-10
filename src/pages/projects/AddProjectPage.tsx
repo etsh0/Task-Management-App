@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import RightCheck from '../../assets/icons/RightCheck';
 import TipIcon from '../../assets/icons/TipIcon';
 import ProjectForm from '../../features/projects/components/addProject/ProjectForm';
-import Header from '../../features/projects/components/Header';
+import Header from '../../shared/components/Header';
 import type { RootState } from '../../store/store';
 
 export default function AddProjectPage() {

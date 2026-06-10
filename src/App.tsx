@@ -8,6 +8,7 @@ import ResetPassword from './pages/auth/ResetPassword';
 import AppLayout from './layouts/AppLayout/AppLayout';
 import ProjectsPage from './pages/projects/ProjectsPage';
 import AddProjectPage from './pages/projects/AddProjectPage';
+import Members from './pages/projects/Members';
 
 export default function App() {
   return (
@@ -21,7 +22,7 @@ export default function App() {
             <Route path=":projectId/edit" element={<AddProjectPage />} />
             <Route path="epics" element={<div>epcis</div>} />
             <Route path="tasks" element={<div>tasks</div>} />
-            <Route path="members" element={<div>members</div>} />
+            <Route path="members" element={<Members />} />
             <Route path="details" element={<div>details</div>} />
           </Route>
           {/* auth pages */}
