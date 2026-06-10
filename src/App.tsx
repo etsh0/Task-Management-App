@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Signup from './pages/auth/Signup';
 import Login from './pages/auth/Login';
 import { ToastContainer } from 'react-toastify';
@@ -19,11 +19,13 @@ export default function App() {
           <Route path="/project" element={<AppLayout />}>
             <Route index element={<ProjectsPage />} />
             <Route path="add" element={<AddProjectPage />} />
-            <Route path=":projectId/edit" element={<AddProjectPage />} />
-            <Route path="epics" element={<div>epcis</div>} />
-            <Route path="tasks" element={<div>tasks</div>} />
-            <Route path="members" element={<Members />} />
-            <Route path="details" element={<div>details</div>} />
+            <Route path=":projectId">
+              <Route index element={<Navigate to="epics" replace />} />
+              <Route path="epics" element={<div>epcis</div>} />
+              <Route path="edit" element={<AddProjectPage />} />
+              <Route path="tasks" element={<div>tasks</div>} />
+              <Route path="members" element={<Members />} />
+            </Route>
           </Route>
           {/* auth pages */}
           <Route element={<AuthLayout />}>

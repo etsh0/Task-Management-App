@@ -73,7 +73,10 @@ export default function ProjectsPage() {
           </div>
           <Pagination />
         </div>
-        <div className="w-14 h-14 ml-auto md:hidden">
+        <div
+          onClick={() => handleAddProject()}
+          className="w-14 h-14 ml-auto fixed bottom-15 right-6 md:hidden z-50"
+        >
           <Button>+</Button>
         </div>
       </section>

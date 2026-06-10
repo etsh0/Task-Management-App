@@ -14,9 +14,9 @@ export default function AddProjectPage() {
           title={`${selectedProject ? 'Edit Project' : 'Add New Project'}`}
           breadcrumb={`${selectedProject ? 'Edit Project' : 'Add New Project'}`}
         />
-        <div className="flex flex-col w-168.25 bg-[#FFFFFF] mx-auto px-8 pt-8">
+        <div className="flex flex-col max-w-168.25 bg-[#FFFFFF] mx-auto px-8 pt-8">
           <div className="pb-10 flex items-center gap-4 border-b border-border">
-            <div className="w-11.5 h-11.5 flex items-center justify-center bg-background rounded-sm">
+            <div className="w-11.5 h-11.5 md:flex items-center justify-center bg-background rounded-sm hidden">
               <RightCheck />
             </div>
             <div className="flex flex-col gap-1">
@@ -30,8 +30,10 @@ export default function AddProjectPage() {
           </div>
           <ProjectForm />
         </div>
-        <div className="w-168.25 mx-auto flex items-center gap-3 bg-surface-low p-6">
-          <TipIcon />
+        <div className="max-w-168.25 mx-auto flex items-center gap-3 bg-surface-low p-6">
+          <div className="hidden md:block">
+            <TipIcon />
+          </div>
           <div className="text-label-sm text-[#4F5F7B]">
             <span className="font-bold">Pro Tip:</span> You can invite project
             members and assign epics immediately after the initial creation

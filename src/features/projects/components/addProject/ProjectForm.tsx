@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../../shared/components/Button';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import z from 'zod';
@@ -16,6 +16,8 @@ import { toast } from 'react-toastify';
 export default function ProjectForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
+  const { projectId } = useParams();
 
   const { loading, selectedProject } = useSelector(
     (state: RootState) => state.projects,
@@ -124,7 +126,9 @@ export default function ProjectForm() {
         <div className="flex items-center justify-between">
           <button
             type="button"
-            onClick={() => navigate('/project')}
+            onClick={() =>
+              navigate(projectId ? `/project/${projectId}/epics` : '/project')
+            }
             className="text-[#4F5F7B] text-body-md font-bold leading-5 cursor-pointer"
           >
             Back

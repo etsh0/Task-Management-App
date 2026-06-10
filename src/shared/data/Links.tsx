@@ -15,25 +15,25 @@ export const Links: linkItem[] = [
   {
     name: 'Project Epic',
     mobileName: 'Epics',
-    path: '/epics',
+    path: 'epics',
     icon: <ProjectEpicIcon />,
   },
   {
     name: 'Project Tasks',
     mobileName: 'Tasks',
-    path: '/tasks',
+    path: 'tasks',
     icon: <ProjectTaskIcon />,
   },
   {
     name: 'Project Members',
     mobileName: 'Members',
-    path: '/members',
+    path: 'members',
     icon: <ProjectMemberIcon />,
   },
   {
     name: 'Project Details',
     mobileName: 'Details',
-    path: '/details',
+    path: 'edit',
     icon: <ProjectDetailIcon />,
   },
 ];

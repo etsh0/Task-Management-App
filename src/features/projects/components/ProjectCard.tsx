@@ -13,14 +13,17 @@ export default function ProjectCard({ project }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const handleSelectedProject = (project: Project) => {
+  const handleSelectedProject = () => {
     dispatch(setSelectedProject(project));
-    navigate(`/project/${project.id}/edit`);
+    navigate(`/project/${project.id}/epics`);
   };
 
   return (
     <>
-      <div className="flex flex-col gap-6 p-6 bg-[#FFFFFF] rounded-lg">
+      <div
+        onClick={handleSelectedProject}
+        className="flex flex-col gap-6 p-6 bg-[#FFFFFF] rounded-lg cursor-pointer"
+      >
         <div className="">
           <div className="flex justify-between items-start">
             <h3 className="text-title-md text-slate-one font-medium leading-7 mb-3.5">
@@ -28,8 +31,12 @@ export default function ProjectCard({ project }: Props) {
             </h3>
             <button
               type="button"
-              onClick={() => handleSelectedProject(project)}
-              className="text-error cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(setSelectedProject(project));
+                navigate(`/project/${project.id}/edit`);
+              }}
+              className="cursor-pointer"
             >
               ✏️
             </button>

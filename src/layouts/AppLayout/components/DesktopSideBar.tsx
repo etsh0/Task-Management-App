@@ -1,7 +1,7 @@
 import ArrowLeft2 from '../../../assets/icons/ArrowLeft2';
 import LogoutIcon from '../../../assets/icons/LogoutIcon';
 import Logo from '../../../assets/images/Logo.svg';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import CollapsedLogo from '../../../assets/icons/CollapsedLogo';
 import ArrowRight2 from '../../../assets/icons/ArrowRight2';
@@ -12,6 +12,11 @@ import { Links } from '../../../shared/data/Links';
 export default function DesktopSideBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
+  const { projectId } = useParams();
+
+  const sidebarLinks = projectId
+    ? Links
+    : Links.filter((link) => link.name === 'Projects');
 
   const handleLogout = async () => {
     try {
@@ -32,12 +37,21 @@ export default function DesktopSideBar() {
         {isCollapsed ? <CollapsedLogo /> : <img src={Logo} alt="" />}
       </div>
       <div className={`links flex flex-col flex-1 gap-1`}>
-        {Links.map((link, idx) => (
+        {sidebarLinks.map((link, idx) => (
           <NavLink
-            to={link.path}
+            to={
+              link.path === '/project'
+                ? link.path
+                : `/project/${projectId}/${link.path}`
+            }
+            end={link.path === '/project'}
             key={idx}
             className={({ isActive }) =>
-              `font-medium text-body-md leading-5 rounded-sm px-3 py-2.5 ${isCollapsed ? 'py-4 text-[#041B3C99]' : 'text-[#041B3C]'} flex items-center gap-3 cursor-pointer hover:bg-[#FFFFFF] hover:text-primary transition-colors duration-300 ${isActive ? 'bg-[#FFFFFF] text-primary' : ''}`
+              `font-medium text-body-md leading-5 rounded-sm px-3 py-2.5 
+            ${isCollapsed ? 'py-4 text-[#041B3C99]' : 'text-[#041B3C]'} 
+            flex items-center gap-3 cursor-pointer 
+            hover:bg-[#FFFFFF] hover:text-primary transition-colors duration-300 
+            ${isActive ? 'bg-[#FFFFFF] text-primary' : ''}`
             }
           >
             {link.icon}
