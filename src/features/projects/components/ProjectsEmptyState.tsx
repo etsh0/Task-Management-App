@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import img from '../../../assets/images/EmptyState.svg';
 import Button from '../../../shared/components/Button';
 
 export default function ProjectsEmptyState() {
+  const navigate = useNavigate();
   return (
     <>
       <section className="min-h-screen flex items-center justify-center text-center">
@@ -17,7 +19,7 @@ export default function ProjectsEmptyState() {
               architectural workspace to begin tracking tasks and epics.
             </p>
           </div>
-          <div>
+          <div onClick={() => navigate('/project/add')}>
             <Button>+ Create New Project</Button>
           </div>
         </div>

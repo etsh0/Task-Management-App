@@ -32,6 +32,7 @@
   --text-label-sm: 11px;
 
   --color-border: #c3c6d626;
+  --color-skeleton: #e8edff;
 }
 
 @layer components {

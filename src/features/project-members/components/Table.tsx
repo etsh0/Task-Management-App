@@ -1,7 +1,37 @@
+import { useParams } from 'react-router-dom';
 import MemberInfo from './MemberInfo';
 import Role from './Role';
+import { useEffect, useState } from 'react';
+import { getProjectMembers } from '../api';
+import type { ProjectMember } from '../type';
+import ProjectsErrorState from '../../projects/components/ProjectsErrorState';
+import ProjectMembersSkeleton from './ProjectMembersSkeleton';
 
 export default function Table() {
+  const [members, setMembers] = useState<ProjectMember[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { projectId } = useParams();
+  useEffect(() => {
+    const fetchMembers = async () => {
+      if (!projectId) return;
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await getProjectMembers(projectId);
+        setMembers(data);
+      } catch (error) {
+        setError((error as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMembers();
+  }, [projectId]);
+
+  if (loading) return <ProjectMembersSkeleton />;
+  if (error) return <ProjectsErrorState />;
+
   return (
     <>
       {/* Desktop */}
@@ -20,62 +50,43 @@ export default function Table() {
           </tr>
         </thead>
         <tbody className="">
-          <tr className="border-t border-border ">
-            <td className="px-9 py-5">
-              <MemberInfo
-                name={'Ahmed Hesham'}
-                email={'ahmed.hesham.dev0@gmail.com'}
-              />
-            </td>
-            <td className="px-9 py-5">
-              <Role text="Owner" owner={true} />
-            </td>
-            <td></td>
-          </tr>
-          <tr className="border-t border-border">
-            <td className="px-9 py-5">
-              <MemberInfo name="Mahmoud Taha" email="mahmoud.taha@gmail.com" />
-            </td>
-            <td className="px-9 py-5">
-              <Role text="Admin" owner={false} />
-            </td>
-            <td className="px-9 py-5 text-right">
-              <button type="button" className="cursor-pointer">
-                ⋮
-              </button>
-            </td>
-          </tr>
+          {members.map((member) => (
+            <tr key={member.member_id} className="border-t border-border ">
+              <td className="px-9 py-5">
+                <MemberInfo name={member.metadata.name} email={member.email} />
+              </td>
+              <td className="px-9 py-5">
+                <Role
+                  text={member.role}
+                  owner={member.role.toLowerCase() === 'owner'}
+                />
+              </td>
+              <td className="text-center">
+                {member.role.toLowerCase() !== 'owner' && '⋮'}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
       {/* Mobile */}
       <div className="flex flex-col gap-4 md:hidden">
-        <div className="flex items-center justify-between p-4 rounded-lg bg-[#FFFFFF]">
-          <div>
-            <MemberInfo name="Jordan Diaz" email="jordan.diaz@design.co" />
+        {members.map((member) => (
+          <div
+            key={member.member_id}
+            className="flex items-center justify-between p-4 rounded-lg bg-[#FFFFFF]"
+          >
+            <div>
+              <MemberInfo name={member.metadata.name} email={member.email} />
+            </div>
+            <div className="flex flex-col items-end gap-4">
+              <Role
+                text={member.role}
+                owner={member.role.toLowerCase() === 'owner'}
+              />
+              {member.role.toLowerCase() !== 'owner' && <button>⋮</button>}
+            </div>
           </div>
-          <div className="flex flex-col items-end gap-4">
-            <Role text="Viewer" />
-            <button>⋮</button>
-          </div>
-        </div>
-        <div className="flex items-center justify-between p-4 rounded-lg bg-[#FFFFFF]">
-          <div>
-            <MemberInfo name="Jordan Diaz" email="jordan.diaz@design.co" />
-          </div>
-          <div className="flex flex-col items-end gap-4">
-            <Role text="Viewer" />
-            <button>⋮</button>
-          </div>
-        </div>
-        <div className="flex items-center justify-between p-4 rounded-lg bg-[#FFFFFF]">
-          <div>
-            <MemberInfo name="Jordan Diaz" email="jordan.diaz@design.co" />
-          </div>
-          <div className="flex flex-col items-end gap-4">
-            <Role text="Viewer" />
-            <button>⋮</button>
-          </div>
-        </div>
+        ))}
       </div>
     </>
   );

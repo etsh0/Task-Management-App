@@ -8,9 +8,9 @@ export default function Role({
   return (
     <>
       <div
-        className={`text-[10px] text-center rounded-xl py-1 px-3 uppercase w-fit ${owner ? 'bg-primary text-white' : 'bg-surface-highest text-[#51617E]'}`}
+        className={`text-[10px] mx-auto text-center rounded-xl py-1 px-3 w-fit ${owner ? 'bg-primary text-white' : 'bg-surface-highest text-[#51617E]'}`}
       >
-        {text}
+        {text.toUpperCase()}
       </div>
     </>
   );
