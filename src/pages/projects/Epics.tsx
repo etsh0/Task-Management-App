@@ -20,7 +20,7 @@ export default function Epics() {
           <EpicCard />
           <EpicCard />
           <EpicCard />
-          {/* <EpicCard /> */}
+          <EpicCard />
           <EpicCard />
         </div>
         <div className="pagination items-center justify-between py-12 px-8 hidden md:flex">
