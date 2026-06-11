@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import img from '../../../assets/images/EmptyState.svg';
+import img from '../../../assets/images/ProjectsEmptyState.svg';
 import Button from '../../../shared/components/Button';
 
 export default function ProjectsEmptyState() {

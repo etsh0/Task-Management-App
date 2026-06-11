@@ -7,7 +7,12 @@ export default function Members() {
   return (
     <>
       <section className="px-8 pt-8 pb-41.25">
-        <Header title="Project Members" breadcrumb="Members" />
+        <Header
+          title="Project Members"
+          breadcrumb="Members"
+          btnText="Invite Member"
+          search={true}
+        />
         <div className=" md:bg-[#F1F3FF] mx-auto rounded-lg">
           <Table />
         </div>

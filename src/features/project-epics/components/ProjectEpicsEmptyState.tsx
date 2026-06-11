@@ -1,0 +1,52 @@
+import HieraechyIcon from '../../../assets/icons/HieraechyIcon';
+import HighLevelIcon from '../../../assets/icons/HighLevelIcon';
+import TrackIcon from '../../../assets/icons/TrackIcon';
+import img from '../../../assets/images/EpicsEmptyState.svg';
+import Button from '../../../shared/components/Button';
+import EmptyStateCard from './EmptyStateCard';
+export default function ProjectEpicsEmptyState() {
+  return (
+    <>
+      <section className="min-h-screen flex items-center justify-center text-center">
+        <div className="flex flex-col gap-6 items-center">
+          <img className="w-[288px]" src={img} alt="" />
+          <div className="">
+            <h1 className="text-headline-lg text-slate-one font-semibold leading-10 tracking-[-0.9px] mb-4">
+              No epics in this project yet.
+            </h1>
+            <p className="text-title-md text-[#434654] leading-[29.25px] w-108.5">
+              Break down your large project into manageable epics to track
+              progress better and maintain architectural clarity.
+            </p>
+          </div>
+          <div>
+            <Button>+ Create First Epic</Button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-15 py-4">
+            <EmptyStateCard
+              title="High-Level Goals"
+              p="Define the broad objectives
+that span across multiple
+cycles."
+              icon={<HighLevelIcon />}
+            />
+            <EmptyStateCard
+              title="Hierarchy Design"
+              p="Link individual tasks to
+parent epics for a
+consolidated view."
+              icon={<HieraechyIcon />}
+            />
+            <EmptyStateCard
+              title="Track Velocity"
+              p="Visualize percentage
+completion at a macro
+project level."
+              icon={<TrackIcon />}
+            />
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

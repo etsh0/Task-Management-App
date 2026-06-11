@@ -9,6 +9,7 @@ import AppLayout from './layouts/AppLayout/AppLayout';
 import ProjectsPage from './pages/projects/ProjectsPage';
 import AddProjectPage from './pages/projects/AddProjectPage';
 import Members from './pages/projects/Members';
+import Epics from './pages/projects/Epics';
 
 export default function App() {
   return (
@@ -21,7 +22,7 @@ export default function App() {
             <Route path="add" element={<AddProjectPage />} />
             <Route path=":projectId">
               <Route index element={<Navigate to="epics" replace />} />
-              <Route path="epics" element={<div>epcis</div>} />
+              <Route path="epics" element={<Epics />} />
               <Route path="edit" element={<AddProjectPage />} />
               <Route path="tasks" element={<div>tasks</div>} />
               <Route path="members" element={<Members />} />

@@ -8,4 +8,6 @@ export type Project = {
 export type HeaderProps = {
   title: string;
   breadcrumb: string;
+  btnText: string;
+  search: boolean;
 };
