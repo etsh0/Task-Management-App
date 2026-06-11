@@ -4,8 +4,8 @@ import Role from './Role';
 import { useEffect, useState } from 'react';
 import { getProjectMembers } from '../api';
 import type { ProjectMember } from '../type';
-import ProjectsErrorState from '../../projects/components/ProjectsErrorState';
 import ProjectMembersSkeleton from './ProjectMembersSkeleton';
+import ErrorState from '../../../shared/components/ErrorState';
 
 export default function Table() {
   const [members, setMembers] = useState<ProjectMember[]>([]);
@@ -30,7 +30,7 @@ export default function Table() {
   }, [projectId]);
 
   if (loading) return <ProjectMembersSkeleton />;
-  if (error) return <ProjectsErrorState />;
+  if (error) return <ErrorState />;
 
   return (
     <>

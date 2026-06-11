@@ -1,7 +1,7 @@
-import Cloud from '../../../assets/icons/Cloud';
-import Button from '../../../shared/components/Button';
+import Cloud from '../../assets/icons/Cloud';
+import Button from './Button';
 
-export default function ProjectsErrorState() {
+export default function ErrorState() {
   return (
     <>
       <section className="min-h-screen flex flex-col items-center justify-center gap-4 text-center">
