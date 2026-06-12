@@ -5,4 +5,5 @@ export type ProjectMember = {
   };
   email: string;
   role: string;
+  user_id? : string
 };

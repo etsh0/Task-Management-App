@@ -28,6 +28,7 @@ export default function NewEpicForm() {
       }
     };
     fetchMembers();
+    
   }, [projectId]);
 
   const addEpicSchema = z.object({
@@ -67,7 +68,7 @@ export default function NewEpicForm() {
     const payload = {
       title: data.title,
       description: data.description,
-      assignee_id: data.assignee_id,
+      assignee_id: data.assignee_id || null,
       deadline: data.deadline,
       project_id: projectId,
     };
@@ -77,13 +78,12 @@ export default function NewEpicForm() {
         apiKey: config.anonKey,
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
+        Prefer: 'return=representation',
       },
       body: JSON.stringify(payload),
     });
 
-    const dataa = await res.json();
-    console.log(dataa);
-    return dataa;
+    return await res.json();
   };
   return (
     <>
@@ -132,7 +132,7 @@ export default function NewEpicForm() {
             <select id="" className="input" {...register('assignee_id')}>
               <option value="">Select a member...</option>
               {members.map((member) => (
-                <option key={member.member_id} value={member.member_id}>
+                <option key={member.member_id} value={member.user_id}>
                   {member.metadata.name}
                 </option>
               ))}
