@@ -1,3 +1,4 @@
+import { useNavigate, useParams } from 'react-router-dom';
 import EpicCard from '../../features/project-epics/components/EpicCard';
 // import EpicsSkeleton from "../../features/project-epics/components/EpicsSkeleton";
 // import ProjectEpicsEmptyState from "../../features/project-epics/components/ProjectEpicsEmptyState";
@@ -6,6 +7,8 @@ import Button from '../../shared/components/Button';
 import Header from '../../shared/components/Header';
 
 export default function Epics() {
+  const navigate = useNavigate();
+  const { projectId } = useParams();
   return (
     <>
       <section className="py-8 px-6 lg:px-8">
@@ -14,6 +17,7 @@ export default function Epics() {
           breadcrumb="Epics"
           btnText="New Epic"
           search={false}
+          onClick={() => navigate(`/project/${projectId}/epics/new`)}
         />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 my-10">
           <EpicCard />

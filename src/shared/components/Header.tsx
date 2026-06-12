@@ -9,6 +9,7 @@ export default function Header({
   breadcrumb,
   btnText,
   search,
+  onClick,
 }: HeaderProps) {
   return (
     <>
@@ -36,7 +37,7 @@ export default function Header({
               <SearchIcon />
             </span>
           </div>
-          <div className="hidden md:block">
+          <div onClick={onClick} className="hidden md:block">
             <Button>
               {' '}
               <MemberIcon />

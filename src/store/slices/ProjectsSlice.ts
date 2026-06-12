@@ -75,11 +75,12 @@ export const addProject = createAsyncThunk(
       },
       body: JSON.stringify(payload),
     });
+    const data = await res.json();
     if (!res.ok) {
-      throw new Error('Failed to create project');
+      throw new Error(data.message || data?.msg || 'Failed to create project');
     }
 
-    return await res.json();
+    return data;
   },
 );
 

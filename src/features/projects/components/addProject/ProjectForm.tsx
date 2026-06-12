@@ -84,7 +84,8 @@ export default function ProjectForm() {
         toast.success('Project created successfully');
       }
     } catch (error) {
-      toast.error(error.message);
+      console.log(error);
+      toast.error('Failed to create project');
     }
   };
 

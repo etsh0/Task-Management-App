@@ -10,4 +10,5 @@ export type HeaderProps = {
   breadcrumb: string;
   btnText: string;
   search: boolean;
+  onClick?: () => void;
 };
