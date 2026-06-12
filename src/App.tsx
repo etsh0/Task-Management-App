@@ -18,6 +18,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* main layout */}
+          <Route path="/" element={<Navigate to="/project" replace />} />
           <Route path="/project" element={<AppLayout />}>
             <Route index element={<ProjectsPage />} />
             <Route path="add" element={<AddProjectPage />} />
