@@ -3,33 +3,17 @@ import Button from '../../../shared/components/Button';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import config from '../../../config/env';
-import { getAccessToken } from '../../auth/Login/cookie';
-import { useEffect, useState } from 'react';
-import type { ProjectMember } from '../../project-members/type';
-import { getProjectMembers } from '../../project-members/api';
+import { addNewEpic } from '../api';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+import Spinner from '../../../shared/components/Spinner';
+import { useProjectMembers } from '../../project-members/hooks/useProjectMembers';
 
 export default function NewEpicForm() {
   const navigate = useNavigate();
   const { projectId } = useParams();
-
-  const [members, setMembers] = useState<ProjectMember[]>([]);
-  const [, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchMembers = async () => {
-      if (!projectId) return;
-      try {
-        setError(null);
-        const data = await getProjectMembers(projectId);
-        setMembers(data);
-      } catch (error) {
-        setError((error as Error).message);
-      }
-    };
-    fetchMembers();
-    
-  }, [projectId]);
+  const { members } = useProjectMembers(projectId);
+  const [loading, setLoading] = useState(false);
 
   const addEpicSchema = z.object({
     title: z.string().min(3, 'Title must be at least 3 characters'),
@@ -57,6 +41,7 @@ export default function NewEpicForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormInputs>({
     mode: 'onChange',
@@ -64,26 +49,27 @@ export default function NewEpicForm() {
   });
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    const token = getAccessToken();
+    if (!projectId) return;
     const payload = {
       title: data.title,
-      description: data.description,
+      description: data.description || '',
       assignee_id: data.assignee_id || null,
-      deadline: data.deadline,
+      deadline: data.deadline || '',
       project_id: projectId,
     };
-    const res = await fetch(config.apiUrl + '/rest/v1/epics', {
-      method: 'POST',
-      headers: {
-        apiKey: config.anonKey,
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=representation',
-      },
-      body: JSON.stringify(payload),
-    });
 
-    return await res.json();
+    try {
+      setLoading(true);
+      await addNewEpic(payload);
+      reset();
+      toast.success('Epic Created successfully');
+      navigate(`/project/${projectId}/epics`);
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to create epic');
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -160,7 +146,7 @@ export default function NewEpicForm() {
             Cancel
           </button>
           <div className="w-fit">
-            <Button>Create Epic</Button>
+            <Button>{loading ? <Spinner /> : 'Create Epic'}</Button>
           </div>
         </div>
       </form>

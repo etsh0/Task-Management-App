@@ -1,3 +1,4 @@
+import { useNavigate, useParams } from 'react-router-dom';
 import HieraechyIcon from '../../../assets/icons/HieraechyIcon';
 import HighLevelIcon from '../../../assets/icons/HighLevelIcon';
 import TrackIcon from '../../../assets/icons/TrackIcon';
@@ -5,9 +6,11 @@ import img from '../../../assets/images/EpicsEmptyState.svg';
 import Button from '../../../shared/components/Button';
 import EmptyStateCard from './EmptyStateCard';
 export default function ProjectEpicsEmptyState() {
+  const navigate = useNavigate();
+  const { projectId } = useParams();
   return (
     <>
-      <section className="min-h-screen flex items-center justify-center text-center">
+      <section className="min-h-screen flex items-center justify-center text-center pb-20">
         <div className="flex flex-col gap-6 items-center">
           <img className="w-[288px]" src={img} alt="" />
           <div className="">
@@ -19,7 +22,7 @@ export default function ProjectEpicsEmptyState() {
               progress better and maintain architectural clarity.
             </p>
           </div>
-          <div>
+          <div onClick={() => navigate(`/project/${projectId}/epics/new`)}>
             <Button>+ Create First Epic</Button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-15 py-4">

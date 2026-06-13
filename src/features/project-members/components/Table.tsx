@@ -1,33 +1,14 @@
 import { useParams } from 'react-router-dom';
 import MemberInfo from './MemberInfo';
 import Role from './Role';
-import { useEffect, useState } from 'react';
-import { getProjectMembers } from '../api';
-import type { ProjectMember } from '../type';
 import ProjectMembersSkeleton from './ProjectMembersSkeleton';
 import ErrorState from '../../../shared/components/ErrorState';
+import { useProjectMembers } from '../hooks/useProjectMembers';
 
 export default function Table() {
-  const [members, setMembers] = useState<ProjectMember[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const { projectId } = useParams();
-  useEffect(() => {
-    const fetchMembers = async () => {
-      if (!projectId) return;
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await getProjectMembers(projectId);
-        setMembers(data);
-      } catch (error) {
-        setError((error as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMembers();
-  }, [projectId]);
+
+  const { members, loading, error } = useProjectMembers(projectId);
 
   if (loading) return <ProjectMembersSkeleton />;
   if (error) return <ErrorState />;

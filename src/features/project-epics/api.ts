@@ -1,5 +1,6 @@
 import config from '../../config/env';
 import { getAccessToken } from '../auth/Login/cookie';
+import type { newEpicPayload } from './type';
 
 export const getProjectEpics = async (projectId: string) => {
   const token = getAccessToken();
@@ -11,6 +12,7 @@ export const getProjectEpics = async (projectId: string) => {
         apiKey: config.anonKey,
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
+        Prefer: 'count=exact',
       },
     },
   );
@@ -18,5 +20,28 @@ export const getProjectEpics = async (projectId: string) => {
     throw new Error('Failed to fetch project members');
   }
   const data = await res.json();
+
+  return data;
+};
+
+export const addNewEpic = async (payload: newEpicPayload) => {
+  const token = getAccessToken();
+  const res = await fetch(config.apiUrl + '/rest/v1/epics', {
+    method: 'POST',
+    headers: {
+      apiKey: config.anonKey,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=representation',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || 'Failed to create epic');
+  }
+
   return data;
 };

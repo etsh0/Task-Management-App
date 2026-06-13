@@ -5,11 +5,7 @@ import type { AppDispatch } from '../../../store/store';
 import { setSelectedProject } from '../../../store/slices/ProjectsSlice';
 import { useNavigate } from 'react-router-dom';
 
-type Props = {
-  project: Project;
-};
-
-export default function ProjectCard({ project }: Props) {
+export default function ProjectCard({ project }: { project: Project }) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
