@@ -45,7 +45,7 @@ export default function AppLayout() {
           >
             <DesktopSideBar />
           </div>
-          <div className="sm:hidden fixed bottom-0 w-full">
+          <div className="sm:hidden fixed bottom-0 w-full z-100">
             <MobileBottomBar />
           </div>
         </div>

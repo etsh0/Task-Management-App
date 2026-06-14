@@ -35,8 +35,6 @@ export default function ProjectsPage() {
 
   // if (error && error !== 'UNAUTHORIZED') return <ProjectsErrorState />;
 
-  if (projects.length === 0) return <ProjectsEmptyState />;
-
   const handleAddProject = () => {
     disPatch(clearSelectedProject());
     navigate('/project/add');
@@ -44,42 +42,46 @@ export default function ProjectsPage() {
 
   return (
     <>
-      <section className="px-8 pt-8 pb-20 md:pb-[121.5px]">
-        <header className="flex items-center justify-between mb-10">
-          <div className="flex flex-col gap-1">
-            <h2 className="text-[30px] text-slate-one font-semibold leading-9 tracking-[-0.75px]">
-              Projects
-            </h2>
-            <p className="text-[16px] leading-6 text-[#434654]">
-              Manage and curate your projects
-            </p>
+      {projects.length === 0 ? (
+        <ProjectsEmptyState />
+      ) : (
+        <section className="px-8 pt-8 pb-20 md:pb-[121.5px]">
+          <header className="flex items-center justify-between mb-10">
+            <div className="flex flex-col gap-1">
+              <h2 className="text-[30px] text-slate-one font-semibold leading-9 tracking-[-0.75px]">
+                Projects
+              </h2>
+              <p className="text-[16px] leading-6 text-[#434654]">
+                Manage and curate your projects
+              </p>
+            </div>
+            {/* add project >> serelectedProject = null */}
+            <div onClick={() => handleAddProject()} className="hidden md:block">
+              <Button>+ Create New Project</Button>
+            </div>
+          </header>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-15 md:pb-[126.5px]">
+            {projects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+            <AddProjectCard />
           </div>
-          {/* add project >> serelectedProject = null */}
-          <div onClick={() => handleAddProject()} className="hidden md:block">
-            <Button>+ Create New Project</Button>
+          <div className="pagination items-center justify-between py-12 px-8 hidden md:flex">
+            <div>
+              <p className="text-[12px] text-[#434654] font-medium leading-4.5">
+                Showing 5 of 24 active projects
+              </p>
+            </div>
+            <Pagination />
           </div>
-        </header>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-15 md:pb-[126.5px]">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-          <AddProjectCard />
-        </div>
-        <div className="pagination items-center justify-between py-12 px-8 hidden md:flex">
-          <div>
-            <p className="text-[12px] text-[#434654] font-medium leading-4.5">
-              Showing 5 of 24 active projects
-            </p>
+          <div
+            onClick={() => handleAddProject()}
+            className="w-14 h-14 ml-auto fixed bottom-15 right-6 md:hidden z-50"
+          >
+            <Button>+</Button>
           </div>
-          <Pagination />
-        </div>
-        <div
-          onClick={() => handleAddProject()}
-          className="w-14 h-14 ml-auto fixed bottom-15 right-6 md:hidden z-50"
-        >
-          <Button>+</Button>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 }
