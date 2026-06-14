@@ -52,9 +52,9 @@ export default function NewEpicForm() {
     if (!projectId) return;
     const payload = {
       title: data.title,
-      description: data.description || '',
+      description: data.description || null,
       assignee_id: data.assignee_id || null,
-      deadline: data.deadline || '',
+      deadline: data.deadline || null,
       project_id: projectId,
     };
 

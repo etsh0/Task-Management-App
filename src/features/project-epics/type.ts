@@ -1,8 +1,8 @@
 export type newEpicPayload = {
   title: string;
-  description?: string;
+  description?: string | null;
   assignee_id?: string | null;
-  deadline?: string;
+  deadline?: string | null;
   project_id: string;
 };
 

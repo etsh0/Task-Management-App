@@ -23,14 +23,14 @@ export default function EpicCard({ epic }: { epic: ProjectEpic }) {
         </p>
         <div className="flex items-center gap-3">
           <div className="bg-primary lg:bg-success w-10 h-10 rounded-xl text-white lg:text-black font-bold text-body-md leading-5 uppercase flex items-center justify-center">
-            {getInitials(epic.assignee?.name)}
+            {epic.assignee?.name ? getInitials(epic.assignee?.name) : 'UN'}
           </div>
           <div className="flex flex-col">
             <span className="text-[#434654] text-label-sm font-medium leading-4">
               Assignee
             </span>
             <span className="text-body-md text-slate-one leading-5 font-semibold">
-              {epic.assignee?.name}
+              {epic.assignee?.name ? epic.assignee?.name : 'Unassigned'}
             </span>
           </div>
         </div>
