@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../shared/components/Button';
-import { useForm, type SubmitHandler } from 'react-hook-form';
+import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { addNewEpic } from '../api';
@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import Spinner from '../../../shared/components/Spinner';
 import { useProjectMembers } from '../../project-members/hooks/useProjectMembers';
+import Select from 'react-select';
 
 export default function NewEpicForm() {
   const navigate = useNavigate();
@@ -38,10 +39,16 @@ export default function NewEpicForm() {
 
   type FormInputs = z.infer<typeof addEpicSchema>;
 
+  const memberOptions = members.map((member) => ({
+    value: member.user_id,
+    label: member.metadata.name,
+  }));
+
   const {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<FormInputs>({
     mode: 'onChange',
@@ -115,14 +122,36 @@ export default function NewEpicForm() {
         <div className="grid grid-cols-2 items-center gap-8">
           <label className="label" htmlFor="">
             Assignee
-            <select id="" className="input" {...register('assignee_id')}>
-              <option value="">Select a member...</option>
-              {members.map((member) => (
-                <option key={member.member_id} value={member.user_id}>
-                  {member.metadata.name}
-                </option>
-              ))}
-            </select>
+            <Controller
+              name="assignee_id"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      backgroundColor: '#d7e2ff',
+                      borderColor: '#E5E7EB',
+                    }),
+                    valueContainer: (base) => ({
+                      ...base,
+                      padding: '12px 16px',
+                      borderRadius: '4px',
+                    }),
+                  }}
+                  {...field}
+                  options={memberOptions}
+                  placeholder="Select a member..."
+                  isClearable
+                  value={
+                    memberOptions.find(
+                      (option) => option.value === field.value,
+                    ) || null
+                  }
+                  onChange={(option) => field.onChange(option?.value || null)}
+                />
+              )}
+            />
           </label>
           <label className="label" htmlFor="">
             Deadline

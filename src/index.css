@@ -52,7 +52,10 @@
     @apply text-body-md text-slate-two leading-5 font-normal;
   }
   .input {
-    @apply py-3.5 px-4 rounded-sm bg-surface-highest text-[16px] text-[#737685] font-normal w-full focus:outline-0 border border-border;
+    @apply py-3.5 px-4 rounded-sm bg-surface-highest text-[16px] text-[#737685] font-semibold w-full focus:outline-0 focus:border-blue-500 border-2 border-border;
+  }
+  .input::placeholder {
+    @apply text-body-md text-[#a9acbd] font-normal;
   }
   .input-error {
     @apply bg-[#FFDAD6] text-error;
