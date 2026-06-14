@@ -1,11 +1,12 @@
 import type { ButtonProps } from '../types/button';
 
-export default function Button({ children }: ButtonProps) {
+export default function Button({ disabled, children }: ButtonProps) {
   return (
     <>
       <button
         type="submit"
-        className="primary-btn flex justify-center items-center gap-1 w-full"
+        disabled={disabled}
+        className={`primary-btn flex justify-center items-center gap-1 w-full ${disabled && "opacity-50 cursor-not-allowed"}`}
       >
         {children}
       </button>

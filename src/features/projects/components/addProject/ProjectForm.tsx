@@ -135,7 +135,7 @@ export default function ProjectForm() {
             Back
           </button>
           <div className="w-fit">
-            <Button>
+            <Button disabled={loading}>
               {loading ? (
                 <Spinner />
               ) : selectedProject ? (
