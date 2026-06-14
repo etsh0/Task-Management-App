@@ -9,15 +9,15 @@ import {
   clearSelectedProject,
   getAllProjects,
 } from '../../store/slices/ProjectsSlice';
-// import ProjectsErrorState from '../../features/projects/components/ProjectsErrorState';
 import ProjectsSkeleton from '../../features/projects/components/ProjectsSkeleton';
 import ProjectsEmptyState from '../../features/projects/components/ProjectsEmptyState';
 import { useNavigate } from 'react-router-dom';
+import ErrorState from '../../shared/components/ErrorState';
 
 export default function ProjectsPage() {
   const navigate = useNavigate();
   const disPatch = useDispatch<AppDispatch>();
-  const { projects, loading } = useSelector(
+  const { projects, loading, error } = useSelector(
     (state: RootState) => state.projects,
   );
 
@@ -33,7 +33,10 @@ export default function ProjectsPage() {
 
   if (loading) return <ProjectsSkeleton />;
 
-  // if (error && error !== 'UNAUTHORIZED') return <ProjectsErrorState />;
+  if (error)
+    return (
+      <ErrorState text="We are having trouble retrieving your projects right now. Please try again in a moment." />
+    );
 
   const handleAddProject = () => {
     disPatch(clearSelectedProject());

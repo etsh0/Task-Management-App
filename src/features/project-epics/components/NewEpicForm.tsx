@@ -174,7 +174,9 @@ export default function NewEpicForm() {
         </div>
         <div className="flex flex-col md:flex-row-reverse items-center justify-start gap-4 mt-8">
           <div className="w-full md:w-auto">
-            <Button disabled={loading}>{loading ? <Spinner /> : 'Create Epic'}</Button>
+            <Button disabled={loading}>
+              {loading ? <Spinner /> : 'Create Epic'}
+            </Button>
           </div>
           <button
             type="button"

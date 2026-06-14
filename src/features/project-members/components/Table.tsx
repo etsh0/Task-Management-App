@@ -1,17 +1,12 @@
 import { useParams } from 'react-router-dom';
 import MemberInfo from './MemberInfo';
 import Role from './Role';
-import ProjectMembersSkeleton from './ProjectMembersSkeleton';
-import ErrorState from '../../../shared/components/ErrorState';
 import { useProjectMembers } from '../hooks/useProjectMembers';
 
 export default function Table() {
   const { projectId } = useParams();
 
-  const { members, loading, error } = useProjectMembers(projectId);
-
-  if (loading) return <ProjectMembersSkeleton />;
-  if (error) return <ErrorState />;
+  const { members } = useProjectMembers(projectId);
 
   return (
     <>

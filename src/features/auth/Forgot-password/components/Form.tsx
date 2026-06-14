@@ -98,7 +98,9 @@ export default function Form() {
               )}
             </label>
             <div className={`${isShowResendMsg && 'hidden'}`}>
-              <Button disabled={isLoading}>{isLoading ? <Spinner /> : 'Send Reset Link'}</Button>
+              <Button disabled={isLoading}>
+                {isLoading ? <Spinner /> : 'Send Reset Link'}
+              </Button>
             </div>
           </form>
           <div className="flex items-center justify-center gap-1 mb-8 mt-6">

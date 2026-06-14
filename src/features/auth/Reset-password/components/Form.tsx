@@ -175,7 +175,9 @@ export default function Form() {
             </div>
           </div>
           <div className="">
-            <Button disabled={isLoading}>{isLoading ? <Spinner /> : 'Update Password'}</Button>
+            <Button disabled={isLoading}>
+              {isLoading ? <Spinner /> : 'Update Password'}
+            </Button>
           </div>
         </form>
         <div className="flex items-center justify-center mt-6">

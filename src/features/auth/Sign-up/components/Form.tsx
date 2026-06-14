@@ -185,7 +185,9 @@ export default function Form() {
               text="One special character"
             />
           </div>
-          <Button disabled={isLoading}>{isLoading ? <Spinner /> : 'Create Account'}</Button>
+          <Button disabled={isLoading}>
+            {isLoading ? <Spinner /> : 'Create Account'}
+          </Button>
         </form>
         <p className="text-center text-body-md text-slate-two leading-5 pt-[47.5px] pb-8">
           Already have an account?{' '}

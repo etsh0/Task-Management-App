@@ -1,7 +1,12 @@
 import Cloud from '../../assets/icons/Cloud';
 import Button from './Button';
 
-export default function ErrorState() {
+type ErrorStateProps = {
+  text: string;
+  // onRetry: () => void;
+};
+
+export default function ErrorState({ text }: ErrorStateProps) {
   return (
     <>
       <section className="min-h-screen flex flex-col items-center justify-center gap-4 text-center">
@@ -12,8 +17,7 @@ export default function ErrorState() {
           Something went wrong
         </h1>
         <p className="text-title-md text-[#434654] leading-[29.25px] w-108.5">
-          We're having trouble retrieving your projects right now. Please try
-          again in a moment.
+          {text}
         </p>
         <div>
           <Button>Retry Connection</Button>

@@ -15,7 +15,10 @@ export default function Epics() {
 
   const { epics, loading, error } = useEpics(projectId);
 
-  if (error) return <ErrorState />;
+  if (error)
+    return (
+      <ErrorState text="We are having trouble retrieving your project epics right now. Please try again in a moment." />
+    );
 
   return (
     <>

@@ -122,7 +122,9 @@ export default function Form() {
             </label>
           </div>
           <div className="hidden md:block">
-            <Button disabled={isLoading}>{isLoading ? <Spinner /> : 'Log In'}</Button>
+            <Button disabled={isLoading}>
+              {isLoading ? <Spinner /> : 'Log In'}
+            </Button>
           </div>
           <div className="md:hidden">
             <Button disabled={isLoading}>
