@@ -13,7 +13,6 @@ export default function AddProjectPage() {
         <Header
           title={`${selectedProject ? 'Edit Project' : 'Add New Project'}`}
           breadcrumb={`${selectedProject ? 'Edit Project' : 'Add New Project'}`}
-          search={true}
           btnText="Invite Member"
         />
         <div className="flex flex-col max-w-168.25 bg-[#FFFFFF] mx-auto px-8 pt-8">

@@ -4,7 +4,7 @@ export default function EpicsSkeleton() {
   const rows = Array.from({ length: 6 });
   return (
     <>
-      <section className="p-8">
+      <section className="px-8 pt-8 pb-25">
         <header className="flex items-end justify-between animate-pulse">
           <div className="flex flex-col gap-8">
             <div className="flex items-center gap-2">
@@ -14,15 +14,15 @@ export default function EpicsSkeleton() {
               </span>
               <span className="w-24 h-4 bg-skeleton rounded-xs"></span>
             </div>
-            <div className="w-[256px] h-10 bg-skeleton rounded-sm" />
+            <div className="max-w-[256px] h-10 bg-skeleton rounded-sm" />
           </div>
-          <div className="flex items-center gap-4">
+          <div className="lg:flex items-center gap-4 hidden">
             <div className="bg-skeleton rounded-xs h-10 w-32" />
             <div className="bg-skeleton rounded-xs h-10 w-40" />
           </div>
         </header>
         {/* card skeleton */}
-        <div className="grid grid-cols-2 gap-6 mt-12 animate-pulse">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-12 animate-pulse">
           {rows.map((_, i) => (
             <div
               key={i}
@@ -33,7 +33,7 @@ export default function EpicsSkeleton() {
                 <div className="bg-skeleton rounded-xl w-8 h-8" />
               </div>
 
-              <div className="bg-skeleton w-109 h-6" />
+              <div className="bg-skeleton max-w-109 h-6" />
 
               <div className="flex items-center gap-3">
                 <div className="bg-skeleton rounded-xl w-8 h-8" />

@@ -11,7 +11,6 @@ export default function Members() {
           title="Project Members"
           breadcrumb="Members"
           btnText="Invite Member"
-          search={true}
         />
         <div className=" md:bg-[#F1F3FF] mx-auto rounded-lg">
           <Table />

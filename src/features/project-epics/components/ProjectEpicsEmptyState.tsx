@@ -10,14 +10,14 @@ export default function ProjectEpicsEmptyState() {
   const { projectId } = useParams();
   return (
     <>
-      <section className="min-h-screen flex items-center justify-center text-center pb-20">
+      <section className="flex items-center justify-center text-center pt-10 pb-20 px-6">
         <div className="flex flex-col gap-6 items-center">
-          <img className="w-[288px]" src={img} alt="" />
+          <img className="w-45 md:w-[288px]" src={img} alt="" />
           <div className="">
             <h1 className="text-headline-lg text-slate-one font-semibold leading-10 tracking-[-0.9px] mb-4">
               No epics in this project yet.
             </h1>
-            <p className="text-title-md text-[#434654] leading-[29.25px] w-108.5">
+            <p className="text-[15px] md:text-title-md text-[#434654] leading-[29.25px] max-w-md">
               Break down your large project into manageable epics to track
               progress better and maintain architectural clarity.
             </p>
@@ -25,7 +25,7 @@ export default function ProjectEpicsEmptyState() {
           <div onClick={() => navigate(`/project/${projectId}/epics/new`)}>
             <Button>+ Create First Epic</Button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-15 py-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 px-4 lg:px-15 py-4">
             <EmptyStateCard
               title="High-Level Goals"
               p="Define the broad objectives

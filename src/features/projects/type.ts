@@ -9,6 +9,6 @@ export type HeaderProps = {
   title: string;
   breadcrumb: string;
   btnText: string;
-  search: boolean;
   onClick?: () => void;
+  children?: React.ReactNode;
 };

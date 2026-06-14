@@ -6,12 +6,16 @@ import Pagination from '../../features/projects/components/Pagination';
 import Button from '../../shared/components/Button';
 import Header from '../../shared/components/Header';
 import { useEpics } from '../../features/project-epics/hooks/useEpics';
+import SearchInput from '../../shared/components/SearchInput';
+import ErrorState from '../../shared/components/ErrorState';
 
 export default function Epics() {
   const navigate = useNavigate();
   const { projectId } = useParams();
 
-  const { epics, loading } = useEpics(projectId);
+  const { epics, loading, error } = useEpics(projectId);
+
+  if (error) return <ErrorState />;
 
   return (
     <>
@@ -21,14 +25,18 @@ export default function Epics() {
         <ProjectEpicsEmptyState />
       ) : (
         <section className="py-8 px-6 lg:px-8">
-          <Header
-            title="Project Epics"
-            breadcrumb="Epics"
-            btnText="New Epic"
-            search={false}
-            onClick={() => navigate(`/project/${projectId}/epics/new`)}
-          />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 my-10">
+          <div className="hidden md:block">
+            <Header
+              title="Project Epics"
+              breadcrumb="Epics"
+              btnText="New Epic"
+              onClick={() => navigate(`/project/${projectId}/epics/new`)}
+            >
+              <SearchInput />
+            </Header>
+          </div>
+          <SearchInput className="md:hidden relative" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-10 pb-20">
             {epics.map((epic) => (
               <EpicCard key={epic.id} epic={epic} />
             ))}
@@ -41,7 +49,10 @@ export default function Epics() {
             </div>
             <Pagination />
           </div>
-          <div className="w-10 h-10 ml-auto md:hidden mt-8 fixed bottom-20 right-10 z-50">
+          <div
+            onClick={() => navigate(`/project/${projectId}/epics/new`)}
+            className="w-10 h-10 ml-auto md:hidden mt-8 fixed bottom-20 right-10 z-50"
+          >
             <Button>
               <span className="text-body-md">+</span>
             </Button>

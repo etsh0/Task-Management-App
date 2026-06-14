@@ -3,7 +3,7 @@ import NewEpicForm from '../../features/project-epics/components/NewEpicForm';
 
 export default function AddEpicPage() {
   return (
-    <section className="px-22 pt-8 pb-15">
+    <section className="px-6 lg:px-22 pt-8 pb-15">
       <header className="flex items-center justify-between mb-10">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2 uppercase font-bold leading-4 tracking-[1.2px] text-label-sm mb-8">

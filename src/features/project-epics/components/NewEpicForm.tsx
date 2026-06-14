@@ -83,10 +83,16 @@ export default function NewEpicForm() {
       <form
         onSubmit={handleSubmit(onSubmit)}
         action=""
-        className="p-8 flex flex-col gap-8"
+        className="py-8 flex flex-col gap-8"
       >
-        <label className="label flex-row items-center gap-40" htmlFor="">
-          title
+        <label
+          className="label flex flex-col md:items-center md:flex-row"
+          htmlFor=""
+        >
+          <div className="mr-17 flex items-center gap-1">
+            title
+            <span className="text-error">*</span>
+          </div>
           <div className="flex flex-col gap-2 w-full">
             <input
               className={`input ${errors.title && 'input-error'}`}
@@ -99,10 +105,10 @@ export default function NewEpicForm() {
             )}
           </div>
         </label>
-        <label className={`label flex-row gap-28`} htmlFor="">
-          <div className="flex flex-col">
+        <label className={`label flex flex-col md:flex-row `} htmlFor="">
+          <div className="flex flex-col mr-8">
             <span className="">Description</span>
-            <span className="text-label-sm text-[#4F5F7B99] capitalize font-normal">
+            <span className="text-label-sm text-[#4F5F7B99] capitalize font-normal hidden md:block">
               Optional
             </span>
           </div>
@@ -119,7 +125,7 @@ export default function NewEpicForm() {
             </div>
           </div>
         </label>
-        <div className="grid grid-cols-2 items-center gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
           <label className="label" htmlFor="">
             Assignee
             <Controller
@@ -166,7 +172,10 @@ export default function NewEpicForm() {
             )}
           </label>
         </div>
-        <div className="flex items-center justify-end gap-4 mt-8">
+        <div className="flex flex-col md:flex-row-reverse items-center justify-start gap-4 mt-8">
+          <div className="w-full md:w-fit">
+            <Button>{loading ? <Spinner /> : 'Create Epic'}</Button>
+          </div>
           <button
             type="button"
             onClick={() => navigate(`/project/${projectId}/epics`)}
@@ -174,9 +183,6 @@ export default function NewEpicForm() {
           >
             Cancel
           </button>
-          <div className="w-fit">
-            <Button>{loading ? <Spinner /> : 'Create Epic'}</Button>
-          </div>
         </div>
       </form>
     </>

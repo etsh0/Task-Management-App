@@ -2,14 +2,13 @@ import ArrowRight2 from '../../assets/icons/ArrowRight2';
 import MemberIcon from '../../assets/icons/MemberIcon';
 import Button from './Button';
 import type { HeaderProps } from '../../features/projects/type';
-import SearchIcon from '../../assets/icons/SearchIcon';
 
 export default function Header({
   title,
   breadcrumb,
   btnText,
-  search,
   onClick,
+  children,
 }: HeaderProps) {
   return (
     <>
@@ -27,17 +26,8 @@ export default function Header({
           </h2>
         </div>
         <div className="flex items-center gap-8">
-          <div className={`relative ${search && 'hidden'}`}>
-            <input
-              type="text"
-              placeholder="Search epics..."
-              className="bg-surface-highest focus:outline-0 border border-border max-w-75.75 rounded-xs py-2.5 pr-6 pl-8 text-body-md"
-            />
-            <span className="absolute left-3 top-[50%] -translate-y-1/2">
-              <SearchIcon />
-            </span>
-          </div>
-          <div onClick={onClick} className="hidden md:block">
+          {children}
+          <div onClick={onClick} className="hidden md:block w-fit">
             <Button>
               {' '}
               <MemberIcon />
