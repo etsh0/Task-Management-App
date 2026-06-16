@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import AddProjectCard from '../../features/projects/components/addProject/AddProjectCard';
-import Pagination from '../../features/projects/components/Pagination';
+import Pagination from '../../shared/components/Pagination';
 import ProjectCard from '../../features/projects/components/ProjectCard';
 import Button from '../../shared/components/Button';
 import type { AppDispatch, RootState } from '../../store/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   clearSelectedProject,
   getAllProjects,
@@ -13,23 +13,24 @@ import ProjectsSkeleton from '../../features/projects/components/ProjectsSkeleto
 import ProjectsEmptyState from '../../features/projects/components/ProjectsEmptyState';
 import { useNavigate } from 'react-router-dom';
 import ErrorState from '../../shared/components/ErrorState';
+import { PAGINATION_LIMIT } from '../../shared/constants/pagination';
 
 export default function ProjectsPage() {
   const navigate = useNavigate();
   const disPatch = useDispatch<AppDispatch>();
-  const { projects, loading, error } = useSelector(
+  const { projects, loading, error, totalCount } = useSelector(
     (state: RootState) => state.projects,
   );
 
-  useEffect(() => {
-    disPatch(getAllProjects());
-  }, [disPatch]);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // useEffect(() => {
-  //   if (error === 'UNAUTHORIZED') {
-  //     navigate('/login');
-  //   }
-  // }, [error, navigate]);
+  const totalPages = Math.ceil(totalCount / PAGINATION_LIMIT);
+
+  const offset = (currentPage - 1) * PAGINATION_LIMIT;
+
+  useEffect(() => {
+    disPatch(getAllProjects({ LIMIT: PAGINATION_LIMIT, OFFSET: offset }));
+  }, [disPatch, offset]);
 
   if (loading) return <ProjectsSkeleton />;
 
@@ -69,14 +70,20 @@ export default function ProjectsPage() {
             ))}
             <AddProjectCard />
           </div>
-          <div className="pagination items-center justify-between py-12 px-8 hidden md:flex">
-            <div>
-              <p className="text-[12px] text-[#434654] font-medium leading-4.5">
-                Showing 5 of 24 active projects
-              </p>
+          {totalPages > 1 && (
+            <div className="pagination items-center justify-between py-12 px-8 hidden md:flex">
+              <div>
+                <p className="text-[12px] text-[#434654] font-medium leading-4.5">
+                  Showing {projects.length} of {totalCount} active projects
+                </p>
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
             </div>
-            <Pagination />
-          </div>
+          )}
           <div
             onClick={() => handleAddProject()}
             className="w-14 h-14 ml-auto fixed bottom-15 right-6 md:hidden z-50"

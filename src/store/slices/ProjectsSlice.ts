@@ -2,12 +2,14 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import config from '../../config/env';
 import { getAccessToken } from '../../features/auth/Login/cookie';
 import type { Project } from '../../features/projects/type';
+import type { PaginationParams } from '../../shared/types/PaginationParams';
 
 interface projectsState {
   projects: Project[];
   loading: boolean;
   error: string | null;
   selectedProject: Project | null;
+  totalCount: number;
 }
 
 export type addProjectPayload = {
@@ -28,21 +30,27 @@ const initialState: projectsState = {
   loading: false,
   error: null,
   selectedProject: null,
+  totalCount: 0,
 };
 
 export const getAllProjects = createAsyncThunk(
   'projects',
-  async (_, { rejectWithValue }) => {
+  async ({ LIMIT, OFFSET }: PaginationParams, { rejectWithValue }) => {
     try {
       const token = getAccessToken();
-      const res = await fetch(config.apiUrl + '/rest/v1/rpc/get_projects', {
-        method: 'GET',
-        headers: {
-          apiKey: config.anonKey,
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        config.apiUrl +
+          `/rest/v1/rpc/get_projects?limit=${LIMIT}&offset=${OFFSET}`,
+        {
+          method: 'GET',
+          headers: {
+            apiKey: config.anonKey,
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Prefer: 'count=exact',
+          },
         },
-      });
+      );
 
       if (res.status === 401) {
         return rejectWithValue('UNAUTHORIZED');
@@ -52,9 +60,13 @@ export const getAllProjects = createAsyncThunk(
         return rejectWithValue('FAILED_TO_FETCH');
       }
 
+      const totalCount = res.headers.get('Content-Range')?.split('/')[1];
       const data = await res.json();
 
-      return data;
+      return {
+        data,
+        totalCount: Number(totalCount),
+      };
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return rejectWithValue('NETWORK_ERROR');
@@ -129,7 +141,8 @@ export const ProjectsSlice = createSlice({
       })
       .addCase(getAllProjects.fulfilled, (state, action) => {
         state.loading = false;
-        state.projects = action.payload;
+        state.projects = action.payload.data;
+        state.totalCount = action.payload.totalCount;
       })
       .addCase(getAllProjects.rejected, (state, action) => {
         state.loading = false;

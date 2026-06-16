@@ -2,18 +2,26 @@ import { useNavigate, useParams } from 'react-router-dom';
 import EpicCard from '../../features/project-epics/components/EpicCard';
 import EpicsSkeleton from '../../features/project-epics/components/EpicsSkeleton';
 import ProjectEpicsEmptyState from '../../features/project-epics/components/ProjectEpicsEmptyState';
-import Pagination from '../../features/projects/components/Pagination';
 import Button from '../../shared/components/Button';
 import Header from '../../shared/components/Header';
 import { useEpics } from '../../features/project-epics/hooks/useEpics';
 import SearchInput from '../../shared/components/SearchInput';
 import ErrorState from '../../shared/components/ErrorState';
+import Pagination from '../../shared/components/Pagination';
 
 export default function Epics() {
   const navigate = useNavigate();
   const { projectId } = useParams();
 
-  const { epics, loading, error } = useEpics(projectId);
+  const {
+    epics,
+    loading,
+    error,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    totalCount,
+  } = useEpics(projectId);
 
   if (error)
     return (
@@ -44,14 +52,20 @@ export default function Epics() {
               <EpicCard key={epic.id} epic={epic} />
             ))}
           </div>
-          <div className="pagination items-center justify-between py-12 px-8 hidden md:flex">
-            <div>
-              <p className="text-[12px] text-[#434654] font-medium leading-4.5">
-                Showing 5 of 24 active projects
-              </p>
+          {totalPages > 1 && (
+            <div className="pagination items-center justify-between py-12 px-8 hidden md:flex">
+              <div>
+                <p className="text-[12px] text-[#434654] font-medium leading-4.5">
+                  Showing {epics.length} of {totalCount} epics
+                </p>
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
             </div>
-            <Pagination />
-          </div>
+          )}
           <div
             onClick={() => navigate(`/project/${projectId}/epics/new`)}
             className="w-10 h-10 ml-auto md:hidden mt-8 fixed bottom-20 right-10 z-50"
