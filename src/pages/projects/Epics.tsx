@@ -8,6 +8,7 @@ import { useEpics } from '../../features/project-epics/hooks/useEpics';
 import SearchInput from '../../shared/components/SearchInput';
 import ErrorState from '../../shared/components/ErrorState';
 import Pagination from '../../shared/components/Pagination';
+// import EpicModal from '../../features/project-epics/components/EpicModal';
 
 export default function Epics() {
   const navigate = useNavigate();
@@ -76,6 +77,7 @@ export default function Epics() {
           </div>
         </section>
       )}
+      {/* <EpicModal /> */}
     </>
   );
 }

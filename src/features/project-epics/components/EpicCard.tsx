@@ -9,7 +9,7 @@ import type { ProjectEpic } from '../type';
 export default function EpicCard({ epic }: { epic: ProjectEpic }) {
   return (
     <>
-      <div className="p-4 rounded-lg lg:border-l-4 border-[#004E32] shadow-[0px_1px_2px_0px_#0000000D] flex flex-col gap-4">
+      <div className="p-4 rounded-lg lg:border-l-4 border-[#004E32] shadow-[0px_1px_2px_0px_#0000000D] flex flex-col gap-4 cursor-pointer">
         <div className="flex items-center justify-between">
           <span className="bg-surface-highest lg:bg-success py-1 px-2.5 rounded-xs text-primary lg:text-[#005235] uppercase text-[10px] font-bold leading-3.75 tracking-[0.5px]">
             {epic.epic_id}
