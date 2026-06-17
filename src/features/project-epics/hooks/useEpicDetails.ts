@@ -24,6 +24,7 @@ export const useEpicDetails = (projectId: string, epicId: string) => {
 
   return {
     epic,
+    setEpic,
     loading,
   };
 };

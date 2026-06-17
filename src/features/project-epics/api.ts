@@ -1,15 +1,14 @@
 import config from '../../config/env';
 import type { PaginationParams } from '../../shared/types/PaginationParams';
 import { getAccessToken } from '../auth/Login/cookie';
-import type { newEpicPayload } from './type';
-
-const token = getAccessToken();
+import type { newEpicPayload, UpdateEpicPayload } from './type';
 
 export const getProjectEpics = async ({
   projectId,
   LIMIT,
   OFFSET,
 }: PaginationParams) => {
+  const token = getAccessToken();
   const res = await fetch(
     config.apiUrl +
       `/rest/v1/project_epics?project_id=eq.${projectId}&limit=${LIMIT}&offset=${OFFSET}`,
@@ -37,6 +36,7 @@ export const getProjectEpics = async ({
 };
 
 export const addNewEpic = async (payload: newEpicPayload) => {
+  const token = getAccessToken();
   const res = await fetch(config.apiUrl + '/rest/v1/epics', {
     method: 'POST',
     headers: {
@@ -58,6 +58,7 @@ export const addNewEpic = async (payload: newEpicPayload) => {
 };
 
 export const getEpicDetails = async (projectID: string, epicId: string) => {
+  const token = getAccessToken();
   const res = await fetch(
     config.apiUrl +
       `/rest/v1/project_epics?project_id=eq.${projectID}&id=eq.${epicId}`,
@@ -77,4 +78,24 @@ export const getEpicDetails = async (projectID: string, epicId: string) => {
 
   const data = await res.json();
   return data[0];
+};
+
+export const updateEpic = async (
+  epicId: string,
+  payload: UpdateEpicPayload,
+) => {
+  const token = getAccessToken();
+  const res = await fetch(config.apiUrl + `/rest/v1/epics?id=eq.${epicId}`, {
+    method: 'PATCH',
+    headers: {
+      apiKey: config.anonKey,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to update epic');
+  }
 };

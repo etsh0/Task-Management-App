@@ -18,6 +18,7 @@ export default function Epics() {
 
   const {
     epics,
+    setEpics,
     loading,
     error,
     currentPage,
@@ -88,6 +89,11 @@ export default function Epics() {
           projectId={projectId}
           epicId={selectedEpic}
           onClose={() => setSelectedEpic(null)}
+          onEpicUpdate={(updated) => {
+            setEpics((prev) =>
+              prev.map((e) => (e.id === updated.id ? updated : e)),
+            );
+          }}
         />
       )}
     </>

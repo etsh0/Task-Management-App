@@ -43,6 +43,7 @@ export function useEpics(projectId?: string) {
 
   return {
     epics,
+    setEpics,
     error,
     loading,
     currentPage,

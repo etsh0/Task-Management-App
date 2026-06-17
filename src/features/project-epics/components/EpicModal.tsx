@@ -4,20 +4,33 @@ import EpicIcon from '../../../assets/icons/EpicIcon';
 import ListIcon from '../../../assets/icons/ListIcon';
 import Button from '../../../shared/components/Button';
 import { formatDate } from '../../../shared/utils/formatDate';
+// import { useProjectMembers } from '../../project-members/hooks/useProjectMembers';
 import { useEpicDetails } from '../hooks/useEpicDetails';
+import { useUpdateEpic } from '../hooks/useUpdateEpic';
+import type { ProjectEpic } from '../type';
 import { getInitials } from './../../../shared/utils/getInitials';
 
 export default function EpicModal({
   projectId,
   epicId,
   onClose,
+  onEpicUpdate,
 }: {
   projectId?: string;
   epicId: string | null;
   onClose: () => void;
+  onEpicUpdate: (updated: ProjectEpic) => void;
 }) {
-  const { epic } = useEpicDetails(projectId ?? '', epicId ?? '');
+  const { epic, setEpic } = useEpicDetails(projectId ?? '', epicId ?? '');
+  // const {members} = useProjectMembers(projectId)
 
+  // const [assigneeEditMode, setAssigneeEditMode] = useState(false);
+  const { handleUpdate, saving } = useUpdateEpic(epic, (updated) => {
+    setEpic(updated);
+    onEpicUpdate(updated);
+  });
+
+  if (!epic) return null;
   return (
     <>
       <div
@@ -38,18 +51,38 @@ export default function EpicModal({
                   {epic?.epic_id}
                 </span>
               </div>
-              <p className="text-slate-one font-bold text-[20px] md:text-[24px] leading-8">
-                {epic?.title}
-              </p>
+              {/* Title */}
+              <input
+                aria-label="Epic title"
+                disabled={saving}
+                defaultValue={epic.title}
+                onBlur={(e) => {
+                  const newTitle = e.target.value.trim();
+                  if (newTitle && newTitle !== epic.title) {
+                    handleUpdate({ title: newTitle });
+                  }
+                }}
+                className="text-slate-one font-bold text-[20px] md:text-[24px] leading-8 bg-transparent border-b border-transparent hover:border-border focus:border-primary focus:outline-none w-full"
+              />
             </div>
             <div onClick={onClose} className="cursor-pointer">
               <CloseIcon />
             </div>
           </header>
           <div className="p-8">
-            <p className="text-slate-one/80 leading-6.5">
-              {epic?.description ? epic.description : 'No description provided'}
-            </p>
+            {/* Description */}
+            <textarea
+              disabled={saving}
+              defaultValue={epic.description ?? ''}
+              placeholder="No description provided"
+              onBlur={(e) => {
+                const newDesc = e.target.value.trim();
+                if (newDesc !== (epic.description ?? '')) {
+                  handleUpdate({ description: newDesc || null });
+                }
+              }}
+              className="text-slate-one/80 leading-6.5 bg-transparent border-b border-transparent hover:border-border focus:border-primary focus:outline-none w-full resize-none"
+            />
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mt-8 ">
               <div className="flex flex-col gap-[8.5px]">
                 <span className="text-slate-one/40 text-[10px] leading-3.75 uppercase font-bold">
@@ -71,10 +104,10 @@ export default function EpicModal({
                 {epic?.assignee?.name ? (
                   <div className="flex items-center gap-2">
                     <div className="w-7 h-7 bg-[#CDDDFF] flex items-center justify-center rounded-xl text-[#51617E] text-[10px] font-bold leading-5">
-                      JD
+                      {getInitials(epic.assignee.name)}
                     </div>
                     <span className="text-slate-one text-body-md leading-5 font-medium">
-                      John Doe
+                      {epic.assignee.name}
                     </span>
                   </div>
                 ) : (
@@ -96,21 +129,26 @@ export default function EpicModal({
                   </div>
                 </div>
               )}
-              {epic?.deadline && (
-                <div className="flex flex-col gap-[8.5px]">
-                  <span className="text-slate-one/40 text-[10px] leading-3.75 uppercase font-bold">
-                    Deadline
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <div className="h-7 flex items-center justify-center rounded-xl ">
-                      <CalenderIcon />
-                    </div>
-                    <span className="text-slate-one text-body-md leading-5 font-medium">
-                      {formatDate(epic?.deadline)}
-                    </span>
-                  </div>
+              {/* Deadline */}
+              <div className="flex flex-col gap-[8.5px]">
+                <span className="text-slate-one/40 text-[10px] leading-3.75 uppercase font-bold">
+                  Deadline
+                </span>
+                <div className="flex items-center gap-2">
+                  {/* <CalenderIcon /> */}
+                  <input
+                    aria-label="Epic deadline"
+                    type="date"
+                    disabled={saving}
+                    defaultValue={epic.deadline ?? ''}
+                    onChange={(e) => {
+                      const newDeadline = e.target.value || null;
+                      handleUpdate({ deadline: newDeadline });
+                    }}
+                    className="text-slate-one text-body-md leading-5 font-medium bg-transparent focus:outline-none"
+                  />
                 </div>
-              )}
+              </div>
             </div>
           </div>
           <div className="tasks px-8 pb-8">
