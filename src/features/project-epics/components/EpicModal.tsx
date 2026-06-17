@@ -3,12 +3,31 @@ import CloseIcon from '../../../assets/icons/CloseIcon';
 import EpicIcon from '../../../assets/icons/EpicIcon';
 import ListIcon from '../../../assets/icons/ListIcon';
 import Button from '../../../shared/components/Button';
+import { formatDate } from '../../../shared/utils/formatDate';
+import { useEpicDetails } from '../hooks/useEpicDetails';
+import { getInitials } from './../../../shared/utils/getInitials';
 
-export default function EpicModal() {
+export default function EpicModal({
+  projectId,
+  epicId,
+  onClose,
+}: {
+  projectId?: string;
+  epicId: string | null;
+  onClose: () => void;
+}) {
+  const { epic } = useEpicDetails(projectId ?? '', epicId ?? '');
+
   return (
     <>
-      <div className="fixed inset-0 backdrop-blur-xs flex justify-center items-center z-100 bg-black/40 px-4">
-        <div className="bg-white shadow-[0_25px_50px_-12px_#00000040] rounded-lg max-h-[90vh] overflow-y-auto">
+      <div
+        onClick={onClose}
+        className="fixed inset-0 backdrop-blur-xs flex justify-center items-center z-100 bg-black/40 px-4"
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="bg-white shadow-[0_25px_50px_-12px_#00000040] rounded-lg max-h-[90vh] w-2xl overflow-y-auto"
+        >
           <header className="flex justify-between border-b border-border px-6 pt-6 pb-4 md:p-8 bg-surface-low md:bg-white">
             <div className="flex flex-col gap-1 md:gap-2">
               <div className="flex items-center gap-2">
@@ -16,21 +35,20 @@ export default function EpicModal() {
                   <EpicIcon />
                 </div>
                 <span className="text-slate-one/60 font-bold text-[10px] leading-4 uppercase tracking-[0.6px]">
-                  Epic-101
+                  {epic?.epic_id}
                 </span>
               </div>
               <p className="text-slate-one font-bold text-[20px] md:text-[24px] leading-8">
-                Modern Architecture Overhaul
+                {epic?.title}
               </p>
             </div>
-            <div className="cursor-pointer">
+            <div onClick={onClose} className="cursor-pointer">
               <CloseIcon />
             </div>
           </header>
           <div className="p-8">
             <p className="text-slate-one/80 leading-6.5">
-              A comprehensive review and upgrade of the core architectural
-              frameworks.
+              {epic?.description ? epic.description : 'No description provided'}
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mt-8 ">
               <div className="flex flex-col gap-[8.5px]">
@@ -39,10 +57,10 @@ export default function EpicModal() {
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 bg-primary flex items-center justify-center rounded-xl text-white text-[10px] font-bold leading-5">
-                    MT
+                    {getInitials(epic?.created_by.name)}
                   </div>
                   <span className="text-slate-one text-body-md leading-5 font-medium">
-                    Mahmoud Taha
+                    {epic?.created_by.name}
                   </span>
                 </div>
               </div>
@@ -50,41 +68,49 @@ export default function EpicModal() {
                 <span className="text-slate-one/40 text-[10px] leading-3.75 uppercase font-bold">
                   Assignee
                 </span>
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 bg-[#CDDDFF] flex items-center justify-center rounded-xl text-[#51617E] text-[10px] font-bold leading-5">
-                    JD
+                {epic?.assignee?.name ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 bg-[#CDDDFF] flex items-center justify-center rounded-xl text-[#51617E] text-[10px] font-bold leading-5">
+                      JD
+                    </div>
+                    <span className="text-slate-one text-body-md leading-5 font-medium">
+                      John Doe
+                    </span>
                   </div>
-                  <span className="text-slate-one text-body-md leading-5 font-medium">
-                    John Doe
-                  </span>
-                </div>
+                ) : (
+                  <span className="text-slate-one">Unassigned</span>
+                )}
               </div>
-              <div className="flex flex-col gap-[8.5px]">
-                <span className="text-slate-one/40 text-[10px] leading-3.75 uppercase font-bold">
-                  Deadline
-                </span>
-                <div className="flex items-center gap-2">
-                  <div className="h-7 flex items-center justify-center rounded-xl ">
-                    <CalenderIcon />
+              {epic?.created_at && (
+                <div className="flex flex-col gap-[8.5px]">
+                  <span className="text-slate-one/40 text-[10px] leading-3.75 uppercase font-bold">
+                    Created At
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <div className="h-7 flex items-center justify-center rounded-xl ">
+                      <CalenderIcon />
+                    </div>
+                    <span className="text-slate-one text-body-md leading-5 font-medium">
+                      {formatDate(epic?.created_at)}
+                    </span>
                   </div>
-                  <span className="text-slate-one text-body-md leading-5 font-medium">
-                    Oct 15, 2025
-                  </span>
                 </div>
-              </div>
-              <div className="flex flex-col gap-[8.5px]">
-                <span className="text-slate-one/40 text-[10px] leading-3.75 uppercase font-bold">
-                  Deadline
-                </span>
-                <div className="flex items-center gap-2">
-                  <div className="h-7 flex items-center justify-center rounded-xl ">
-                    <CalenderIcon />
+              )}
+              {epic?.deadline && (
+                <div className="flex flex-col gap-[8.5px]">
+                  <span className="text-slate-one/40 text-[10px] leading-3.75 uppercase font-bold">
+                    Deadline
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <div className="h-7 flex items-center justify-center rounded-xl ">
+                      <CalenderIcon />
+                    </div>
+                    <span className="text-slate-one text-body-md leading-5 font-medium">
+                      {formatDate(epic?.deadline)}
+                    </span>
                   </div>
-                  <span className="text-slate-one text-body-md leading-5 font-medium">
-                    Oct 15, 2025
-                  </span>
                 </div>
-              </div>
+              )}
             </div>
           </div>
           <div className="tasks px-8 pb-8">

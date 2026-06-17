@@ -3,12 +3,13 @@ import type { PaginationParams } from '../../shared/types/PaginationParams';
 import { getAccessToken } from '../auth/Login/cookie';
 import type { newEpicPayload } from './type';
 
+const token = getAccessToken();
+
 export const getProjectEpics = async ({
   projectId,
   LIMIT,
   OFFSET,
 }: PaginationParams) => {
-  const token = getAccessToken();
   const res = await fetch(
     config.apiUrl +
       `/rest/v1/project_epics?project_id=eq.${projectId}&limit=${LIMIT}&offset=${OFFSET}`,
@@ -36,7 +37,6 @@ export const getProjectEpics = async ({
 };
 
 export const addNewEpic = async (payload: newEpicPayload) => {
-  const token = getAccessToken();
   const res = await fetch(config.apiUrl + '/rest/v1/epics', {
     method: 'POST',
     headers: {
@@ -55,4 +55,26 @@ export const addNewEpic = async (payload: newEpicPayload) => {
   }
 
   return data;
+};
+
+export const getEpicDetails = async (projectID: string, epicId: string) => {
+  const res = await fetch(
+    config.apiUrl +
+      `/rest/v1/project_epics?project_id=eq.${projectID}&id=eq.${epicId}`,
+    {
+      method: 'GET',
+      headers: {
+        apiKey: config.anonKey,
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch epic details');
+  }
+
+  const data = await res.json();
+  return data[0];
 };

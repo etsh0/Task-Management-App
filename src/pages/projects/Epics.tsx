@@ -8,11 +8,13 @@ import { useEpics } from '../../features/project-epics/hooks/useEpics';
 import SearchInput from '../../shared/components/SearchInput';
 import ErrorState from '../../shared/components/ErrorState';
 import Pagination from '../../shared/components/Pagination';
-// import EpicModal from '../../features/project-epics/components/EpicModal';
+import { useState } from 'react';
+import EpicModal from '../../features/project-epics/components/EpicModal';
 
 export default function Epics() {
   const navigate = useNavigate();
-  const { projectId } = useParams();
+  const { projectId } = useParams<{ projectId: string }>();
+  const [selectedEpic, setSelectedEpic] = useState<string | null>(null);
 
   const {
     epics,
@@ -50,7 +52,11 @@ export default function Epics() {
           <SearchInput className="md:hidden relative" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-10 pb-20">
             {epics.map((epic) => (
-              <EpicCard key={epic.id} epic={epic} />
+              <EpicCard
+                key={epic.id}
+                epic={epic}
+                onClick={() => setSelectedEpic(epic.id)}
+              />
             ))}
           </div>
           {totalPages > 1 && (
@@ -77,7 +83,13 @@ export default function Epics() {
           </div>
         </section>
       )}
-      {/* <EpicModal /> */}
+      {selectedEpic && (
+        <EpicModal
+          projectId={projectId}
+          epicId={selectedEpic}
+          onClose={() => setSelectedEpic(null)}
+        />
+      )}
     </>
   );
 }
