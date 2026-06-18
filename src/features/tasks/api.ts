@@ -1,0 +1,26 @@
+import config from '../../config/env';
+import { getAccessToken } from '../auth/Login/cookie';
+import type { newTaskPayload } from './type';
+
+export const addNewTask = async (payload: newTaskPayload) => {
+  const token = getAccessToken();
+  const res = await fetch(config.apiUrl + '/rest/v1/tasks', {
+    method: 'POST',
+    headers: {
+      apiKey: config.anonKey,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=representation',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || 'Failed to create task');
+  }
+  console.log(data);
+
+  return data;
+};

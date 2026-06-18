@@ -159,7 +159,11 @@ export default function EpicModal({
                 Tasks
               </h3>
               <button
-                onClick={() => navigate(`/project/${projectId}/tasks/new`)}
+                onClick={() =>
+                  navigate(`/project/${projectId}/tasks/new`, {
+                    state: { epicId: epic.id },
+                  })
+                }
                 type="button"
                 className="text-primary text-body-md font-semibold leading-5 hidden md:block cursor-pointer"
               >
@@ -177,7 +181,11 @@ export default function EpicModal({
                 No tasks have been added to this epic yet
               </p>
               <div
-                onClick={() => navigate(`/project/${projectId}/tasks/new`)}
+                onClick={() =>
+                  navigate(`/project/${projectId}/tasks/new`, {
+                    state: { epicId: epic.id },
+                  })
+                }
                 className="w-fit"
               >
                 <Button>+ Add Task</Button>

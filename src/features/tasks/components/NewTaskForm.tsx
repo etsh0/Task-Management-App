@@ -1,12 +1,103 @@
 import { useState } from 'react';
 import Button from '../../../shared/components/Button';
 import Spinner from '../../../shared/components/Spinner';
+import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
+import {
+  TASK_STATUS_OPTIONS,
+  type newTaskPayload,
+  type TaskStatus,
+} from '../type';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Select from 'react-select';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useProjectMembers } from '../../project-members/hooks/useProjectMembers';
+import { useEpics } from '../../project-epics/hooks/useEpics';
+import { addNewTask } from '../api';
+import { toast } from 'react-toastify';
+
+const taskStatusValues = TASK_STATUS_OPTIONS.map((status) => status.value) as [
+  TaskStatus,
+  ...TaskStatus[],
+];
+
+const newTaskSchema = z.object({
+  title: z.string().min(1, 'Task title is required'),
+  epic_id: z.string().optional(),
+  description: z.string().optional(),
+  assignee_id: z.string().optional(),
+  due_date: z.string().optional(),
+  status: z.enum(taskStatusValues),
+});
+
+type FormInputs = z.infer<typeof newTaskSchema>;
 
 export default function NewTaskForm() {
-  const [loading] = useState(false);
+  const location = useLocation();
+  const epicIdFromState = location.state?.epicId ?? null;
+
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { projectId } = useParams();
+  const { members } = useProjectMembers(projectId);
+  const { epics } = useEpics(projectId);
+
+  const memberOptions = members.map((member) => ({
+    value: member.user_id,
+    label: member.metadata.name,
+  }));
+
+  const epicOptions = epics.map((epic) => ({
+    value: epic.id,
+    label: `${epic.epic_id} ${
+      epic.title.length > 100 ? epic.title.slice(0, 100) + '...' : epic.title
+    }`,
+  }));
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FormInputs>({
+    mode: 'onChange',
+    resolver: zodResolver(newTaskSchema),
+    defaultValues: {
+      status: 'TO_DO',
+      epic_id: epicIdFromState,
+    },
+  });
+
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    if (!projectId) return;
+    const payload: newTaskPayload = {
+      project_id: projectId,
+      title: data.title,
+      status: data.status,
+      due_date: data.due_date || null,
+      epic_id: data.epic_id ?? null,
+      description: data.description ?? null,
+      assignee_id: data.assignee_id ?? null,
+    };
+    try {
+      setLoading(true);
+      await addNewTask(payload);
+      reset();
+      navigate(`/project/${projectId}/tasks`);
+      toast.success('Task Created successfully');
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to create task');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <form
+        onSubmit={handleSubmit(onSubmit)}
         action=""
         className="md:p-6 rounded-lg md:bg-white flex flex-col gap-8 pb-10"
       >
@@ -14,43 +105,130 @@ export default function NewTaskForm() {
           Title
           <input
             type="text"
-            className="input"
+            className={`input ${errors.title && 'input-error'}`}
             placeholder="e.g., Finalize structural schematics"
+            {...register('title')}
           />
+          {errors.title && (
+            <span className="text-error">{errors.title.message}</span>
+          )}
         </label>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <label className="label" htmlFor="">
-            Status
-            <select className="input" name="" id="">
-              <option value="">TO DO</option>
-              <option value="">A</option>
-              <option value="">A</option>
-            </select>
+            status
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      backgroundColor: '#d7e2ff',
+                      borderColor: '#E5E7EB',
+                    }),
+                    valueContainer: (base) => ({
+                      ...base,
+                      padding: '12px 16px',
+                      borderRadius: '4px',
+                    }),
+                  }}
+                  onBlur={field.onBlur}
+                  options={TASK_STATUS_OPTIONS}
+                  placeholder="Select Status"
+                  isClearable={false}
+                  value={
+                    TASK_STATUS_OPTIONS.find(
+                      (option) => option.value === field.value,
+                    ) || null
+                  }
+                  onChange={(option) => field.onChange(option?.value)}
+                />
+              )}
+            />
           </label>
           <label className="label" htmlFor="">
             Assignee
-            <select className="input" name="" id="">
-              <option value="">Select Team Member</option>
-              <option value="">A</option>
-              <option value="">A</option>
-            </select>
+            <Controller
+              name="assignee_id"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      backgroundColor: '#d7e2ff',
+                      borderColor: '#E5E7EB',
+                    }),
+                    valueContainer: (base) => ({
+                      ...base,
+                      padding: '12px 16px',
+                      borderRadius: '4px',
+                    }),
+                  }}
+                  onBlur={field.onBlur}
+                  options={memberOptions}
+                  placeholder="Select a member..."
+                  isClearable
+                  value={
+                    memberOptions.find(
+                      (option) => option.value === field.value,
+                    ) || null
+                  }
+                  onChange={(option) => field.onChange(option?.value || null)}
+                />
+              )}
+            />
           </label>
         </div>
         <label className="label" htmlFor="">
           Epic
-          <select className="input" name="" id="">
-            <option value="">Select Epic Link</option>
-            <option value="">A</option>
-            <option value="">A</option>
-          </select>
+          <Controller
+            name="epic_id"
+            control={control}
+            render={({ field }) => (
+              <Select
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    backgroundColor: '#d7e2ff',
+                    borderColor: '#E5E7EB',
+                  }),
+                  valueContainer: (base) => ({
+                    ...base,
+                    padding: '12px 16px',
+                    borderRadius: '4px',
+                  }),
+                }}
+                onBlur={field.onBlur}
+                options={epicOptions}
+                placeholder="Select a epic..."
+                isClearable
+                value={
+                  epicOptions.find((option) => option.value === field.value) ||
+                  null
+                }
+                onChange={(option) => field.onChange(option?.value || null)}
+              />
+            )}
+          />
         </label>
         <label className="label" htmlFor="">
           Due Date
-          <input className="input" type="date" name="" id="" />
+          <input
+            className="input"
+            type="date"
+            id=""
+            {...register('due_date')}
+          />
         </label>
         <label className="label" htmlFor="">
           Description
-          <textarea name="" id="" className="input h-36 resize-none"></textarea>
+          <textarea
+            {...register('description')}
+            id=""
+            className="input h-36 resize-none"
+          ></textarea>
         </label>
         <div className="flex flex-col md:flex-row-reverse items-center justify-start gap-4 mt-8">
           <div className="w-full md:w-auto">
