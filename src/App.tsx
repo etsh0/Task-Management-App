@@ -11,6 +11,7 @@ import AddProjectPage from './pages/projects/AddProjectPage';
 import Members from './pages/projects/Members';
 import Epics from './pages/projects/Epics';
 import AddEpicPage from './pages/projects/AddEpicPage';
+import AddNewTaskPage from './pages/projects/AddNewTaskPage';
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
               <Route path="epics/new" element={<AddEpicPage />} />
               <Route path="edit" element={<AddProjectPage />} />
               <Route path="tasks" element={<div>tasks</div>} />
+              <Route path="tasks/new" element={<AddNewTaskPage />} />
               <Route path="members" element={<Members />} />
             </Route>
           </Route>

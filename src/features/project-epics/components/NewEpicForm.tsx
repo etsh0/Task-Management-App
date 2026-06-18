@@ -181,7 +181,7 @@ export default function NewEpicForm() {
           <button
             type="button"
             onClick={() => navigate(`/project/${projectId}/epics`)}
-            className="text-[#4F5F7B] text-body-md font-semibold leading-5 cursor-pointer"
+            className="text-[#4F5F7B] text-body-md font-semibold leading-5 py-3 px-6 cursor-pointer"
           >
             Cancel
           </button>
