@@ -28,3 +28,31 @@ export type newTaskPayload = {
   due_date?: string | null;
   status: TaskStatus;
 };
+
+export type EpicTaskAssignee = {
+  id: string;
+  name: string;
+  email: string;
+  department: string | null;
+};
+
+export type EpicTaskEpic = {
+  id: string;
+  epic_id: string;
+  title: string;
+};
+
+export type EpicTask = {
+  id: string;
+  task_id: string;
+  title: string;
+  description: string | null;
+  status: TaskStatus;
+  due_date: string | null;
+  project_id: string;
+  epic_id: string;
+  epic: EpicTaskEpic;
+  assignee: EpicTaskAssignee | null;
+  created_by: EpicTaskAssignee;
+  created_at: string;
+};

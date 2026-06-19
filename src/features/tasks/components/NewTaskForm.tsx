@@ -26,8 +26,22 @@ const newTaskSchema = z.object({
   epic_id: z.string().optional(),
   description: z.string().optional(),
   assignee_id: z.string().optional(),
-  due_date: z.string().optional(),
   status: z.enum(taskStatusValues),
+  due_date: z
+    .string()
+    .optional()
+    .refine(
+      (date) => {
+        if (!date) return true;
+        const selectedDate = new Date(date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return selectedDate >= today;
+      },
+      {
+        message: 'Due Date must be today or in the future',
+      },
+    ),
 });
 
 type FormInputs = z.infer<typeof newTaskSchema>;
@@ -216,11 +230,14 @@ export default function NewTaskForm() {
         <label className="label" htmlFor="">
           Due Date
           <input
-            className="input"
+            className={`input ${errors.due_date && 'input-error'}`}
             type="date"
             id=""
             {...register('due_date')}
           />
+          {errors.due_date && (
+            <span className="text-error">{errors.due_date.message}</span>
+          )}
         </label>
         <label className="label" htmlFor="">
           Description

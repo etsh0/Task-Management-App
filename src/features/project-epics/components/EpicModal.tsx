@@ -2,14 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import CalenderIcon from '../../../assets/icons/CalenderIcon';
 import CloseIcon from '../../../assets/icons/CloseIcon';
 import EpicIcon from '../../../assets/icons/EpicIcon';
-import ListIcon from '../../../assets/icons/ListIcon';
-import Button from '../../../shared/components/Button';
 import { formatDate } from '../../../shared/utils/formatDate';
 // import { useProjectMembers } from '../../project-members/hooks/useProjectMembers';
 import { useEpicDetails } from '../hooks/useEpicDetails';
 import { useUpdateEpic } from '../hooks/useUpdateEpic';
 import type { ProjectEpic } from '../type';
 import { getInitials } from './../../../shared/utils/getInitials';
+import EpicTasksList from '../../tasks/components/EpicTasksList';
+import { useEpicTasks } from '../../tasks/hooks/useEpicTasks';
 
 export default function EpicModal({
   projectId,
@@ -32,7 +32,9 @@ export default function EpicModal({
     onEpicUpdate(updated);
   });
 
+  const { tasks } = useEpicTasks(epicId ?? '');
   if (!epic) return null;
+
   return (
     <>
       <div
@@ -71,7 +73,7 @@ export default function EpicModal({
               <CloseIcon />
             </div>
           </header>
-          <div className="p-8">
+          <div className="p-4 md:p-8">
             {/* Description */}
             <textarea
               disabled={saving}
@@ -153,7 +155,7 @@ export default function EpicModal({
               </div>
             </div>
           </div>
-          <div className="tasks px-8 pb-8">
+          <div className="tasks px-4 md:px-8 pb-8">
             <div className="flex items-center justify-between">
               <h3 className="text-slate-one text-label-sm md:text-title-md leading-7 font-semibold uppercase">
                 Tasks
@@ -170,27 +172,10 @@ export default function EpicModal({
                 + Add Task
               </button>
               <div className="md:hidden text-[10px] font-bold leading-3.75 text-[#434654] bg-surface-low px-2 py-0.5 uppercase rounded-xl">
-                0 Tasks
+                {tasks.length} Tasks
               </div>
             </div>
-            <div className="mt-6 bg-surface-low p-12 rounded-lg border-dashed border-2 border-border flex flex-col gap-4 items-center justify-center">
-              <div className="p-4 bg-surface-highest rounded-xl">
-                <ListIcon />
-              </div>
-              <p className="text-slate-one font-medium leading-6 text-center">
-                No tasks have been added to this epic yet
-              </p>
-              <div
-                onClick={() =>
-                  navigate(`/project/${projectId}/tasks/new`, {
-                    state: { epicId: epic.id },
-                  })
-                }
-                className="w-fit"
-              >
-                <Button>+ Add Task</Button>
-              </div>
-            </div>
+            <EpicTasksList epicId={epic.id} />
           </div>
         </div>
       </div>

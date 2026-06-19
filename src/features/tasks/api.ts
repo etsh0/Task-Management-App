@@ -20,7 +20,27 @@ export const addNewTask = async (payload: newTaskPayload) => {
   if (!res.ok) {
     throw new Error(data.message || 'Failed to create task');
   }
-  console.log(data);
+  return data;
+};
 
+export const getEpicTasks = async (epicId: string) => {
+  const token = getAccessToken();
+  const res = await fetch(
+    config.apiUrl + `/rest/v1/project_tasks?epic_id=eq.${epicId}`,
+    {
+      method: 'GET',
+      headers: {
+        apiKey: config.anonKey,
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch epic tasks');
+  }
+
+  const data = await res.json();
   return data;
 };
