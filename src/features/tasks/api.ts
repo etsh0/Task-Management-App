@@ -1,6 +1,6 @@
 import config from '../../config/env';
 import { getAccessToken } from '../auth/Login/cookie';
-import type { newTaskPayload } from './type';
+import type { newTaskPayload, TaskStatus } from './type';
 
 export const addNewTask = async (payload: newTaskPayload) => {
   const token = getAccessToken();
@@ -43,4 +43,28 @@ export const getEpicTasks = async (epicId: string) => {
 
   const data = await res.json();
   return data;
+};
+
+export const getTasksByStatus = async (
+  projectId: string,
+  status: TaskStatus,
+) => {
+  const token = getAccessToken();
+  const res = await fetch(
+    config.apiUrl +
+      `/rest/v1/project_tasks?project_id=eq.${projectId}&status=eq.${status}`,
+    {
+      method: 'GET',
+      headers: {
+        apiKey: config.anonKey,
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch tasks');
+  }
+  return res.json();
 };

@@ -49,6 +49,7 @@ type FormInputs = z.infer<typeof newTaskSchema>;
 export default function NewTaskForm() {
   const location = useLocation();
   const epicIdFromState = location.state?.epicId ?? null;
+  const defaultStatus = (location.state?.status as TaskStatus) ?? 'TO_DO';
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ export default function NewTaskForm() {
     mode: 'onChange',
     resolver: zodResolver(newTaskSchema),
     defaultValues: {
-      status: 'TO_DO',
+      status: defaultStatus,
       epic_id: epicIdFromState,
     },
   });

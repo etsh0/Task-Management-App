@@ -7,7 +7,7 @@ export const STATUS_CONFIG: Record<
   TO_DO: {
     label: 'To Do',
     dotColor: 'bg-[#94A3B8]',
-    badgeColor: 'bg-[#E7EBF3] text-[#51617E]',
+    badgeColor: 'bg-[#E7EBF3] text-[#64748B]',
   },
   IN_PROGRESS: {
     label: 'In Progress',
