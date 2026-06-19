@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import CalenderIcon from '../../../assets/icons/CalenderIcon';
 import CloseIcon from '../../../assets/icons/CloseIcon';
 import EpicIcon from '../../../assets/icons/EpicIcon';
@@ -23,6 +24,7 @@ export default function EpicModal({
 }) {
   const { epic, setEpic } = useEpicDetails(projectId ?? '', epicId ?? '');
   // const {members} = useProjectMembers(projectId)
+  const navigate = useNavigate();
 
   // const [assigneeEditMode, setAssigneeEditMode] = useState(false);
   const { handleUpdate, saving } = useUpdateEpic(epic, (updated) => {
@@ -157,8 +159,13 @@ export default function EpicModal({
                 Tasks
               </h3>
               <button
+                onClick={() =>
+                  navigate(`/project/${projectId}/tasks/new`, {
+                    state: { epicId: epic.id },
+                  })
+                }
                 type="button"
-                className="text-primary text-body-md font-semibold leading-5 hidden md:block"
+                className="text-primary text-body-md font-semibold leading-5 hidden md:block cursor-pointer"
               >
                 + Add Task
               </button>
@@ -173,7 +180,14 @@ export default function EpicModal({
               <p className="text-slate-one font-medium leading-6 text-center">
                 No tasks have been added to this epic yet
               </p>
-              <div className="w-fit">
+              <div
+                onClick={() =>
+                  navigate(`/project/${projectId}/tasks/new`, {
+                    state: { epicId: epic.id },
+                  })
+                }
+                className="w-fit"
+              >
                 <Button>+ Add Task</Button>
               </div>
             </div>

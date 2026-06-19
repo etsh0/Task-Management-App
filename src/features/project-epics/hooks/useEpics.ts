@@ -30,6 +30,8 @@ export function useEpics(projectId?: string) {
         });
 
         setEpics(data.data);
+        // console.log(data.data);
+
         setTotalCount(data.totalCount);
       } catch (error) {
         setError((error as Error).message);
