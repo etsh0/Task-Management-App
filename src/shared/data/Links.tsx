@@ -21,7 +21,7 @@ export const Links: linkItem[] = [
   {
     name: 'Project Tasks',
     mobileName: 'Tasks',
-    path: 'tasks',
+    path: 'tasks?view=board',
     icon: <ProjectTaskIcon />,
   },
   {
