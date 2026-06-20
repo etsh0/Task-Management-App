@@ -3,16 +3,18 @@ import RightCheck from '../../assets/icons/RightCheck';
 import TipIcon from '../../assets/icons/TipIcon';
 import ProjectForm from '../../features/projects/components/addProject/ProjectForm';
 import Header from '../../shared/components/Header';
+import { useBreadcrumb } from '../../shared/hooks/useBreadcrumb';
 import type { RootState } from '../../store/store';
 
 export default function AddProjectPage() {
   const { selectedProject } = useSelector((state: RootState) => state.projects);
+  const breadcrumb = useBreadcrumb();
   return (
     <>
       <section className="px-8 pt-8 pb-41.25">
         <Header
           title={`${selectedProject ? 'Edit Project' : 'Add New Project'}`}
-          breadcrumb={`${selectedProject ? 'Edit Project' : 'Add New Project'}`}
+          breadcrumb={breadcrumb}
           btnText="Invite Member"
         />
         <div className="flex flex-col max-w-168.25 bg-[#FFFFFF] mx-auto px-8 pt-8">

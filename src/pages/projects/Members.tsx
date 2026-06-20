@@ -6,10 +6,12 @@ import { useProjectMembers } from '../../features/project-members/hooks/useProje
 import Button from '../../shared/components/Button';
 import ErrorState from '../../shared/components/ErrorState';
 import Header from '../../shared/components/Header';
+import { useBreadcrumb } from '../../shared/hooks/useBreadcrumb';
 
 export default function Members() {
   const { projectId } = useParams();
   const { loading, error } = useProjectMembers(projectId);
+  const breadcrumb = useBreadcrumb();
 
   if (error)
     return (
@@ -23,7 +25,7 @@ export default function Members() {
         <section className="px-8 pt-8 pb-41.25">
           <Header
             title="Project Members"
-            breadcrumb="Members"
+            breadcrumb={breadcrumb}
             btnText="Invite Member"
           />
           <div className=" md:bg-[#F1F3FF] mx-auto rounded-lg">

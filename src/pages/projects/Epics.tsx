@@ -10,11 +10,13 @@ import ErrorState from '../../shared/components/ErrorState';
 import Pagination from '../../shared/components/Pagination';
 import { useState } from 'react';
 import EpicModal from '../../features/project-epics/components/EpicModal';
+import { useBreadcrumb } from '../../shared/hooks/useBreadcrumb';
 
 export default function Epics() {
   const navigate = useNavigate();
   const { projectId } = useParams<{ projectId: string }>();
   const [selectedEpic, setSelectedEpic] = useState<string | null>(null);
+  const breadcrumb = useBreadcrumb();
 
   const {
     epics,
@@ -43,7 +45,7 @@ export default function Epics() {
           <div className="hidden md:block">
             <Header
               title="Project Epics"
-              breadcrumb="Epics"
+              breadcrumb={breadcrumb}
               btnText="New Epic"
               onClick={() => navigate(`/project/${projectId}/epics/new`)}
             >
