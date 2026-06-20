@@ -1,25 +1,28 @@
 import { toast } from 'react-toastify';
-import { updateEpic } from '../api';
+import { getEpicDetails, updateEpic } from '../api';
 import type { ProjectEpic, UpdateEpicPayload } from '../type';
 import { useState } from 'react';
 
 export const useUpdateEpic = (
   epic: ProjectEpic | null,
+  projectId: string,
   onUpdate: (updated: ProjectEpic) => void,
 ) => {
   const [saving, setSaving] = useState(false);
   const handleUpdate = async (payload: UpdateEpicPayload) => {
     if (!epic) return;
 
-    const previous = { ...epic };
-    onUpdate({ ...epic, ...payload });
     try {
       setSaving(true);
-      await updateEpic(epic.id, payload);
+      const [, freshEpic] = await Promise.all([
+        updateEpic(epic.id, payload),
+        getEpicDetails(projectId, epic.id),
+      ]);
+
+      onUpdate(freshEpic);
       toast.success('Epic updated successfully');
     } catch (error) {
       console.log(error);
-      onUpdate(previous);
       toast.error('Failed to update epic. Please try again.');
     } finally {
       setSaving(false);

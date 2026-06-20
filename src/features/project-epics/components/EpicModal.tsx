@@ -3,13 +3,15 @@ import CalenderIcon from '../../../assets/icons/CalenderIcon';
 import CloseIcon from '../../../assets/icons/CloseIcon';
 import EpicIcon from '../../../assets/icons/EpicIcon';
 import { formatDate } from '../../../shared/utils/formatDate';
-// import { useProjectMembers } from '../../project-members/hooks/useProjectMembers';
+import { useProjectMembers } from '../../project-members/hooks/useProjectMembers';
 import { useEpicDetails } from '../hooks/useEpicDetails';
 import { useUpdateEpic } from '../hooks/useUpdateEpic';
 import type { ProjectEpic } from '../type';
 import { getInitials } from './../../../shared/utils/getInitials';
 import EpicTasksList from '../../tasks/components/EpicTasksList';
 import { useEpicTasks } from '../../tasks/hooks/useEpicTasks';
+import { useState } from 'react';
+import Select from 'react-select';
 
 export default function EpicModal({
   projectId,
@@ -23,14 +25,23 @@ export default function EpicModal({
   onEpicUpdate: (updated: ProjectEpic) => void;
 }) {
   const { epic, setEpic } = useEpicDetails(projectId ?? '', epicId ?? '');
-  // const {members} = useProjectMembers(projectId)
   const navigate = useNavigate();
+  const { members } = useProjectMembers(projectId);
 
-  // const [assigneeEditMode, setAssigneeEditMode] = useState(false);
-  const { handleUpdate, saving } = useUpdateEpic(epic, (updated) => {
-    setEpic(updated);
-    onEpicUpdate(updated);
-  });
+  const memberOptions = members.map((member) => ({
+    value: member.user_id,
+    label: member.metadata.name,
+  }));
+
+  const [editingAssignee, setEditingAssignee] = useState(false);
+  const { handleUpdate, saving } = useUpdateEpic(
+    epic,
+    projectId ?? '',
+    (updated) => {
+      setEpic(updated);
+      onEpicUpdate(updated);
+    },
+  );
 
   const { tasks } = useEpicTasks(epicId ?? '');
   if (!epic) return null;
@@ -105,17 +116,56 @@ export default function EpicModal({
                 <span className="text-slate-one/40 text-[10px] leading-3.75 uppercase font-bold">
                   Assignee
                 </span>
-                {epic?.assignee?.name ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 bg-[#CDDDFF] flex items-center justify-center rounded-xl text-[#51617E] text-[10px] font-bold leading-5">
-                      {getInitials(epic.assignee.name)}
-                    </div>
-                    <span className="text-slate-one text-body-md leading-5 font-medium">
-                      {epic.assignee.name}
-                    </span>
-                  </div>
+
+                {editingAssignee ? (
+                  <Select
+                    autoFocus
+                    options={memberOptions}
+                    isClearable
+                    placeholder="Select assignee..."
+                    value={
+                      memberOptions.find(
+                        (opt) => opt.value === epic.assignee?.sub,
+                      ) ?? null
+                    }
+                    onChange={async (option) => {
+                      await handleUpdate({
+                        assignee_id: option?.value ?? null,
+                      });
+                      setEditingAssignee(false);
+                    }}
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        backgroundColor: '#d7e2ff',
+                        borderColor: '#E5E7EB',
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        fontSize: '12px',
+                      }),
+                    }}
+                  />
                 ) : (
-                  <span className="text-slate-one">Unassigned</span>
+                  <div
+                    onClick={() => setEditingAssignee(true)}
+                    className="cursor-pointer"
+                  >
+                    {epic?.assignee?.name ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 bg-[#CDDDFF] flex items-center justify-center rounded-xl text-[#51617E] text-[10px] font-bold leading-5">
+                          {getInitials(epic.assignee.name)}
+                        </div>
+                        <span className="text-slate-one text-body-md leading-5 font-medium">
+                          {epic.assignee.name}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-slate-one hover:text-primary">
+                        Unassigned
+                      </span>
+                    )}
+                  </div>
                 )}
               </div>
               {epic?.created_at && (

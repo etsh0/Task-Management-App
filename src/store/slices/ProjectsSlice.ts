@@ -108,6 +108,7 @@ export const updateProject = createAsyncThunk(
           apiKey: config.anonKey,
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
+          Prefer: 'return=representation',
         },
         body: JSON.stringify(payload.data),
       },
