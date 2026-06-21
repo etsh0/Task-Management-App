@@ -149,7 +149,7 @@ export default function Form() {
               </div>
             </div>
             <div className="hidden md:flex flex-col gap-3 justify-center items-center">
-              <p className="text-[#434654] uppercase text-label-sm font-bold leading-[16.5px] tracking-[0.55px]">
+              <p className="text-neutral uppercase text-label-sm font-bold leading-[16.5px] tracking-[0.55px]">
                 Didn't receive the email?
               </p>
               <button

@@ -16,7 +16,7 @@ export default function MemberInfo({ name, email }: props) {
           <span className="text-body-md text-primary font-semibold leading-5">
             {name}
           </span>
-          <span className="text-label-sm text-[#434654] leading-4">
+          <span className="text-label-sm text-neutral leading-4">
             {email}
           </span>
         </div>

@@ -16,7 +16,7 @@ export default function EmptyStateCard({ title, p, icon }: props) {
         <h3 className="text-slate-one text-[16px] leading-6 font-semibold">
           {title}
         </h3>
-        <p className="text-[#434654] text-[12px] leading-5 text-left">{p}</p>
+        <p className="text-neutral text-[12px] leading-5 text-left">{p}</p>
       </div>
     </>
   );

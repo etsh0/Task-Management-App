@@ -13,7 +13,7 @@ export default function ProjectsEmptyState() {
             <h1 className="text-headline-lg text-slate-one font-semibold leading-10 tracking-[-0.9px] mb-4">
               No Projects
             </h1>
-            <p className="text-[15px] md:text-title-md text-[#434654] leading-[29.25px] max-w-md">
+            <p className="text-[15px] md:text-title-md text-neutral leading-[29.25px] max-w-md">
               You don’t have any projects yet. Start by defining your first
               architectural workspace to begin tracking tasks and epics.
             </p>

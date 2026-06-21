@@ -44,7 +44,7 @@ export default function StatusColumn({ status }: { status: TaskStatus }) {
         <button
           type="button"
           onClick={handleAddTask}
-          className="flex items-center justify-center gap-2 border-2 border-dashed border-border rounded-lg py-4 text-[#43465499] font-bold text-[12px] uppercase leading-4 tracking-[1.2px] hover:border-primary hover:text-primary transition-colors cursor-pointer"
+          className="flex items-center justify-center gap-2 border-2 border-dashed border-border rounded-lg py-4 text-neutral/60 font-bold text-[12px] uppercase leading-4 tracking-[1.2px] hover:border-primary hover:text-primary transition-colors cursor-pointer"
         >
           <PlusIcon /> Add New Task
         </button>

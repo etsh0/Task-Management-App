@@ -58,7 +58,7 @@ export default function EpicTasksList({ epicId }: { epicId: string }) {
                 state: { epicId: epicId },
               })
             }
-            className="md:hidden py-4 flex items-center justify-center gap-2 rounded-lg border-dashed border-border uppercase text-label-sm text-[#43465499] font-bold leading-4 tracking-[1.2px]"
+            className="md:hidden py-4 flex items-center justify-center gap-2 rounded-lg border-dashed border-border uppercase text-label-sm text-neutral/60 font-bold leading-4 tracking-[1.2px]"
           >
             <PlusIcon />
             Add New Task

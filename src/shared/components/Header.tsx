@@ -30,12 +30,12 @@ export default function Header({
                   ) : item.href ? (
                     <Link
                       to={item.href}
-                      className="text-[#43465499] hover:text-primary transition-colors"
+                      className="text-neutral/60 hover:text-primary transition-colors"
                     >
                       {item.label}
                     </Link>
                   ) : (
-                    <span className="text-[#43465499]">{item.label}</span>
+                    <span className="text-neutral/60">{item.label}</span>
                   )}
                 </span>
               );

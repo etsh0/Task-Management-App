@@ -123,7 +123,7 @@ export default function Form() {
           </div>
           <div className="password-validation w-full bg-surface-highest rounded-lg p-5 ">
             <div className="pb-2 border-b border-border">
-              <h2 className="text-label-sm text-[#434654] font-bold uppercase ">
+              <h2 className="text-label-sm text-neutral font-bold uppercase ">
                 Security Requirements
               </h2>
             </div>

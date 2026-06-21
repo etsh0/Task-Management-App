@@ -17,7 +17,7 @@ export default function ProjectEpicsEmptyState() {
             <h1 className="text-headline-lg text-slate-one font-semibold leading-10 tracking-[-0.9px] mb-4">
               No epics in this project yet.
             </h1>
-            <p className="text-[15px] md:text-title-md text-[#434654] leading-[29.25px] max-w-md">
+            <p className="text-[15px] md:text-title-md text-neutral leading-[29.25px] max-w-md">
               Break down your large project into manageable epics to track
               progress better and maintain architectural clarity.
             </p>

@@ -14,13 +14,13 @@ export default function Table() {
       <table className="w-full hidden md:table">
         <thead className="bg-surface-highest">
           <tr className="">
-            <th className="py-5 px-8 text-left uppercase text-[#434654] text-label-sm font-bold tracking-[1.1px]">
+            <th className="py-5 px-8 text-left uppercase text-neutral text-label-sm font-bold tracking-[1.1px]">
               member
             </th>
-            <th className="py-5 px-8 uppercase text-[#434654] text-label-sm font-bold tracking-[1.1px]">
+            <th className="py-5 px-8 uppercase text-neutral text-label-sm font-bold tracking-[1.1px]">
               role
             </th>
-            <th className="py-5 px-8 uppercase text-[#434654] text-label-sm font-bold tracking-[1.1px]">
+            <th className="py-5 px-8 uppercase text-neutral text-label-sm font-bold tracking-[1.1px]">
               actions
             </th>
           </tr>

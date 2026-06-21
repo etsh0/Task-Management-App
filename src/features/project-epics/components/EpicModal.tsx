@@ -221,7 +221,7 @@ export default function EpicModal({
               >
                 + Add Task
               </button>
-              <div className="md:hidden text-[10px] font-bold leading-3.75 text-[#434654] bg-surface-low px-2 py-0.5 uppercase rounded-xl">
+              <div className="md:hidden text-[10px] font-bold leading-3.75 text-neutral bg-surface-low px-2 py-0.5 uppercase rounded-xl">
                 {tasks.length} Tasks
               </div>
             </div>

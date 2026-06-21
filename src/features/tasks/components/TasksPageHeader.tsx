@@ -53,12 +53,12 @@ export default function TasksPageHeader() {
                   ) : item.href ? (
                     <Link
                       to={item.href}
-                      className="text-[#43465499] hover:text-primary transition-colors"
+                      className="text-neutral/60 hover:text-primary transition-colors"
                     >
                       {item.label}
                     </Link>
                   ) : (
-                    <span className="text-[#43465499]">{item.label}</span>
+                    <span className="text-neutral/60">{item.label}</span>
                   )}
                 </span>
               );
@@ -67,7 +67,7 @@ export default function TasksPageHeader() {
           <h2 className="text-headline-lg text-slate-one font-semibold leading-9 tracking-[-0.75px]">
             Active Workboard
           </h2>
-          <p className="text-[#434654]">
+          <p className="text-neutral">
             Curating Project Alpha's production pipeline and milestones.
           </p>
         </div>
