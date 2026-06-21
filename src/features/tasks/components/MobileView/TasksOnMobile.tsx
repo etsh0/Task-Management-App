@@ -4,9 +4,10 @@ import SearchInput from '../../../../shared/components/SearchInput';
 import { useAllTasks } from '../../hooks/useAllTasks';
 import type { EpicTask } from '../../type';
 import TaskItem from './TaskItem';
+import TasksOnMobileSkeleton from './TasksOnMobileSkeleton';
 
 export default function TasksOnMobile() {
-  const { tasks } = useAllTasks();
+  const { tasks, loading } = useAllTasks();
   const { projectId } = useParams();
   const navigate = useNavigate();
   return (
@@ -21,11 +22,15 @@ export default function TasksOnMobile() {
             <Button>+ Create Task</Button>
           </div>
         </header>
-        <div className="flex flex-col gap-3 mt-6 pb-15">
-          {tasks.map((task: EpicTask) => (
-            <TaskItem key={task.id} task={task} />
-          ))}
-        </div>
+        {loading ? (
+          <TasksOnMobileSkeleton />
+        ) : (
+          <div className="flex flex-col gap-3 mt-6 pb-15">
+            {tasks.map((task: EpicTask) => (
+              <TaskItem key={task.id} task={task} />
+            ))}
+          </div>
+        )}
       </section>
     </>
   );
