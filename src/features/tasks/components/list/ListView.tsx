@@ -1,6 +1,13 @@
 import ThreeDots2 from '../../../../assets/icons/ThreeDots2';
+import UnassignedIcon from '../../../../assets/icons/UnassignedIcon';
+import { STATUS_CONFIG } from '../../../../shared/constants/statusConfig';
+import { formatDate } from '../../../../shared/utils/formatDate';
+import { getInitials } from '../../../../shared/utils/getInitials';
+import { useAllTasks } from '../../hooks/useAllTasks';
+import type { EpicTask } from '../../type';
 
 export default function ListView() {
+  const { tasks } = useAllTasks();
   return (
     <>
       <table className="w-full">
@@ -25,29 +32,41 @@ export default function ListView() {
           </tr>
         </thead>
         <tbody className="bg-white">
-          <tr>
-            <td className="py-4 px-6 text-[12px] text-primary leading-4 uppercase">
-              TASK-125
-            </td>
-            <td className="py-4 px-6 text-body-md text-slate-one font-medium">
-              Develop responsive bento grid components
-            </td>
-            <td className="py-4 px-6 ">
-              <div className="bg-[#CDDDFF] text-center text-[#374763] uppercase py-1 px-2 rounded-xs text-label-sm font-bold">
-                IN PROGRESS
-              </div>
-            </td>
-            <td className="py-4 px-6 text-neutral text-body-md">25 Oct 2025</td>
-            <td className="py-4 px-6 flex items-center gap-3">
-              <div className="bg-[#DAE2FF] w-7 h-7 rounded-xl flex items-center justify-center text-slate-one text-label-sm font-bold">
-                JD
-              </div>
-              <span className="text-body-md text-slate-one">John Doe</span>
-            </td>
-            <td className="py-4 px-6">
-              <ThreeDots2 />
-            </td>
-          </tr>
+          {tasks.map((task: EpicTask) => (
+            <tr key={task.id}>
+              <td className="py-4 px-6 text-[12px] text-primary leading-4 uppercase">
+                {task.task_id}
+              </td>
+              <td className="py-4 px-6 text-body-md text-slate-one font-medium">
+                {task.title}
+              </td>
+              <td className="py-4 px-6 ">
+                <div
+                  className={`bg-[#CDDDFF] text-center text-[#374763] ${STATUS_CONFIG[task.status].badgeColor} uppercase py-1 px-2 rounded-xs text-label-sm font-bold`}
+                >
+                  {task.status}
+                </div>
+              </td>
+              <td className="py-4 px-6 text-neutral text-body-md">
+                {task.due_date ? formatDate(task.due_date) : 'No due date'}
+              </td>
+              <td className="py-4 px-6 flex items-center gap-3">
+                <div className="bg-[#DAE2FF] w-7 h-7 rounded-xl flex items-center justify-center text-slate-one text-label-sm font-bold">
+                  {task.assignee?.name ? (
+                    getInitials(task.assignee.name)
+                  ) : (
+                    <UnassignedIcon />
+                  )}
+                </div>
+                <span className="text-body-md text-slate-one">
+                  {task.assignee?.name || 'Unassigned'}
+                </span>
+              </td>
+              <td className="py-4 px-6">
+                <ThreeDots2 />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </>
