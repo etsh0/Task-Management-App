@@ -1,3 +1,5 @@
+import ThreeDots2 from '../../../../assets/icons/ThreeDots2';
+
 export default function ListView() {
   return (
     <>
@@ -19,6 +21,7 @@ export default function ListView() {
             <th className="py-4 px-6 text-left text-label-sm text-neutral font-bold tracking-[0.55px] uppercase">
               Assignee
             </th>
+            <th></th>
           </tr>
         </thead>
         <tbody className="bg-white">
@@ -34,14 +37,15 @@ export default function ListView() {
                 IN PROGRESS
               </div>
             </td>
-            <td className="py-4 px-6 text-neutral text-body-md">
-              25 Oct 2025
-            </td>
+            <td className="py-4 px-6 text-neutral text-body-md">25 Oct 2025</td>
             <td className="py-4 px-6 flex items-center gap-3">
               <div className="bg-[#DAE2FF] w-7 h-7 rounded-xl flex items-center justify-center text-slate-one text-label-sm font-bold">
                 JD
               </div>
               <span className="text-body-md text-slate-one">John Doe</span>
+            </td>
+            <td className="py-4 px-6">
+              <ThreeDots2 />
             </td>
           </tr>
         </tbody>
