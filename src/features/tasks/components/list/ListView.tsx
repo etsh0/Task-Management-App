@@ -58,7 +58,7 @@ export default function ListView() {
                 {task.due_date ? formatDate(task.due_date) : 'No due date'}
               </td>
               <td className="py-4 px-6 flex items-center gap-3">
-                <div className="bg-[#DAE2FF] w-7 h-7 rounded-xl flex items-center justify-center text-slate-one text-label-sm font-bold">
+                <div className="bg-[#DAE2FF] w-7 h-7 rounded-xl flex items-center uppercase justify-center text-slate-one text-label-sm font-bold">
                   {task.assignee?.name ? (
                     getInitials(task.assignee.name)
                   ) : (
