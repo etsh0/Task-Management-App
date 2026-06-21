@@ -9,7 +9,7 @@ type ValidationItemProps = {
 export default function ValidationItem({ isValid, text }: ValidationItemProps) {
   return (
     <>
-      <div className="text-label-sm text-[#434654] leading-[16.5px] flex items-center gap-2">
+      <div className="text-label-sm text-neutral leading-[16.5px] flex items-center gap-2">
         {isValid ? <CheckIcon /> : <UncheckedIcon />}
         {text}
       </div>

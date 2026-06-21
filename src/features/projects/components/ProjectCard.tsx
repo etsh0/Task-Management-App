@@ -38,7 +38,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             </button>
           </div>
 
-          <p className="text-[#434654] text-body-md leading-[22.75px]">
+          <p className="text-neutral text-body-md leading-[22.75px]">
             {project.description}
           </p>
         </div>
@@ -46,7 +46,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           <span className="uppercase text-label-sm font-bold text-[#737685] leading-[16.5px] tracking-[-0.55px]">
             CREATED AT
           </span>
-          <span className="text-body-md leading-5 font-medium text-[#434654]">
+          <span className="text-body-md leading-5 font-medium text-neutral">
             {formatDate(project.created_at)}
           </span>
         </div>

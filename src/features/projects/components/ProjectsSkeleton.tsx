@@ -8,7 +8,7 @@ export default function ProjectsSkeleton() {
             <h2 className="text-[30px] text-slate-one font-semibold leading-9 tracking-[-0.75px]">
               Projects
             </h2>
-            <p className="text-[16px] leading-6 text-[#434654]">
+            <p className="text-[16px] leading-6 text-neutral">
               Manage and curate your projects
             </p>
           </div>

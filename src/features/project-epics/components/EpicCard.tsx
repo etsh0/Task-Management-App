@@ -35,7 +35,7 @@ export default function EpicCard({
             {epic.assignee?.name ? getInitials(epic.assignee?.name) : 'UN'}
           </div>
           <div className="flex flex-col">
-            <span className="text-[#434654] text-label-sm font-medium leading-4">
+            <span className="text-neutral text-label-sm font-medium leading-4">
               Assignee
             </span>
             <span className="text-body-md text-slate-one leading-5 font-semibold">
@@ -46,7 +46,7 @@ export default function EpicCard({
         <div className="pt-4 border-t border-border flex items-center justify-between">
           <div className="flex items-center gap-2">
             <CreatedbyIcon />
-            <div className="text-[#434654CC] text-label-sm font-semibold">
+            <div className="text-neutral/80 text-label-sm font-semibold">
               Created by:{' '}
               <span className="text-slate-one text-label-sm font-semibold">
                 {epic.created_by.name}
@@ -55,7 +55,7 @@ export default function EpicCard({
           </div>
           <div className="flex items-center gap-2">
             <CalenderIcon />
-            <span className="text-[#434654CC] text-label-sm">
+            <span className="text-neutral/80 text-label-sm">
               {formatDate(epic.created_at)}
             </span>
           </div>

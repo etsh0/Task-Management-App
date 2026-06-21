@@ -55,7 +55,7 @@ export default function ProjectsPage() {
               <h2 className="text-[30px] text-slate-one font-semibold leading-9 tracking-[-0.75px]">
                 Projects
               </h2>
-              <p className="text-[16px] leading-6 text-[#434654]">
+              <p className="text-[16px] leading-6 text-neutral">
                 Manage and curate your projects
               </p>
             </div>
@@ -73,7 +73,7 @@ export default function ProjectsPage() {
           {totalPages > 1 && (
             <div className="pagination items-center justify-between py-12 px-8 hidden md:flex">
               <div>
-                <p className="text-[12px] text-[#434654] font-medium leading-4.5">
+                <p className="text-[12px] text-neutral font-medium leading-4.5">
                   Showing {projects.length} of {totalCount} active projects
                 </p>
               </div>

@@ -139,7 +139,7 @@ export default function Form() {
           </div>
           <div className="flex justify-between">
             <label
-              className="flex items-center gap-2 text-body-md leading-5 font-medium text-[#434654]"
+              className="flex items-center gap-2 text-body-md leading-5 font-medium text-neutral"
               htmlFor="remember_me"
             >
               <input

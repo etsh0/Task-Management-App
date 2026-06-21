@@ -65,7 +65,7 @@ export default function Epics() {
           {totalPages > 1 && (
             <div className="pagination items-center justify-between py-12 px-8 hidden md:flex">
               <div>
-                <p className="text-[12px] text-[#434654] font-medium leading-4.5">
+                <p className="text-[12px] text-neutral font-medium leading-4.5">
                   Showing {epics.length} of {totalCount} epics
                 </p>
               </div>

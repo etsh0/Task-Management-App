@@ -16,7 +16,7 @@ export default function ErrorState({ text }: ErrorStateProps) {
         <h1 className="text-headline-lg text-slate-one font-semibold leading-10 tracking-[-0.9px] mb-4">
           Something went wrong
         </h1>
-        <p className="text-title-md text-[#434654] leading-[29.25px] w-108.5">
+        <p className="text-title-md text-neutral leading-[29.25px] w-108.5">
           {text}
         </p>
         <div>

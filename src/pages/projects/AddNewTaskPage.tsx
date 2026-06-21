@@ -7,7 +7,7 @@ export default function AddNewTaskPage() {
   return (
     <section className="px-6 lg:px-12 pt-8 pb-12 md:py-10">
       <Header title="Create New Task" breadcrumb={breadcrumb} btnText="" />
-      <p className="text-[#434654] -mt-6 mb-8">
+      <p className="text-neutral -mt-6 mb-8">
         Initialize a new work item within the Architectural Workspace ecosystem.
       </p>
       <div className="mt-8">

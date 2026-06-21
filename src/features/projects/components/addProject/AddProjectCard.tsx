@@ -22,7 +22,7 @@ export default function AddProjectCard() {
           <div className="bg-surface-low w-12 h-12 flex items-center justify-center rounded-xl">
             <PlusIcon />
           </div>
-          <span className="uppercase text-body-md text-[#434654] leading-5 tracking-[1.4px] font-bold">
+          <span className="uppercase text-body-md text-neutral leading-5 tracking-[1.4px] font-bold">
             Add Project
           </span>
         </button>
