@@ -3,6 +3,7 @@ import TasksPageHeader from '../../features/tasks/components/TasksPageHeader';
 import BoardView from '../../features/tasks/components/kanban/BoardView';
 import ListView from '../../features/tasks/components/list/ListView';
 import TasksOnMobile from '../../features/tasks/components/MobileView/TasksOnMobile';
+import TaskDetailsModal from '../../features/tasks/TaskDetailsModal';
 
 export default function TasksPage() {
   const [searchParams] = useSearchParams();
@@ -24,6 +25,7 @@ export default function TasksPage() {
       <div className="mobile lg:hidden py-8 px-4">
         <TasksOnMobile />
       </div>
+      <TaskDetailsModal />
     </>
   );
 }
