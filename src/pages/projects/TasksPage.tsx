@@ -3,7 +3,7 @@ import TasksPageHeader from '../../features/tasks/components/TasksPageHeader';
 import BoardView from '../../features/tasks/components/kanban/BoardView';
 import ListView from '../../features/tasks/components/list/ListView';
 import TasksOnMobile from '../../features/tasks/components/MobileView/TasksOnMobile';
-import TaskDetailsModal from '../../features/tasks/TaskDetailsModal';
+import TaskDetailsModal from '../../features/tasks/components/TaskDetailsModal';
 
 export default function TasksPage() {
   const [searchParams] = useSearchParams();

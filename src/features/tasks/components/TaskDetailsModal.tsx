@@ -1,8 +1,17 @@
-import CopyIcon from '../../assets/icons/CopyIcon';
-import EpicIcon from '../../assets/icons/EpicIcon';
+import { useDispatch, useSelector } from 'react-redux';
+import CopyIcon from '../../../assets/icons/CopyIcon';
+import EpicIcon from '../../../assets/icons/EpicIcon';
 import Select from 'react-select';
+import type { AppDispatch, RootState } from '../../../store/store';
+import { closeTaskPopup } from '../../../store/slices/taskDetailsSlice';
 
 export default function TaskDetailsModal() {
+  const { selectedTaskId } = useSelector(
+    (state: RootState) => state.taskDetails,
+  );
+  const dispatch = useDispatch<AppDispatch>();
+
+  if (!selectedTaskId) return null;
   return (
     <>
       <div className="fixed inset-0 backdrop-blur-xs flex justify-center items-center z-100 bg-black/40 ">
@@ -45,6 +54,7 @@ export default function TaskDetailsModal() {
               </button>
               <div className="bg-surface-highest py-2 px-4 rounded-sm">
                 <button
+                  onClick={() => dispatch(closeTaskPopup())}
                   type="button"
                   className="text-slate-one text-body-md font-semibold leading-5 cursor-pointer"
                 >
