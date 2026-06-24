@@ -147,10 +147,14 @@ export default function TaskDetailsModal() {
               </h5>
               <div className="flex items-center gap-3 ">
                 <div className="w-7 h-7 flex items-center justify-center rounded-xl bg-surface-highest uppercase text-slate-one text-label-sm font-bold">
-                  Mt
+                  {task.created_by?.name ? (
+                    getInitials(task.created_by.name)
+                  ) : (
+                    <UnassignedIcon />
+                  )}
                 </div>
                 <span className="text-slate-one font-semibold text-body-md leading-5 capitalize">
-                  Ahmed Hesham
+                  {task.created_by.name}
                 </span>
               </div>
             </div>
