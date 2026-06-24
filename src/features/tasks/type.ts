@@ -26,7 +26,7 @@ export type newTaskPayload = {
   description?: string | null;
   assignee_id?: string | null;
   due_date?: string | null;
-  status: TaskStatus;
+  status?: TaskStatus;
 };
 
 export type EpicTaskAssignee = {

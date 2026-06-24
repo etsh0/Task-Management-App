@@ -23,10 +23,10 @@ const taskStatusValues = TASK_STATUS_OPTIONS.map((status) => status.value) as [
 
 const newTaskSchema = z.object({
   title: z.string().min(1, 'Task title is required'),
-  epic_id: z.string().optional(),
+  epic_id: z.string().nullable().optional(),
   description: z.string().optional(),
-  assignee_id: z.string().optional(),
-  status: z.enum(taskStatusValues),
+  assignee_id: z.string().nullable().optional(),
+  status: z.enum(taskStatusValues).nullable().optional(),
   due_date: z
     .string()
     .optional()
@@ -86,10 +86,11 @@ export default function NewTaskForm() {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     if (!projectId) return;
+    console.log(data);
     const payload: newTaskPayload = {
       project_id: projectId,
       title: data.title,
-      status: data.status,
+      status: data.status || 'TO_DO',
       due_date: data.due_date || null,
       epic_id: data.epic_id ?? null,
       description: data.description ?? null,
@@ -113,7 +114,6 @@ export default function NewTaskForm() {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        action=""
         className="md:p-6 rounded-lg md:bg-white flex flex-col gap-8 pb-10"
       >
         <label className="label" htmlFor="">
@@ -157,7 +157,7 @@ export default function NewTaskForm() {
                       (option) => option.value === field.value,
                     ) || null
                   }
-                  onChange={(option) => field.onChange(option?.value)}
+                  onChange={(option) => field.onChange(option?.value ?? null)}
                 />
               )}
             />
