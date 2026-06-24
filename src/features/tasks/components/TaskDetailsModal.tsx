@@ -65,7 +65,7 @@ export default function TaskDetailsModal() {
                 Description
               </h4>
               <p className="mt-3 leading-[22.75px] text-body-md text-slate-one max-w-lg">
-                {task.description}
+                {task.description ? task.description : 'No description'}
               </p>
             </div>
             <div className="flex items-center justify-between bg-surface-low py-4 px-8 rounded-lg">
