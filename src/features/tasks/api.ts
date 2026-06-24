@@ -89,3 +89,26 @@ export const getAllTasks = async (projectId: string) => {
 
   return data;
 };
+
+export const getTaskDetails = async (PROJECT_ID: string, TASK_ID: string) => {
+  const token = getAccessToken();
+  const res = await fetch(
+    config.apiUrl +
+      `/rest/v1/project_tasks?project_id=eq.${PROJECT_ID}&id=eq.${TASK_ID}`,
+    {
+      method: 'GET',
+      headers: {
+        apiKey: config.anonKey,
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+  if (!res.ok) {
+    throw new Error('Failed to fetch task details');
+  }
+  const data = await res.json();
+  // console.log(data[0]);
+
+  return data[0];
+};

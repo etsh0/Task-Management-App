@@ -1,15 +1,24 @@
+import { useDispatch } from 'react-redux';
 import CalenderIcon from '../../../../assets/icons/CalenderIcon';
 import UnassignedIcon from '../../../../assets/icons/UnassignedIcon';
 import { formatDate } from '../../../../shared/utils/formatDate';
 import { getInitials } from '../../../../shared/utils/getInitials';
+import type { AppDispatch } from '../../../../store/store';
 import type { EpicTask } from '../../type';
+import { openTaskPopup } from '../../../../store/slices/taskDetailsSlice';
+import { useParams } from 'react-router-dom';
 
 export default function TaskCard({ task }: { task: EpicTask }) {
   const isBlocked = task.status === 'BLOCKED';
+  const dispatch = useDispatch<AppDispatch>();
+  const { projectId } = useParams();
   return (
     <>
       <div
-        className={`relative rounded-lg border p-4 flex flex-col gap-4 shadow-[0px_2px_8px_0px_#00000005] ${isBlocked ? 'bg-[#FFDAD633] border-[#BA1A1A1A]' : 'bg-white border-border'}`}
+        onClick={() =>
+          dispatch(openTaskPopup({ selectedTaskId: task.id, projectId }))
+        }
+        className={`relative cursor-pointer rounded-lg border p-4 flex flex-col gap-4 shadow-[0px_2px_8px_0px_#00000005] ${isBlocked ? 'bg-[#FFDAD633] border-[#BA1A1A1A]' : 'bg-white border-border'}`}
       >
         <p className="text-slate-one font-medium text-body-md leading-[19.25px]">
           {task.title}

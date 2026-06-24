@@ -256,6 +256,7 @@ export default function NewTaskForm() {
           </div>
           <button
             type="button"
+            onClick={() => navigate(`/project/${projectId}/tasks`)}
             className="text-[#4F5F7B] text-body-md font-semibold leading-5 py-3 px-6 cursor-pointer"
           >
             Back
