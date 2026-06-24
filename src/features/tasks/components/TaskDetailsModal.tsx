@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import CopyIcon from '../../../assets/icons/CopyIcon';
 import EpicIcon from '../../../assets/icons/EpicIcon';
-// import Select from 'react-select';
 import type { AppDispatch, RootState } from '../../../store/store';
 import { closeTaskPopup } from '../../../store/slices/taskDetailsSlice';
 import { useTaskDetails } from '../hooks/useTaskDetails';
@@ -11,6 +10,7 @@ import { getInitials } from '../../../shared/utils/getInitials';
 import UnassignedIcon from '../../../assets/icons/UnassignedIcon';
 import { formatDate } from '../../../shared/utils/formatDate';
 import { useEffect } from 'react';
+import TaskDetailsModalSkeleton from './TaskDetailsModalSkeleton';
 
 export default function TaskDetailsModal() {
   const { projectId } = useParams();
@@ -18,7 +18,7 @@ export default function TaskDetailsModal() {
     (state: RootState) => state.taskDetails,
   );
   const dispatch = useDispatch<AppDispatch>();
-  const { task } = useTaskDetails(projectId ?? '', selectedTaskId);
+  const { task, loading } = useTaskDetails(projectId ?? '', selectedTaskId);
 
   useEffect(() => {
     const handleESCkey = (e: KeyboardEvent) => {
@@ -29,7 +29,19 @@ export default function TaskDetailsModal() {
   }, [dispatch]);
 
   if (!selectedTaskId) return null;
-  if (!task) return <div>Task not found</div>;
+  if (loading) return (
+    <>
+      <div
+        onClick={() => dispatch(closeTaskPopup())}
+        className="fixed inset-0 backdrop-blur-xs flex justify-center items-center z-100 bg-black/40"
+      >
+        <div onClick={(e) => e.stopPropagation()}>
+          <TaskDetailsModalSkeleton />
+        </div>
+      </div>
+    </>
+  );
+  if (!task) return null;
 
   return (
     <>

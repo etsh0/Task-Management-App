@@ -12,6 +12,7 @@ import { closeTaskPopup } from '../../../store/slices/taskDetailsSlice';
 import { getInitials } from '../../../shared/utils/getInitials';
 import UnassignedIcon from '../../../assets/icons/UnassignedIcon';
 import { formatDate } from '../../../shared/utils/formatDate';
+import TaskDetailsBottomSheetSkeleton from './TaskDetailsBottomSheetSkeleton';
 
 export default function TaskDetailsBottomSheet() {
   const { projectId } = useParams();
@@ -19,10 +20,22 @@ export default function TaskDetailsBottomSheet() {
     (state: RootState) => state.taskDetails,
   );
   const dispatch = useDispatch<AppDispatch>();
-  const { task } = useTaskDetails(projectId ?? '', selectedTaskId);
+  const { task, loading } = useTaskDetails(projectId ?? '', selectedTaskId);
 
   if (!selectedTaskId) return null;
-  if (!task) return <div>Task not found</div>;
+  if (loading) return (
+    <>
+      <div
+        onClick={() => dispatch(closeTaskPopup())}
+        className="fixed inset-0 backdrop-blur-xs flex justify-center items-center z-100 bg-black/40"
+      >
+        <div onClick={(e) => e.stopPropagation()}>
+          <TaskDetailsBottomSheetSkeleton />
+        </div>
+      </div>
+    </>
+  );
+  if (!task) return null;
 
   return (
     <>
