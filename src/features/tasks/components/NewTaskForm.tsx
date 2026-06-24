@@ -86,7 +86,6 @@ export default function NewTaskForm() {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     if (!projectId) return;
-    console.log(data);
     const payload: newTaskPayload = {
       project_id: projectId,
       title: data.title,

@@ -5,14 +5,44 @@ type PaginationProps = {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  variant?: 'numbers' | 'simple';
 };
 
 export default function Pagination({
   currentPage,
   totalPages,
   onPageChange,
+  variant = 'numbers',
 }: PaginationProps) {
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+  if (variant === 'simple') {
+    return (
+      <div className="pagination">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className="cursor-pointer disabled:cursor-not-allowed disabled:opacity-30"
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <ArrowLeft2 />
+          </button>
+          <span className="text-neutral text-[12px] font-medium leading-4">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            type="button"
+            className="cursor-pointer disabled:cursor-not-allowed disabled:opacity-30"
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            <ArrowRight2 />
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

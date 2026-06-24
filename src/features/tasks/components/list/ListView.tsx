@@ -1,6 +1,4 @@
 import { useDispatch } from 'react-redux';
-import ArrowLeft2 from '../../../../assets/icons/ArrowLeft2';
-import ArrowRight2 from '../../../../assets/icons/ArrowRight2';
 import ThreeDots2 from '../../../../assets/icons/ThreeDots2';
 import UnassignedIcon from '../../../../assets/icons/UnassignedIcon';
 import { STATUS_CONFIG } from '../../../../shared/constants/statusConfig';
@@ -13,9 +11,17 @@ import ListViewSkeleton from './ListViewSkeleton';
 import { openTaskPopup } from '../../../../store/slices/taskDetailsSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../../shared/components/Button';
+import Pagination from '../../../../shared/components/Pagination';
 
 export default function ListView() {
-  const { tasks, loading } = useAllTasks();
+  const {
+    tasks,
+    loading,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    totalCount,
+  } = useAllTasks();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { projectId } = useParams();
@@ -86,22 +92,23 @@ export default function ListView() {
             </tr>
           ))}
         </tbody>
-        <tfoot className="bg-white ">
+        <tfoot className="bg-white">
           <tr>
-            <td className="py-4 px-6" colSpan={6}>
-              <div className="pagination flex items-center justify-between w-full">
-                <span className="text-neutral text-[12px] font-medium leading-4">
-                  Showing 5 of 24 tasks
-                </span>
-                <div className="flex items-center gap-2 cursor-pointer">
-                  <ArrowLeft2 />
+            {totalPages > 1 && (
+              <td className="py-4 px-6" colSpan={6}>
+                <div className="flex items-center justify-between">
                   <span className="text-neutral text-[12px] font-medium leading-4">
-                    Page 1 of 5
+                    Showing {tasks.length} of {totalCount} tasks
                   </span>
-                  <ArrowRight2 />
+                  <Pagination
+                    variant="simple"
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                  />
                 </div>
-              </div>
-            </td>
+              </td>
+            )}
           </tr>
         </tfoot>
       </table>
