@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import ArrowLeft2 from '../../../../assets/icons/ArrowLeft2';
 import ArrowRight2 from '../../../../assets/icons/ArrowRight2';
 import ThreeDots2 from '../../../../assets/icons/ThreeDots2';
@@ -5,12 +6,19 @@ import UnassignedIcon from '../../../../assets/icons/UnassignedIcon';
 import { STATUS_CONFIG } from '../../../../shared/constants/statusConfig';
 import { formatDate } from '../../../../shared/utils/formatDate';
 import { getInitials } from '../../../../shared/utils/getInitials';
+import type { AppDispatch } from '../../../../store/store';
 import { useAllTasks } from '../../hooks/useAllTasks';
 import type { EpicTask } from '../../type';
 import ListViewSkeleton from './ListViewSkeleton';
+import { openTaskPopup } from '../../../../store/slices/taskDetailsSlice';
+import { useNavigate, useParams } from 'react-router-dom';
+import Button from '../../../../shared/components/Button';
 
 export default function ListView() {
   const { tasks, loading } = useAllTasks();
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { projectId } = useParams();
   if (loading) return <ListViewSkeleton />;
   return (
     <>
@@ -38,7 +46,10 @@ export default function ListView() {
         <tbody className="bg-white">
           {tasks.map((task: EpicTask) => (
             <tr
-              className="border-b border-[#F1F3FF] shadow-[0px_1px_2px_0px_#0000000D]"
+              onClick={() =>
+                dispatch(openTaskPopup({ selectedTaskId: task.id, projectId }))
+              }
+              className="border-b border-[#F1F3FF] shadow-[0px_1px_2px_0px_#0000000D] cursor-pointer"
               key={task.id}
             >
               <td className="py-4 px-6 text-[12px] text-primary leading-4 uppercase">
@@ -94,6 +105,14 @@ export default function ListView() {
           </tr>
         </tfoot>
       </table>
+      <div
+        onClick={() => navigate(`/project/${projectId}/tasks/new`)}
+        className="w-10 h-10 ml-auto hidden md:block mt-8 fixed bottom-5 right-15 z-50"
+      >
+        <Button>
+          <span className="text-body-md">+</span>
+        </Button>
+      </div>
     </>
   );
 }

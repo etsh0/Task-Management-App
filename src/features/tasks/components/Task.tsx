@@ -1,13 +1,24 @@
+import { useDispatch } from 'react-redux';
 import CheckIcon from '../../../assets/icons/CheckIcon';
 import UnassignedIcon from '../../../assets/icons/UnassignedIcon';
 import { formatDate } from '../../../shared/utils/formatDate';
 import { getInitials } from '../../../shared/utils/getInitials';
+import type { AppDispatch } from '../../../store/store';
 import type { EpicTask } from '../type';
+import { useParams } from 'react-router-dom';
+import { openTaskPopup } from '../../../store/slices/taskDetailsSlice';
 
 export default function Task({ task }: { task: EpicTask }) {
+  const dispatch = useDispatch<AppDispatch>();
+  const { projectId } = useParams();
   return (
     <>
-      <div className="task p-4 flex items-center justify-between border-b border-border">
+      <div
+        onClick={() =>
+          dispatch(openTaskPopup({ selectedTaskId: task.id, projectId }))
+        }
+        className="task p-4 flex items-center justify-between border-b border-border cursor-pointer"
+      >
         <div className="flex items-center gap-4">
           <CheckIcon />
           <div className="flex flex-col gap-1">
