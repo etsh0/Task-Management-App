@@ -47,12 +47,14 @@ export default function TaskDetailsModal() {
                 <div className="bg-surface-highest py-0.5 px-2 rounded-xs text-primary text-[12px] font-bold leading-4 tracking-[1.2px]">
                   {task.task_id}
                 </div>
-                <div className="flex items-center gap-1.5 text-neutral font-medium leading-5">
-                  <EpicIcon />
-                  <span>
-                    {task.epic.epic_id} ({task.epic.title})
-                  </span>
-                </div>
+                {task.epic.epic_id && (
+                  <div className="flex items-center gap-1.5 text-neutral font-medium leading-5">
+                    <EpicIcon />
+                    <span>
+                      {task.epic.epic_id}({task.epic.title})
+                    </span>
+                  </div>
+                )}
               </div>
               <p className="text-[30px] text-slate-one font-bold leading-9 mt-3">
                 {task.title}
