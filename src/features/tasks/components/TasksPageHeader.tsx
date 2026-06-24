@@ -2,7 +2,6 @@ import { Link, useSearchParams } from 'react-router-dom';
 import ArrowRight2 from '../../../assets/icons/ArrowRight2';
 import SearchInput from '../../../shared/components/SearchInput';
 import DashboardIcon from '../../../assets/icons/DashboardIcon';
-import FilterIcon from '../../../assets/icons/FilterIcon';
 import { useBreadcrumb } from '../../../shared/hooks/useBreadcrumb';
 import type { BreadcrumbItem } from '../../../features/projects/type';
 import Select from 'react-select';
@@ -107,9 +106,6 @@ export default function TasksPageHeader() {
                 }),
               }}
             />
-          </div>
-          <div className="p-2 rounded-sm bg-surface-highest">
-            <FilterIcon />
           </div>
         </div>
       </header>

@@ -18,7 +18,7 @@ export default function TasksPage() {
             <BoardView />
           </section>
         ) : (
-          <section className="list-view mt-6">
+          <section className="list-view mt-6 pb-20">
             <ListView />
           </section>
         )}

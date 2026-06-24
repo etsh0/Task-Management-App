@@ -11,11 +11,13 @@ import { useAllTasks } from '../../hooks/useAllTasks';
 import type { EpicTask } from '../../type';
 import ListViewSkeleton from './ListViewSkeleton';
 import { openTaskPopup } from '../../../../store/slices/taskDetailsSlice';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import Button from '../../../../shared/components/Button';
 
 export default function ListView() {
   const { tasks, loading } = useAllTasks();
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { projectId } = useParams();
   if (loading) return <ListViewSkeleton />;
   return (
@@ -103,6 +105,14 @@ export default function ListView() {
           </tr>
         </tfoot>
       </table>
+      <div
+        onClick={() => navigate(`/project/${projectId}/tasks/new`)}
+        className="w-10 h-10 ml-auto hidden md:block mt-8 fixed bottom-5 right-15 z-50"
+      >
+        <Button>
+          <span className="text-body-md">+</span>
+        </Button>
+      </div>
     </>
   );
 }
