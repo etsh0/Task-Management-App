@@ -4,6 +4,7 @@ import BoardView from '../../features/tasks/components/kanban/BoardView';
 import ListView from '../../features/tasks/components/list/ListView';
 import TasksOnMobile from '../../features/tasks/components/MobileView/TasksOnMobile';
 import TaskDetailsModal from '../../features/tasks/components/TaskDetailsModal';
+import TaskDetailsBottomSheet from '../../features/tasks/components/TaskDetailsBottomSheet';
 
 export default function TasksPage() {
   const [searchParams] = useSearchParams();
@@ -25,7 +26,14 @@ export default function TasksPage() {
       <div className="mobile lg:hidden py-8 px-4">
         <TasksOnMobile />
       </div>
-      <TaskDetailsModal />
+      {/* Desktop */}
+      <div className="hidden md:block">
+        <TaskDetailsModal />
+      </div>
+      {/* Mobile */}
+      <div className="md:hidden">
+        <TaskDetailsBottomSheet />
+      </div>
     </>
   );
 }

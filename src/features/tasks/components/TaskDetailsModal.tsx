@@ -37,7 +37,10 @@ export default function TaskDetailsModal() {
         onClick={() => dispatch(closeTaskPopup())}
         className="fixed inset-0 backdrop-blur-xs flex justify-center items-center z-100 bg-black/40 "
       >
-        <div className="flex bg-white sahdow-[0px_25px_50px_-12px_#00000040] w-4xl h-[90%] rounded-lg">
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="flex bg-white sahdow-[0px_25px_50px_-12px_#00000040] md:w-3xl lg:w-4xl h-[90%] rounded-lg"
+        >
           <div className="flex flex-col flex-1">
             <div className="py-6 px-8 border-b border-border">
               <div className="flex items-center gap-3">
