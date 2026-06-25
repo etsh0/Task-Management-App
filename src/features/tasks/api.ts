@@ -1,4 +1,5 @@
 import config from '../../config/env';
+import type { PaginationParams } from '../../shared/types/PaginationParams';
 import { getAccessToken } from '../auth/Login/cookie';
 import type { newTaskPayload, TaskStatus } from './type';
 
@@ -69,25 +70,37 @@ export const getTasksByStatus = async (
   return res.json();
 };
 
-export const getAllTasks = async (projectId: string) => {
+export const getAllTasks = async ({
+  projectId,
+  LIMIT,
+  OFFSET,
+}: PaginationParams) => {
   const token = getAccessToken();
   const res = await fetch(
-    config.apiUrl + `/rest/v1/project_tasks?project_id=eq.${projectId}`,
+    config.apiUrl +
+      `/rest/v1/project_tasks?project_id=eq.${projectId}&limit=${LIMIT}&offset=${OFFSET}`,
     {
       method: 'GET',
       headers: {
         apiKey: config.anonKey,
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
+        Prefer: 'count=exact',
       },
     },
   );
   if (!res.ok) {
     throw new Error('Failed to fetch tasks');
   }
-  const data = await res.json();
+  const totalCount = res.headers.get('Content-Range')?.split('/')[1];
 
-  return data;
+  const data = await res.json();
+  // console.log(data, totalCount);
+
+  return {
+    data,
+    totalCount: Number(totalCount),
+  };
 };
 
 export const getTaskDetails = async (PROJECT_ID: string, TASK_ID: string) => {
