@@ -7,23 +7,27 @@ export const getProjectEpics = async ({
   projectId,
   LIMIT,
   OFFSET,
-}: PaginationParams) => {
+  SEARCH_TERM,
+}: PaginationParams & { SEARCH_TERM?: string }) => {
   const token = getAccessToken();
-  const res = await fetch(
+  let url =
     config.apiUrl +
-      `/rest/v1/project_epics?project_id=eq.${projectId}&limit=${LIMIT}&offset=${OFFSET}`,
-    {
-      method: 'GET',
-      headers: {
-        apiKey: config.anonKey,
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        Prefer: 'count=exact',
-      },
+    `/rest/v1/project_epics?project_id=eq.${projectId}&limit=${LIMIT}&offset=${OFFSET}`;
+
+  if (SEARCH_TERM) {
+    url += `&title=ilike.%25${SEARCH_TERM}%25`;
+  }
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      apiKey: config.anonKey,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      Prefer: 'count=exact',
     },
-  );
+  });
   if (!res.ok) {
-    throw new Error('Failed to fetch project members');
+    throw new Error('Failed to Search epics');
   }
 
   const totalCount = res.headers.get('Content-Range')?.split('/')[1];

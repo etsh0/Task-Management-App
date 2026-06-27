@@ -5,6 +5,7 @@ import TrackIcon from '../../../assets/icons/TrackIcon';
 import img from '../../../assets/images/EpicsEmptyState.svg';
 import Button from '../../../shared/components/Button';
 import EmptyStateCard from './EmptyStateCard';
+
 export default function ProjectEpicsEmptyState() {
   const navigate = useNavigate();
   const { projectId } = useParams();
@@ -29,8 +30,8 @@ export default function ProjectEpicsEmptyState() {
             <EmptyStateCard
               title="High-Level Goals"
               p="Define the broad objectives
-that span across multiple
-cycles."
+              that span across multiple
+              cycles."
               icon={<HighLevelIcon />}
             />
             <EmptyStateCard
