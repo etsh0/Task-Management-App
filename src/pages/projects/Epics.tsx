@@ -33,7 +33,6 @@ export default function Epics() {
 
   const hasSearchQuery = searchTerm.trim() !== '';
   const hasNoEpicsInProject = totalCount === 0 && !hasSearchQuery;
-  const isInitialLoading = loading && epics.length === 0 && !hasSearchQuery;
 
   if (error) return <ErrorState text="Failed to search epics" />;
 
@@ -61,7 +60,7 @@ export default function Epics() {
           className="lg:hidden relative"
         />
 
-        {isInitialLoading ? (
+        {loading ? (
           <EpicsSkeleton />
         ) : hasNoEpicsInProject ? (
           <ProjectEpicsEmptyState />
