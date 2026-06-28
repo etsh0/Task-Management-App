@@ -31,10 +31,11 @@ export function useEpics(projectId?: string) {
           projectId,
           LIMIT: PAGINATION_LIMIT,
           OFFSET: offset,
-          SEARCH_TERM: debouncedValue.trim(),
+          SEARCH_TERM: debouncedValue,
         });
 
         setEpics(data.data);
+
         setTotalCount(data.totalCount);
       } catch (error) {
         setError((error as Error).message);
