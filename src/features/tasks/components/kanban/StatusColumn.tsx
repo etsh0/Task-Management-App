@@ -1,15 +1,26 @@
+import { useDroppable } from '@dnd-kit/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import PlusIcon from '../../../../assets/icons/PlusIcon';
 import { STATUS_CONFIG } from '../../../../shared/constants/statusConfig';
-import type { TaskStatus } from '../../type';
+import type { EpicTask, TaskStatus } from '../../type';
 import TaskCard from './TaskCard';
-import { useColumnTasks } from '../../hooks/useColumnTasks';
 
-export default function StatusColumn({ status }: { status: TaskStatus }) {
+interface StatusColumnProps {
+  status: TaskStatus;
+  tasks: EpicTask[];
+  activeTaskId: string | null;
+}
+
+export default function StatusColumn({
+  status,
+  tasks,
+  activeTaskId,
+}: StatusColumnProps) {
   const { projectId } = useParams();
   const config = STATUS_CONFIG[status];
   const navigate = useNavigate();
-  const { tasks, loading, error } = useColumnTasks(projectId ?? '', status);
+
+  const { setNodeRef, isOver } = useDroppable({ id: status });
 
   const handleAddTask = () => {
     navigate(`/project/${projectId}/tasks/new`, {
@@ -20,6 +31,7 @@ export default function StatusColumn({ status }: { status: TaskStatus }) {
   return (
     <>
       <div className="flex flex-col w-[288px] shrink-0 gap-4">
+        {/* Column Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className={`h-2 w-2 rounded-full ${config.dotColor}`} />
@@ -41,6 +53,8 @@ export default function StatusColumn({ status }: { status: TaskStatus }) {
             +
           </button>
         </div>
+
+        {/* Add Task Button */}
         <button
           type="button"
           onClick={handleAddTask}
@@ -48,24 +62,27 @@ export default function StatusColumn({ status }: { status: TaskStatus }) {
         >
           <PlusIcon /> Add New Task
         </button>
-        <div className="flex flex-col gap-3">
-          {loading && (
-            <p className="text-center text-slate-one/40 text-body-sm py-4">
-              Loading...
-            </p>
-          )}
-          {error && (
-            <p className="text-center text-red-400 text-body-sm py-4">
-              Failed to load tasks
-            </p>
-          )}
-          {!loading && !error && tasks.length === 0 && (
+
+        {/* Drop Zone */}
+        <div
+          ref={setNodeRef}
+          className={`flex flex-col gap-3 min-h-30 rounded-xl transition-all duration-200 ${
+            isOver
+              ? 'bg-primary/5 ring-2 ring-primary/30 ring-dashed p-2 -m-2'
+              : ''
+          }`}
+        >
+          {tasks.length === 0 && !isOver && (
             <p className="text-center text-slate-one/40 text-body-sm py-4 uppercase">
               No tasks
             </p>
           )}
           {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} />
+            <TaskCard
+              key={task.id}
+              task={task}
+              isBeingDragged={task.id === activeTaskId}
+            />
           ))}
         </div>
       </div>

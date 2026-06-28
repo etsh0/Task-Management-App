@@ -125,3 +125,27 @@ export const getTaskDetails = async (PROJECT_ID: string, TASK_ID: string) => {
 
   return data[0];
 };
+
+export const updateTaskStatus = async (
+  taskId: string,
+  status: TaskStatus,
+): Promise<void> => {
+  const token = getAccessToken();
+  const res = await fetch(
+    config.apiUrl + `/rest/v1/tasks?id=eq.${taskId}`,
+    {
+      method: 'PATCH',
+      headers: {
+        apikey: config.anonKey,
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({ status }),
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to update task status');
+  }
+};

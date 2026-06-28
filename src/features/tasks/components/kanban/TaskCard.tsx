@@ -1,3 +1,4 @@
+import { useDraggable } from '@dnd-kit/core';
 import { useDispatch } from 'react-redux';
 import CalenderIcon from '../../../../assets/icons/CalenderIcon';
 import UnassignedIcon from '../../../../assets/icons/UnassignedIcon';
@@ -8,44 +9,70 @@ import type { EpicTask } from '../../type';
 import { openTaskPopup } from '../../../../store/slices/taskDetailsSlice';
 import { useParams } from 'react-router-dom';
 
-export default function TaskCard({ task }: { task: EpicTask }) {
+interface TaskCardProps {
+  task: EpicTask;
+  isBeingDragged?: boolean;
+  isDragOverlay?: boolean;
+}
+
+export default function TaskCard({
+  task,
+  isBeingDragged = false,
+  isDragOverlay = false,
+}: TaskCardProps) {
   const isBlocked = task.status === 'BLOCKED';
   const dispatch = useDispatch<AppDispatch>();
   const { projectId } = useParams();
-  return (
-    <>
-      <div
-        onClick={() =>
-          dispatch(openTaskPopup({ selectedTaskId: task.id, projectId }))
-        }
-        className={`relative cursor-pointer rounded-lg border p-4 flex flex-col gap-4 shadow-[0px_2px_8px_0px_#00000005] ${isBlocked ? 'bg-[#FFDAD633] border-[#BA1A1A1A]' : 'bg-white border-border'}`}
-      >
-        <p className="text-slate-one font-medium text-body-md leading-[19.25px]">
-          {task.title}
-        </p>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5 text-label-sm leading-4">
-            {isBlocked ? (
-              <span className="text-error text-[10px] font-bold leading-3.75 uppercase flex items-center gap-1">
-                ⚠ Delayed
-              </span>
-            ) : (
-              <span className="text-[#94A3B8] text-[10px] font-bold leading-3.75 uppercase flex items-center gap-1">
-                <CalenderIcon />
-                {task.due_date ? formatDate(task.due_date) : 'No due date'}
-              </span>
-            )}
-          </div>
-          <div className="h-6 w-6 bg-surface-highest text-slate-one text-[10px] font-bold uppercase flex items-center justify-center rounded-full">
-            {task.assignee?.name ? (
-              getInitials(task.assignee.name)
-            ) : (
-              <UnassignedIcon />
-            )}
-          </div>
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: task.id,
+    data: { status: task.status },
+  });
+
+  const handleClick = () => {
+    // Don't open popup while dragging
+    if (!isDragging && !isDragOverlay) {
+      dispatch(openTaskPopup({ selectedTaskId: task.id, projectId }));
+    }
+  };
+
+  return (
+    <div
+      ref={isDragOverlay ? undefined : setNodeRef}
+      {...(isDragOverlay ? {} : listeners)}
+      {...(isDragOverlay ? {} : attributes)}
+      onClick={handleClick}
+      className={`relative rounded-lg border p-4 flex flex-col gap-4 shadow-[0px_2px_8px_0px_#00000005] select-none transition-opacity duration-150
+        ${isBlocked ? 'bg-[#FFDAD633] border-[#BA1A1A1A]' : 'bg-white border-border'}
+        ${isBeingDragged ? 'opacity-30' : 'opacity-100'}
+        ${isDragOverlay ? 'cursor-grabbing' : 'cursor-grab hover:shadow-md'}
+      `}
+    >
+      <p className="text-slate-one font-medium text-body-md leading-[19.25px]">
+        {task.title}
+      </p>
+
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5 text-label-sm leading-4">
+          {isBlocked ? (
+            <span className="text-error text-[10px] font-bold leading-3.75 uppercase flex items-center gap-1">
+              ⚠ Delayed
+            </span>
+          ) : (
+            <span className="text-[#94A3B8] text-[10px] font-bold leading-3.75 uppercase flex items-center gap-1">
+              <CalenderIcon />
+              {task.due_date ? formatDate(task.due_date) : 'No due date'}
+            </span>
+          )}
+        </div>
+        <div className="h-6 w-6 bg-surface-highest text-slate-one text-[10px] font-bold uppercase flex items-center justify-center rounded-full">
+          {task.assignee?.name ? (
+            getInitials(task.assignee.name)
+          ) : (
+            <UnassignedIcon />
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
