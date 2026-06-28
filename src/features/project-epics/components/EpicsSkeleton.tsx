@@ -1,11 +1,11 @@
-import ArrowLeft2 from '../../../assets/icons/ArrowLeft2';
+// import ArrowLeft2 from '../../../assets/icons/ArrowLeft2';
 
 export default function EpicsSkeleton() {
   const rows = Array.from({ length: 6 });
   return (
     <>
-      <section className="px-8 pt-8 pb-25">
-        <header className="flex items-end justify-between animate-pulse">
+      <section className="pb-25">
+        {/* <header className="flex items-end justify-between animate-pulse">
           <div className="flex flex-col gap-8">
             <div className="flex items-center gap-2">
               <span className="w-16 h-4 bg-skeleton rounded-xs"></span>
@@ -20,7 +20,7 @@ export default function EpicsSkeleton() {
             <div className="bg-skeleton rounded-xs h-10 w-32" />
             <div className="bg-skeleton rounded-xs h-10 w-40" />
           </div>
-        </header>
+        </header> */}
         {/* card skeleton */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-12 animate-pulse">
           {rows.map((_, i) => (

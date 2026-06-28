@@ -10,6 +10,7 @@ import Pagination from '../../shared/components/Pagination';
 import { useState } from 'react';
 import EpicModal from '../../features/project-epics/components/EpicModal';
 import { useBreadcrumb } from '../../shared/hooks/useBreadcrumb';
+import ProjectEpicsEmptyState from '../../features/project-epics/components/ProjectEpicsEmptyState';
 
 export default function Epics() {
   const navigate = useNavigate();
@@ -30,12 +31,16 @@ export default function Epics() {
     setSearcTerm,
   } = useEpics(projectId);
 
+  const hasSearchQuery = searchTerm.trim() !== '';
+  const hasNoEpicsInProject = totalCount === 0 && !hasSearchQuery;
+  const isInitialLoading = loading && epics.length === 0 && !hasSearchQuery;
+
   if (error) return <ErrorState text="Failed to search epics" />;
 
   return (
     <>
       <section className="py-8 px-6 lg:px-8">
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <Header
             title="Project Epics"
             breadcrumb={breadcrumb}
@@ -53,12 +58,14 @@ export default function Epics() {
           placeholder="Search epics..."
           value={searchTerm}
           onChange={(e) => setSearcTerm(e.target.value)}
-          className="md:hidden relative"
+          className="lg:hidden relative"
         />
 
-        {loading ? (
+        {isInitialLoading ? (
           <EpicsSkeleton />
-        ) : epics.length === 0 ? (
+        ) : hasNoEpicsInProject ? (
+          <ProjectEpicsEmptyState />
+        ) : epics.length === 0 && hasSearchQuery ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <p className="text-title-md text-neutral font-medium">
               No epics found matching your search
@@ -94,7 +101,7 @@ export default function Epics() {
 
         <div
           onClick={() => navigate(`/project/${projectId}/epics/new`)}
-          className="w-10 h-10 ml-auto md:hidden mt-8 fixed bottom-20 right-10 z-50"
+          className="w-10 h-10 ml-auto lg:hidden mt-8 fixed bottom-20 sm:bottom-10 right-10 z-50"
         >
           <Button>
             <span className="text-body-md">+</span>

@@ -16,7 +16,7 @@ export default function ProjectEpicsEmptyState() {
           <img className="w-45 md:w-[288px]" src={img} alt="" />
           <div className="">
             <h1 className="text-headline-lg text-slate-one font-semibold leading-10 tracking-[-0.9px] mb-4">
-              No epics in this project yet.
+              No epics found for this project
             </h1>
             <p className="text-[15px] md:text-title-md text-neutral leading-[29.25px] max-w-md">
               Break down your large project into manageable epics to track
