@@ -11,7 +11,7 @@ export function useEpics(projectId?: string) {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState<number>(0);
-  const [searchTerm, setSearcTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const offset = (currentPage - 1) * PAGINATION_LIMIT;
 
@@ -31,11 +31,10 @@ export function useEpics(projectId?: string) {
           projectId,
           LIMIT: PAGINATION_LIMIT,
           OFFSET: offset,
-          SEARCH_TERM: debouncedValue,
+          SEARCH_TERM: debouncedValue.trim(),
         });
 
         setEpics(data.data);
-
         setTotalCount(data.totalCount);
       } catch (error) {
         setError((error as Error).message);
@@ -57,6 +56,6 @@ export function useEpics(projectId?: string) {
     totalPages,
     totalCount,
     searchTerm,
-    setSearcTerm,
+    setSearchTerm,
   };
 }

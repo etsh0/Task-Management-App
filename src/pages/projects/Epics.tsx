@@ -28,8 +28,13 @@ export default function Epics() {
     totalPages,
     totalCount,
     searchTerm,
-    setSearcTerm,
+    setSearchTerm,
   } = useEpics(projectId);
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1);
+  };
 
   const hasSearchQuery = searchTerm.trim() !== '';
   const hasNoEpicsInProject = totalCount === 0 && !hasSearchQuery;
@@ -49,14 +54,14 @@ export default function Epics() {
             <SearchInput
               placeholder="Search epics..."
               value={searchTerm}
-              onChange={(e) => setSearcTerm(e.target.value)}
+              onChange={handleOnChange}
             />
           </Header>
         </div>
         <SearchInput
           placeholder="Search epics..."
           value={searchTerm}
-          onChange={(e) => setSearcTerm(e.target.value)}
+          onChange={handleOnChange}
           className="lg:hidden relative"
         />
 
