@@ -5,6 +5,7 @@ import TrackIcon from '../../../assets/icons/TrackIcon';
 import img from '../../../assets/images/EpicsEmptyState.svg';
 import Button from '../../../shared/components/Button';
 import EmptyStateCard from './EmptyStateCard';
+
 export default function ProjectEpicsEmptyState() {
   const navigate = useNavigate();
   const { projectId } = useParams();
@@ -15,7 +16,7 @@ export default function ProjectEpicsEmptyState() {
           <img className="w-45 md:w-[288px]" src={img} alt="" />
           <div className="">
             <h1 className="text-headline-lg text-slate-one font-semibold leading-10 tracking-[-0.9px] mb-4">
-              No epics in this project yet.
+              No epics found for this project
             </h1>
             <p className="text-[15px] md:text-title-md text-neutral leading-[29.25px] max-w-md">
               Break down your large project into manageable epics to track
@@ -29,8 +30,8 @@ export default function ProjectEpicsEmptyState() {
             <EmptyStateCard
               title="High-Level Goals"
               p="Define the broad objectives
-that span across multiple
-cycles."
+              that span across multiple
+              cycles."
               icon={<HighLevelIcon />}
             />
             <EmptyStateCard

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getProjectEpics } from '../api';
 import type { ProjectEpic } from '../type';
 import { PAGINATION_LIMIT } from '../../../shared/constants/pagination';
+import { useDebounce } from '../../../shared/hooks/useDebounce';
 
 export function useEpics(projectId?: string) {
   const [epics, setEpics] = useState<ProjectEpic[]>([]);
@@ -10,10 +11,13 @@ export function useEpics(projectId?: string) {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState<number>(0);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const offset = (currentPage - 1) * PAGINATION_LIMIT;
 
   const totalPages = totalCount ? Math.ceil(totalCount / PAGINATION_LIMIT) : 0;
+
+  const debouncedValue = useDebounce(searchTerm, 500);
 
   useEffect(() => {
     const fetchEpics = async () => {
@@ -27,11 +31,10 @@ export function useEpics(projectId?: string) {
           projectId,
           LIMIT: PAGINATION_LIMIT,
           OFFSET: offset,
+          SEARCH_TERM: debouncedValue.trim(),
         });
 
         setEpics(data.data);
-        // console.log(data.data);
-
         setTotalCount(data.totalCount);
       } catch (error) {
         setError((error as Error).message);
@@ -41,7 +44,7 @@ export function useEpics(projectId?: string) {
     };
 
     fetchEpics();
-  }, [projectId, offset]);
+  }, [projectId, offset, debouncedValue]);
 
   return {
     epics,
@@ -52,5 +55,7 @@ export function useEpics(projectId?: string) {
     setCurrentPage,
     totalPages,
     totalCount,
+    searchTerm,
+    setSearchTerm,
   };
 }
