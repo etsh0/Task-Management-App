@@ -1,7 +1,25 @@
 import logo from '../../assets/images/Logo.svg';
 import Button from '../../shared/components/Button';
 import NewMemberIcon from '../../assets/icons/NewMemberIcon';
+import { useEffect } from 'react';
+import { getAccessToken } from '../../features/auth/Login/cookie';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 export default function AcceptInvitation() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const token = searchParams.get('token');
+
+  useEffect(() => {
+    const accessToken = getAccessToken();
+
+    if (!accessToken) {
+      navigate(
+        `/login?redirect=${encodeURIComponent(`/invite?token=${token}`)}`,
+      );
+    }
+  }, [token, navigate]);
+
   return (
     <>
       <div className="flex items-center justify-center bg-[#F9F9FF] h-screen">
@@ -24,3 +42,5 @@ export default function AcceptInvitation() {
     </>
   );
 }
+
+// get invitation_token from url
