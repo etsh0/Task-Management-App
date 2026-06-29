@@ -9,12 +9,16 @@ import Header from '../../shared/components/Header';
 import { useBreadcrumb } from '../../shared/hooks/useBreadcrumb';
 import InviteMemberModal from '../../features/project-members/components/InviteMemberModal';
 import { useState } from 'react';
+import { useUser } from '../../shared/hooks/useUser';
 
 export default function Members() {
   const { projectId } = useParams();
-  const { loading, error } = useProjectMembers(projectId);
+  const { loading, error, members } = useProjectMembers(projectId);
+  const { user } = useUser();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const breadcrumb = useBreadcrumb();
+  const currentMember = members.find((member) => member.user_id === user?.id);
+  const isOwner = currentMember?.role.toLowerCase() === 'owner';
 
   if (error)
     return (
@@ -29,23 +33,25 @@ export default function Members() {
           <Header
             title="Project Members"
             breadcrumb={breadcrumb}
-            btnText="Invite Member"
-            onClick={() => setIsOpen(true)}
+            btnText={isOwner ? 'Invite Member' : ''}
+            onClick={isOwner ? () => setIsOpen(true) : undefined}
           />
           <div className=" md:bg-[#F1F3FF] mx-auto rounded-lg">
             <Table />
           </div>
-          <div
-            onClick={() => setIsOpen(true)}
-            className="w-10 h-10 ml-auto md:hidden mt-8 fixed bottom-20 right-10 z-50"
-          >
-            <Button>
-              <MemberIcon />
-            </Button>
-          </div>
+          {isOwner && (
+            <div
+              onClick={() => setIsOpen(true)}
+              className="w-10 h-10 ml-auto md:hidden mt-8 fixed bottom-20 right-10 z-50"
+            >
+              <Button>
+                <MemberIcon />
+              </Button>
+            </div>
+          )}
         </section>
       )}
-      {isOpen && (
+      {isOwner && isOpen && (
         <InviteMemberModal projectId={projectId} setIsOpen={setIsOpen} />
       )}
     </>

@@ -47,13 +47,14 @@ export default function Header({
         </div>
         <div className="flex items-center gap-8">
           {children}
-          <div onClick={onClick} className="hidden md:block w-fit">
-            <Button>
-              {' '}
-              <MemberIcon />
-              <span className="">{btnText}</span>
-            </Button>
-          </div>
+          {btnText && onClick && (
+            <div onClick={onClick} className="hidden md:block w-fit">
+              <Button>
+                <MemberIcon />
+                <span>{btnText}</span>
+              </Button>
+            </div>
+          )}
         </div>
       </header>
     </>
