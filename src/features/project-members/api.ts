@@ -1,5 +1,6 @@
 import config from '../../config/env';
 import { getAccessToken } from '../auth/Login/cookie';
+import type { InviteMemberPayload } from './type';
 
 export const getProjectMembers = async (projectId: string) => {
   const token = getAccessToken();
@@ -19,4 +20,23 @@ export const getProjectMembers = async (projectId: string) => {
   }
   const data = await res.json();
   return data;
+};
+
+export const inviteMember = async (payload: InviteMemberPayload) => {
+  const token = getAccessToken();
+  const res = await fetch(config.apiUrl + `/rest/v1/rpc/invite_member`, {
+    method: 'POST',
+    headers: {
+      apiKey: config.anonKey,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const error = await res.text();
+    throw new Error(error || 'Failed to invite member');
+  }
+  return true;
 };

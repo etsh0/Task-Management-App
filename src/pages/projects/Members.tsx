@@ -45,7 +45,9 @@ export default function Members() {
           </div>
         </section>
       )}
-      {isOpen && <InviteMemberModal setIsOpen={setIsOpen} />}
+      {isOpen && (
+        <InviteMemberModal projectId={projectId} setIsOpen={setIsOpen} />
+      )}
     </>
   );
 }

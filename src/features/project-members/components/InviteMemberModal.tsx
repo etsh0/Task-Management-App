@@ -4,14 +4,22 @@ import MemberIcon from '../../../assets/icons/MemberIcon';
 import Button from '../../../shared/components/Button';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import config from '../../../config/env';
+import { inviteMember } from '../api';
+import { useState } from 'react';
+import Spinner from '../../../shared/components/Spinner';
+import { toast } from 'react-toastify';
 
 type InviteMemberModalProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  projectId: string | undefined;
 };
 
 export default function InviteMemberModal({
   setIsOpen,
+  projectId,
 }: InviteMemberModalProps) {
+  const [loading, setLoading] = useState(false);
   const inviteMemberSchema = z.object({
     email: z.string().email('Please enter a valid email'),
   });
@@ -20,6 +28,7 @@ export default function InviteMemberModal({
 
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>({
@@ -27,8 +36,25 @@ export default function InviteMemberModal({
     resolver: zodResolver(inviteMemberSchema),
   });
 
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    if (!projectId) return;
+    const payload = {
+      p_email: data.email,
+      p_project_id: projectId,
+      p_app_url: window.location.origin,
+      p_base_url: config.apiUrl,
+    };
+    try {
+      setLoading(true);
+      await inviteMember(payload);
+      reset();
+      setIsOpen(false);
+      toast.success('Invitation sent successfully');
+    } catch {
+      toast.error('Could not send invitation. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -84,7 +110,9 @@ export default function InviteMemberModal({
                 Cancel
               </button>
               <div className="w-full md:w-fit">
-                <Button>Send Invitation</Button>
+                <Button disabled={loading}>
+                  {loading ? <Spinner /> : 'Send Invitation'}
+                </Button>
               </div>
             </div>
           </form>
