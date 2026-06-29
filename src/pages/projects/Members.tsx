@@ -7,10 +7,13 @@ import Button from '../../shared/components/Button';
 import ErrorState from '../../shared/components/ErrorState';
 import Header from '../../shared/components/Header';
 import { useBreadcrumb } from '../../shared/hooks/useBreadcrumb';
+import InviteMemberModal from '../../features/project-members/components/InviteMemberModal';
+import { useState } from 'react';
 
 export default function Members() {
   const { projectId } = useParams();
   const { loading, error } = useProjectMembers(projectId);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const breadcrumb = useBreadcrumb();
 
   if (error)
@@ -27,17 +30,22 @@ export default function Members() {
             title="Project Members"
             breadcrumb={breadcrumb}
             btnText="Invite Member"
+            onClick={() => setIsOpen(true)}
           />
           <div className=" md:bg-[#F1F3FF] mx-auto rounded-lg">
             <Table />
           </div>
-          <div className="w-10 h-10 ml-auto md:hidden mt-8 fixed bottom-20 right-10 z-50">
+          <div
+            onClick={() => setIsOpen(true)}
+            className="w-10 h-10 ml-auto md:hidden mt-8 fixed bottom-20 right-10 z-50"
+          >
             <Button>
               <MemberIcon />
             </Button>
           </div>
         </section>
       )}
+      {isOpen && <InviteMemberModal setIsOpen={setIsOpen} />}
     </>
   );
 }
