@@ -89,12 +89,12 @@ export default function InviteMemberModal({
             </p>
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-6" action="">
-            <label htmlFor="" className="label">
+            <label htmlFor="email" className="label">
               Email
               <input
                 type="email"
                 {...register('email')}
-                id=""
+                id="email"
                 className={`input ${errors.email && 'input-error'}`}
                 placeholder="Enter email address"
               />
