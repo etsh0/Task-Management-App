@@ -1,6 +1,9 @@
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import CloseIcon from '../../../assets/icons/CloseIcon';
 import MemberIcon from '../../../assets/icons/MemberIcon';
 import Button from '../../../shared/components/Button';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type InviteMemberModalProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,6 +12,25 @@ type InviteMemberModalProps = {
 export default function InviteMemberModal({
   setIsOpen,
 }: InviteMemberModalProps) {
+  const inviteMemberSchema = z.object({
+    email: z.string().email('Please enter a valid email'),
+  });
+
+  type FormInputs = z.infer<typeof inviteMemberSchema>;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>({
+    mode: 'onChange',
+    resolver: zodResolver(inviteMemberSchema),
+  });
+
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    console.log(data);
+  };
+
   return (
     <>
       <div
@@ -39,16 +61,19 @@ export default function InviteMemberModal({
               Send an invitation to join the Architectural Studio workspace.
             </p>
           </div>
-          <form className="mt-6" action="">
+          <form onSubmit={handleSubmit(onSubmit)} className="mt-6" action="">
             <label htmlFor="" className="label">
               Email
               <input
                 type="email"
-                name=""
+                {...register('email')}
                 id=""
-                className="input"
+                className={`input ${errors.email && 'input-error'}`}
                 placeholder="Enter email address"
               />
+              {errors.email && (
+                <span className="text-error">{errors.email.message}</span>
+              )}
             </label>
             <div className="flex flex-col-reverse md:flex-row gap-3 items-center justify-between mt-6">
               <button
