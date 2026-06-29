@@ -9,6 +9,7 @@ import { inviteMember } from '../api';
 import { useState } from 'react';
 import Spinner from '../../../shared/components/Spinner';
 import { toast } from 'react-toastify';
+import { parseError } from '../../../shared/utils/parseError';
 
 type InviteMemberModalProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -50,8 +51,8 @@ export default function InviteMemberModal({
       reset();
       setIsOpen(false);
       toast.success('Invitation sent successfully');
-    } catch {
-      toast.error('Could not send invitation. Please try again.');
+    } catch (error: unknown) {
+      toast.error(parseError(error));
     } finally {
       setLoading(false);
     }

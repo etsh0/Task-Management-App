@@ -1,12 +1,17 @@
 import logo from '../../assets/images/Logo.svg';
 import Button from '../../shared/components/Button';
 import NewMemberIcon from '../../assets/icons/NewMemberIcon';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getAccessToken } from '../../features/auth/Login/cookie';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { acceptInvitation } from '../../features/project-members/api';
+import { parseError } from '../../shared/utils/parseError';
+import { toast } from 'react-toastify';
+import Spinner from '../../shared/components/Spinner';
 export default function AcceptInvitation() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const token = searchParams.get('token');
 
@@ -19,6 +24,20 @@ export default function AcceptInvitation() {
       );
     }
   }, [token, navigate]);
+
+  const handleAccept = async () => {
+    if (!token) return;
+    try {
+      setLoading(true);
+      await acceptInvitation({ p_token: token });
+      toast.success('Invitation accepted successfully');
+      navigate('/project');
+    } catch (error: unknown) {
+      toast.error(parseError(error));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -35,12 +54,14 @@ export default function AcceptInvitation() {
             <h4 className="mb-4 text-slate-one text-[30px] font-semibold leading-9 tracking-[-0.75px]">
               You've been invited to join new project
             </h4>
-            <Button>Accept Invitation</Button>
+            <div onClick={() => handleAccept()}>
+              <Button disabled={loading}>
+                {loading ? <Spinner /> : 'Accept Invitation'}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
     </>
   );
 }
-
-// get invitation_token from url
