@@ -13,6 +13,7 @@ import Epics from './pages/projects/Epics';
 import AddEpicPage from './pages/projects/AddEpicPage';
 import AddNewTaskPage from './pages/projects/AddNewTaskPage';
 import TasksPage from './pages/projects/TasksPage';
+import AcceptInvitation from './pages/projects/AcceptInvitation';
 
 export default function App() {
   return (
@@ -41,6 +42,8 @@ export default function App() {
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="reset-password" element={<ResetPassword />} />
           </Route>
+          {/* invitation Page */}
+          <Route path="invite" element={<AcceptInvitation />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />
