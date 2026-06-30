@@ -13,7 +13,7 @@ export type BreadcrumbItem = {
 export type HeaderProps = {
   title: string;
   breadcrumb: BreadcrumbItem[];
-  btnText: string;
+  btnText?: string;
   onClick?: () => void;
   children?: React.ReactNode;
 };

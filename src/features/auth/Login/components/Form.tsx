@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Spinner from '../../../../shared/components/Spinner';
 import Button from '../../../../shared/components/Button';
 import MailIcon from '../../../../assets/icons/MailIcon';
@@ -18,6 +18,8 @@ export default function Form() {
   const { visible, typeInput, toggle } = useTogglePassword();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect');
 
   const {
     handleSubmit,
@@ -43,7 +45,7 @@ export default function Form() {
 
       await handleSignin(payload);
 
-      navigate('/project');
+      navigate(redirect || '/project');
       toast.success('Welcome Back!');
       reset();
     } catch (error: unknown) {

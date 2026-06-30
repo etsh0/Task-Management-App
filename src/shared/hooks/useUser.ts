@@ -18,7 +18,12 @@ export const useUser = (): UseUserReturn => {
   useEffect(() => {
     const fetchUserData = async () => {
       const data = await getUserData();
-      setUser(data.user_metadata);
+      setUser({
+        id: data.id,
+        email: data.email,
+        name: data.user_metadata.name,
+        job_title: data.user_metadata.job_title,
+      });
     };
 
     fetchUserData();
