@@ -5,8 +5,11 @@ import TotalIcon from '../../assets/icons/TotalIcon';
 import StatisticCard from '../../features/my-statistics/components/StatisticCard';
 import StatisticColumn from '../../features/my-statistics/components/StatisticColumn';
 import StatisticsHeader from '../../features/my-statistics/components/StatisticsHeader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { addDays, getWeekStart } from '../../shared/constants/DayPicker';
+import type { AppDispatch } from '../../store/store';
+import { getAllProjects } from '../../store/slices/ProjectsSlice';
+import { useDispatch } from 'react-redux';
 
 export default function MyStatisticsPage() {
   const currentWeekStart = getWeekStart(new Date());
@@ -14,6 +17,12 @@ export default function MyStatisticsPage() {
     from: currentWeekStart,
     to: addDays(currentWeekStart, 6),
   };
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(getAllProjects({ LIMIT: 100, OFFSET: 0 }));
+  }, [dispatch]);
 
   const [appliedRange, setAppliedRange] = useState(initialRange);
   const [draftRange, setDraftRange] = useState(initialRange);
