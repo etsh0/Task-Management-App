@@ -35,6 +35,10 @@ export default function App() {
               <Route path="members" element={<Members />} />
             </Route>
           </Route>
+          {/* My Statistics page*/}
+          <Route path="/my-statistics" element={<AppLayout />}>
+            <Route index element={<div>My Statistics</div>} />
+          </Route>
           {/* auth pages */}
           <Route element={<AuthLayout />}>
             <Route path="sign-up" element={<Signup />} />
