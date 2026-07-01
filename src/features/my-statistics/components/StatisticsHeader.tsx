@@ -7,6 +7,9 @@ import Button from '../../../shared/components/Button';
 import { countDays, MAX_RANGE_DAYS } from '../../../shared/constants/DayPicker';
 import type { StatisticsHeaderProps } from '../type';
 import { formatDate } from '../../../shared/utils/formatDate';
+import type { RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
+import { TASK_STATUS_OPTIONS } from '../../tasks/type';
 
 export default function StatisticsHeader({
   draftRange,
@@ -15,8 +18,26 @@ export default function StatisticsHeader({
   onDateErrorChange,
   onApplyRange,
   appliedRange,
+  onProjectChange,
+  selectedProjectId,
+  onStatusChange,
+  selectedStatus,
 }: StatisticsHeaderProps) {
   const [open, setOpen] = useState(false);
+  const { projects } = useSelector((state: RootState) => state.projects);
+
+  const projectOptions = [
+    { value: '', label: 'All Projects' },
+    ...projects.map((project) => ({
+      value: project.id,
+      label: project.name,
+    })),
+  ];
+
+  const statusOptions = [
+    { value: '', label: 'All Statuses' },
+    ...TASK_STATUS_OPTIONS,
+  ];
 
   const handleApply = () => {
     if (!draftRange.from || !draftRange.to) {
@@ -114,6 +135,15 @@ export default function StatisticsHeader({
           <div className="flex items-center gap-4">
             <div className="">
               <Select
+                value={
+                  projectOptions.find(
+                    (option) => option.value === selectedProjectId,
+                  ) ?? projectOptions[0]
+                }
+                onChange={(option) => {
+                  onProjectChange(option?.value || null);
+                }}
+                options={projectOptions}
                 isClearable={false}
                 isSearchable={false}
                 components={{
@@ -139,6 +169,15 @@ export default function StatisticsHeader({
                 isSearchable={false}
                 components={{
                   IndicatorSeparator: () => null,
+                }}
+                options={statusOptions}
+                value={
+                  statusOptions.find(
+                    (option) => option.value === selectedStatus,
+                  ) ?? statusOptions[0]
+                }
+                onChange={(option) => {
+                  onStatusChange(option?.value || null);
                 }}
                 styles={{
                   control: (base) => ({

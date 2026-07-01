@@ -18,6 +18,10 @@ export default function MyStatisticsPage() {
   const [appliedRange, setAppliedRange] = useState(initialRange);
   const [draftRange, setDraftRange] = useState(initialRange);
   const [dateError, setDateError] = useState('');
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
+    null,
+  );
+  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
 
   return (
     <>
@@ -29,6 +33,10 @@ export default function MyStatisticsPage() {
           onApplyRange={setAppliedRange}
           dateError={dateError}
           onDateErrorChange={setDateError}
+          selectedProjectId={selectedProjectId}
+          onProjectChange={setSelectedProjectId}
+          selectedStatus={selectedStatus}
+          onStatusChange={setSelectedStatus}
         />
         <div className="grid grid-cols-3 gap-6 my-8">
           <StatisticCard

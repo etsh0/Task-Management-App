@@ -9,4 +9,10 @@ export type StatisticsHeaderProps = {
 
   dateError: string;
   onDateErrorChange: (message: string) => void;
+
+  selectedProjectId: string | null;
+  onProjectChange: (projectId: string | null) => void;
+
+  selectedStatus: string | null;
+  onStatusChange: (status: string | null) => void;
 };
