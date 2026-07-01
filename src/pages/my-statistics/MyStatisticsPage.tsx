@@ -1,15 +1,35 @@
+import type { DateRange } from '@daypicker/react';
 import CheckIcon from '../../assets/icons/CheckIcon';
 import OverdueIcon from '../../assets/icons/OverdueIcon';
 import TotalIcon from '../../assets/icons/TotalIcon';
 import StatisticCard from '../../features/my-statistics/components/StatisticCard';
 import StatisticColumn from '../../features/my-statistics/components/StatisticColumn';
 import StatisticsHeader from '../../features/my-statistics/components/StatisticsHeader';
+import { useState } from 'react';
+import { addDays, getWeekStart } from '../../shared/constants/DayPicker';
 
 export default function MyStatisticsPage() {
+  const currentWeekStart = getWeekStart(new Date());
+  const initialRange: DateRange = {
+    from: currentWeekStart,
+    to: addDays(currentWeekStart, 6),
+  };
+
+  const [appliedRange, setAppliedRange] = useState(initialRange);
+  const [draftRange, setDraftRange] = useState(initialRange);
+  const [dateError, setDateError] = useState('');
+
   return (
     <>
       <section className="px-8 pt-8 pb-20 md:pb-[121.5px]">
-        <StatisticsHeader />
+        <StatisticsHeader
+          appliedRange={appliedRange}
+          draftRange={draftRange}
+          onDraftRangeChange={setDraftRange}
+          onApplyRange={setAppliedRange}
+          dateError={dateError}
+          onDateErrorChange={setDateError}
+        />
         <div className="grid grid-cols-3 gap-6 my-8">
           <StatisticCard
             title="Tasks"

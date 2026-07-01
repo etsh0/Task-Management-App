@@ -2,11 +2,53 @@ import Select from 'react-select';
 import ArrowLeft2 from '../../../assets/icons/ArrowLeft2';
 import ArrowRight2 from '../../../assets/icons/ArrowRight2';
 import { useState } from 'react';
-import { DayPicker } from '@daypicker/react';
+import { DayPicker, type DateRange } from '@daypicker/react';
 import Button from '../../../shared/components/Button';
+import { countDays, MAX_RANGE_DAYS } from '../../../shared/constants/DayPicker';
+import type { StatisticsHeaderProps } from '../type';
+import { formatDate } from '../../../shared/utils/formatDate';
 
-export default function StatisticsHeader() {
+export default function StatisticsHeader({
+  draftRange,
+  onDraftRangeChange,
+  dateError,
+  onDateErrorChange,
+  onApplyRange,
+  appliedRange,
+}: StatisticsHeaderProps) {
   const [open, setOpen] = useState(false);
+
+  const handleApply = () => {
+    if (!draftRange.from || !draftRange.to) {
+      onDateErrorChange('Date range is required');
+      return;
+    }
+
+    const selectedDays = countDays(draftRange.from, draftRange.to);
+
+    if (selectedDays > MAX_RANGE_DAYS) {
+      onDateErrorChange('Date range cannot exceed 7 days');
+      return;
+    }
+
+    onApplyRange(draftRange);
+    onDateErrorChange('');
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    onDraftRangeChange(appliedRange);
+    onDateErrorChange('');
+    setOpen(false);
+  };
+
+  const handleSelectRange = (nextRange: DateRange | undefined) => {
+    if (!nextRange) return;
+
+    onDateErrorChange('');
+    onDraftRangeChange(nextRange);
+  };
+
   return (
     <>
       <header className="flex flex-col mb-10 gap-8">
@@ -26,7 +68,9 @@ export default function StatisticsHeader() {
             >
               <ArrowLeft2 />
               <div className="text-label-sm text-slate-one font-bold leading-5">
-                May 11 - May 17, 2025
+                {appliedRange.from && appliedRange.to
+                  ? `${formatDate(appliedRange.from)} - ${formatDate(appliedRange.to)}`
+                  : 'Select date range'}
               </div>
               <ArrowRight2 />
             </div>
@@ -34,6 +78,9 @@ export default function StatisticsHeader() {
               <div className="absolute -left-4 top-8 bg-white/70 rounded-lg p-5 border border-border backdrop-blur-[20px]">
                 <DayPicker
                   mode="range"
+                  required
+                  selected={draftRange}
+                  onSelect={handleSelectRange}
                   showOutsideDays
                   classNames={{
                     day: 'text-[12px] font-semibold',
@@ -44,15 +91,20 @@ export default function StatisticsHeader() {
                     range_end: 'bg-[#0052CC33] text-primary ',
                   }}
                 />
+                {dateError && (
+                  <p className="mt-2 text-body-md font-medium text-error">
+                    {dateError}
+                  </p>
+                )}
                 <div className="pt-4 border-t border-border flex items-center justify-between">
                   <button
                     type="button"
-                    onClick={() => setOpen(!open)}
+                    onClick={handleCancel}
                     className="text-[12px] text-neutral w-full font-medium leading-4 rounded-lg md:rounded-xs py-2.5 px-6  cursor-pointer"
                   >
                     Cancel
                   </button>
-                  <div className="w-full">
+                  <div onClick={handleApply} className="w-full">
                     <Button>Apply Range</Button>
                   </div>
                 </div>
