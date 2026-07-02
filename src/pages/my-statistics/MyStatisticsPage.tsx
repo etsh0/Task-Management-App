@@ -60,7 +60,7 @@ export default function MyStatisticsPage() {
 
   return (
     <>
-      <section className="px-8 pt-8 pb-20 md:pb-[121.5px]">
+      <section className="px-4 pt-6 pb-24 md:px-8 md:pt-8 md:pb-[121.5px]">
         <StatisticsHeader
           appliedRange={appliedRange}
           draftRange={draftRange}
@@ -73,7 +73,7 @@ export default function MyStatisticsPage() {
           selectedStatus={selectedStatus}
           onStatusChange={setSelectedStatus}
         />
-        <div className="grid grid-cols-3 gap-6 my-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 md:gap-6 gap-2 my-8">
           <StatisticCard
             title="Tasks"
             count={data?.total_tasks ?? 0}
@@ -94,7 +94,7 @@ export default function MyStatisticsPage() {
             isOverdue={true}
           />
         </div>
-        <div className="grid grid-cols-7 gap-3">
+        <div className="flex flex-col gap-3 md:grid md:grid-cols-7">
           {data?.daily.map((dayStats) => (
             <StatisticColumn
               key={dayStats.day}
@@ -103,14 +103,14 @@ export default function MyStatisticsPage() {
             />
           ))}
         </div>
-        <div className="flex gap-8 justify-between py-8">
-          <div className="w-[50%]">
+        <div className="flex flex-col md:flex-row gap-8 justify-between py-8">
+          <div className="w-full md:w-[50%]">
             <TasksByStatusChart
               totals={data?.totals ?? {}}
               totalTasks={data?.total_tasks ?? 0}
             />
           </div>
-          <div className="p-8 rounded-lg bg-white w-[50%]">
+          <div className="p-8 rounded-lg bg-white w-full md:w-[50%]">
             <h6 className="text-title-md text-slate-one font-bold leading-7">
               All Projects
             </h6>

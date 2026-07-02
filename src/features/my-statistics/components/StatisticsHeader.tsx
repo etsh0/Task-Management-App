@@ -1,6 +1,4 @@
 import Select from 'react-select';
-import ArrowLeft2 from '../../../assets/icons/ArrowLeft2';
-import ArrowRight2 from '../../../assets/icons/ArrowRight2';
 import { useState } from 'react';
 import { DayPicker, type DateRange } from '@daypicker/react';
 import Button from '../../../shared/components/Button';
@@ -10,6 +8,7 @@ import { formatDate } from '../../../shared/utils/formatDate';
 import type { RootState } from '../../../store/store';
 import { useSelector } from 'react-redux';
 import { TASK_STATUS_OPTIONS } from '../../tasks/type';
+import CalenderIcon from '../../../assets/icons/CalenderIcon';
 
 export default function StatisticsHeader({
   draftRange,
@@ -73,7 +72,7 @@ export default function StatisticsHeader({
   return (
     <>
       <header className="flex flex-col mb-10 gap-8">
-        <div className="flex flex-col gap-1">
+        <div className="hidden md:flex flex-col gap-1">
           <h2 className="text-[30px] text-slate-one font-semibold leading-9 tracking-[-0.75px]">
             Weekly Planner
           </h2>
@@ -81,22 +80,21 @@ export default function StatisticsHeader({
             Manage your deadlines and track team velocity.
           </p>
         </div>
-        <div className="p-4 bg-surface-low rounded-lg flex items-center justify-between w-full">
+        <div className="p-4 bg-surface-low rounded-lg flex flex-col md:flex-row md:items-center gap-3 justify-between w-full">
           <div className="relative">
             <div
               onClick={() => setOpen(!open)}
               className="flex items-center gap-3 cursor-pointer"
             >
-              <ArrowLeft2 />
+              <CalenderIcon />
               <div className="text-label-sm text-slate-one font-bold leading-5">
                 {appliedRange.from && appliedRange.to
                   ? `${formatDate(appliedRange.from)} - ${formatDate(appliedRange.to)}`
                   : 'Select date range'}
               </div>
-              <ArrowRight2 />
             </div>
             {open && (
-              <div className="absolute z-100 -left-4 top-8 bg-white/70 rounded-lg p-5 border border-border backdrop-blur-[20px]">
+              <div className="absolute z-100 -left-4 top-8 bg-white/70 rounded-lg p-3 md:p-5 border border-border backdrop-blur-[20px]">
                 <DayPicker
                   mode="range"
                   required
@@ -132,7 +130,7 @@ export default function StatisticsHeader({
               </div>
             )}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
             <div className="">
               <Select
                 value={

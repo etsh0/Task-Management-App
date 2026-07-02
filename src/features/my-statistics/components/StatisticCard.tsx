@@ -19,7 +19,7 @@ export default function StatisticCard({
     <>
       <div className="flex items-center justify-between rounded-lg p-6 bg-white">
         <div className="flex flex-col gap-1">
-          <h5 className="text-[12px] font-bold leading-4 tracking-[0.6px] uppercase">
+          <h5 className="text-[10px] md:text-[12px] font-bold leading-4 tracking-[0.6px] uppercase">
             {title}
           </h5>
           <span
