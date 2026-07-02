@@ -14,6 +14,7 @@ import { toApiDate } from '../../shared/utils/formatDate';
 import { useTasksCalendarStats } from '../../features/my-statistics/hooks/useTasksCalendarStats';
 import type { TaskStatus } from '../../features/tasks/type';
 import { useTasksPerProject } from '../../features/my-statistics/hooks/useTasksPerProject';
+import TasksByStatusChart from '../../features/my-statistics/components/TasksByStatusChart';
 
 export default function MyStatisticsPage() {
   const currentWeekStart = getWeekStart(new Date());
@@ -102,7 +103,13 @@ export default function MyStatisticsPage() {
             />
           ))}
         </div>
-        <div className="flex items-center gap-8 justify-between py-8">
+        <div className="flex gap-8 justify-between py-8">
+          <div className="w-[50%]">
+            <TasksByStatusChart
+              totals={data?.totals ?? {}}
+              totalTasks={data?.total_tasks ?? 0}
+            />
+          </div>
           <div className="p-8 rounded-lg bg-white w-[50%]">
             <h6 className="text-title-md text-slate-one font-bold leading-7">
               All Projects
