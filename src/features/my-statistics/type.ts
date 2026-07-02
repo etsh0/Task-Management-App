@@ -41,3 +41,16 @@ export type TasksCalendarStatsResponse = {
   done_tasks: number;
   overdue_tasks: number;
 };
+
+export type TasksCountPerProjectPayload = {
+  p_start_date: string;
+  p_end_date: string;
+};
+
+export type TasksCountPerProject = {
+  project_id: string;
+  project_name: string;
+  tasks_count: number;
+};
+
+export type TasksCountPerProjectResponse = TasksCountPerProject[];

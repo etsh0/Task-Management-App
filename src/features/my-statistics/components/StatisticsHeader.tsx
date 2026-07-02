@@ -96,7 +96,7 @@ export default function StatisticsHeader({
               <ArrowRight2 />
             </div>
             {open && (
-              <div className="absolute -left-4 top-8 bg-white/70 rounded-lg p-5 border border-border backdrop-blur-[20px]">
+              <div className="absolute z-100 -left-4 top-8 bg-white/70 rounded-lg p-5 border border-border backdrop-blur-[20px]">
                 <DayPicker
                   mode="range"
                   required

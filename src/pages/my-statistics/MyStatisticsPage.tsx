@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { toApiDate } from '../../shared/utils/formatDate';
 import { useTasksCalendarStats } from '../../features/my-statistics/hooks/useTasksCalendarStats';
 import type { TaskStatus } from '../../features/tasks/type';
+import { useTasksPerProject } from '../../features/my-statistics/hooks/useTasksPerProject';
 
 export default function MyStatisticsPage() {
   const currentWeekStart = getWeekStart(new Date());
@@ -45,7 +46,16 @@ export default function MyStatisticsPage() {
         }
       : null;
 
+  const tasksPayload =
+    appliedRange.from && appliedRange.to
+      ? {
+          p_start_date: toApiDate(appliedRange.from),
+          p_end_date: toApiDate(appliedRange.to),
+        }
+      : null;
+
   const { data } = useTasksCalendarStats(statsPayload);
+  const { tasks } = useTasksPerProject(tasksPayload);
 
   return (
     <>
@@ -98,15 +108,19 @@ export default function MyStatisticsPage() {
               All Projects
             </h6>
             <div className="flex flex-col gap-4 mt-10 ">
-              {/* project */}
-              <div className="flex items-center justify-between">
-                <span className="text-neutral text-[12px] font-bold leading-4">
-                  Skyline Residency
-                </span>
-                <span className="text-slate-one text-[12px] font-bold leading-4">
-                  45 Tasks
-                </span>
-              </div>
+              {tasks.map((p) => (
+                <div
+                  key={p.project_id}
+                  className="flex items-center justify-between"
+                >
+                  <span className="text-neutral text-[12px] font-bold leading-4">
+                    {p.project_name}
+                  </span>
+                  <span className="text-slate-one text-[12px] font-bold leading-4">
+                    {p.tasks_count}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
