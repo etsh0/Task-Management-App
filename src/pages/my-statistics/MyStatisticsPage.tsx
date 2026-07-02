@@ -10,6 +10,9 @@ import { addDays, getWeekStart } from '../../shared/constants/DayPicker';
 import type { AppDispatch } from '../../store/store';
 import { getAllProjects } from '../../store/slices/ProjectsSlice';
 import { useDispatch } from 'react-redux';
+import { toApiDate } from '../../shared/utils/formatDate';
+import { useTasksCalendarStats } from '../../features/my-statistics/hooks/useTasksCalendarStats';
+import type { TaskStatus } from '../../features/tasks/type';
 
 export default function MyStatisticsPage() {
   const currentWeekStart = getWeekStart(new Date());
@@ -30,7 +33,19 @@ export default function MyStatisticsPage() {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
     null,
   );
-  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<TaskStatus | null>(null);
+
+  const statsPayload =
+    appliedRange.from && appliedRange.to
+      ? {
+          p_start_date: toApiDate(appliedRange.from),
+          p_end_date: toApiDate(appliedRange.to),
+          p_project_id: selectedProjectId,
+          p_status: selectedStatus,
+        }
+      : null;
+
+  const { data } = useTasksCalendarStats(statsPayload);
 
   return (
     <>
@@ -50,32 +65,32 @@ export default function MyStatisticsPage() {
         <div className="grid grid-cols-3 gap-6 my-8">
           <StatisticCard
             title="Tasks"
-            count={24}
+            count={data?.total_tasks ?? 0}
             icon={<TotalIcon />}
             bg="#0052CC1A"
           />
           <StatisticCard
             title="COMPLETED TASKS"
-            count={24}
+            count={data?.done_tasks ?? 0}
             icon={<CheckIcon className="w-5 h-5" />}
             bg="#0068441A"
           />
           <StatisticCard
             title="OVERDUE TASKS"
-            count={24}
+            count={data?.overdue_tasks ?? 0}
             icon={<OverdueIcon />}
             bg="#FFDAD633"
             isOverdue={true}
           />
         </div>
         <div className="grid grid-cols-7 gap-3">
-          <StatisticColumn />
-          <StatisticColumn />
-          <StatisticColumn />
-          <StatisticColumn />
-          <StatisticColumn />
-          <StatisticColumn />
-          <StatisticColumn />
+          {data?.daily.map((dayStats) => (
+            <StatisticColumn
+              key={dayStats.day}
+              day={dayStats.day}
+              statuses={dayStats.statuses}
+            />
+          ))}
         </div>
         <div className="flex items-center gap-8 justify-between py-8">
           <div className="p-8 rounded-lg bg-white w-[50%]">

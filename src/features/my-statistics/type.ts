@@ -1,4 +1,10 @@
 import type { DateRange } from '@daypicker/react';
+import type { TaskStatus } from '../tasks/type';
+
+export type StatusOption = {
+  value: TaskStatus | '';
+  label: string;
+};
 
 export type StatisticsHeaderProps = {
   appliedRange: DateRange;
@@ -13,6 +19,25 @@ export type StatisticsHeaderProps = {
   selectedProjectId: string | null;
   onProjectChange: (projectId: string | null) => void;
 
-  selectedStatus: string | null;
-  onStatusChange: (status: string | null) => void;
+  selectedStatus: TaskStatus | null;
+  onStatusChange: (status: TaskStatus | null) => void;
+};
+
+export type TasksCalendarStatsPayload = {
+  p_start_date: string;
+  p_end_date: string;
+  p_project_id: string | null;
+  p_status: TaskStatus | null;
+};
+export type DailyTaskStats = {
+  day: string;
+  statuses: Partial<Record<TaskStatus, number>>;
+};
+
+export type TasksCalendarStatsResponse = {
+  daily: DailyTaskStats[];
+  totals: Partial<Record<TaskStatus, number>>;
+  total_tasks: number;
+  done_tasks: number;
+  overdue_tasks: number;
 };

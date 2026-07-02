@@ -23,3 +23,15 @@ export function getWeekStart(date: Date) {
   weekStart.setDate(weekStart.getDate() - weekStart.getDay());
   return weekStart;
 }
+
+export function formatColumnDate(day: string) {
+  const date = new Date(`${day}T00:00:00`);
+
+  return {
+    weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
+    dateLabel: date.toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'short',
+    }),
+  };
+}

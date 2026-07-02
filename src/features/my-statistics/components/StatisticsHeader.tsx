@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { DayPicker, type DateRange } from '@daypicker/react';
 import Button from '../../../shared/components/Button';
 import { countDays, MAX_RANGE_DAYS } from '../../../shared/constants/DayPicker';
-import type { StatisticsHeaderProps } from '../type';
+import type { StatisticsHeaderProps, StatusOption } from '../type';
 import { formatDate } from '../../../shared/utils/formatDate';
 import type { RootState } from '../../../store/store';
 import { useSelector } from 'react-redux';
@@ -34,7 +34,7 @@ export default function StatisticsHeader({
     })),
   ];
 
-  const statusOptions = [
+  const statusOptions: StatusOption[] = [
     { value: '', label: 'All Statuses' },
     ...TASK_STATUS_OPTIONS,
   ];
