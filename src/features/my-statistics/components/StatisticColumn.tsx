@@ -9,9 +9,30 @@ export default function StatisticColumn({ day, statuses }: DailyTaskStats) {
   const visibleStatuses = TASK_STATUS_OPTIONS.filter(
     (status) => statuses[status.value],
   );
+
+  function isSameDay(day: string) {
+    const columnDate = new Date(`${day}T00:00:00`);
+    const today = new Date();
+
+    columnDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    return columnDate.getTime() === today.getTime();
+  }
+
+  const isToday = isSameDay(day);
   return (
     <>
-      <div className="h-105 overflow-y-auto p-4 rounded-lg bg-white shadow-[0px_1px_2px_0px_#0000000D] ">
+      <div
+        className={`relative h-105 p-4 rounded-lg bg-white shadow-[0px_1px_2px_0px_#0000000D] ${
+          isToday ? 'border-2 border-primary' : ''
+        }`}
+      >
+        {isToday && (
+          <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase leading-3 text-white">
+            Today
+          </span>
+        )}
         <div className="header pb-4">
           <span
             className={`text-[12px] ${visibleStatuses.length === 0 && 'text-neutral/30'} text-neutral font-bold uppercase leading-4`}
