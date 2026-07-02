@@ -14,6 +14,7 @@ import AddEpicPage from './pages/projects/AddEpicPage';
 import AddNewTaskPage from './pages/projects/AddNewTaskPage';
 import TasksPage from './pages/projects/TasksPage';
 import AcceptInvitation from './pages/projects/AcceptInvitation';
+import MyStatisticsPage from './pages/my-statistics/MyStatisticsPage';
 
 export default function App() {
   return (
@@ -34,6 +35,10 @@ export default function App() {
               <Route path="tasks/new" element={<AddNewTaskPage />} />
               <Route path="members" element={<Members />} />
             </Route>
+          </Route>
+          {/* My Statistics page*/}
+          <Route path="/my-statistics" element={<AppLayout />}>
+            <Route index element={<MyStatisticsPage />} />
           </Route>
           {/* auth pages */}
           <Route element={<AuthLayout />}>

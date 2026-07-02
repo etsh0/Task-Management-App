@@ -16,7 +16,7 @@ export default function DesktopSideBar() {
 
   const sidebarLinks = projectId
     ? Links
-    : Links.filter((link) => link.name === 'Projects');
+    : Links.filter((link) => ['Projects', 'My Statistics'].includes(link.name));
 
   const handleLogout = async () => {
     try {
@@ -40,7 +40,7 @@ export default function DesktopSideBar() {
         {sidebarLinks.map((link, idx) => (
           <NavLink
             to={
-              link.path === '/project'
+              link.path.startsWith('/')
                 ? link.path
                 : `/project/${projectId}/${link.path}`
             }

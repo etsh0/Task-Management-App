@@ -6,14 +6,14 @@ export default function MobileBottomBar() {
 
   const sidebarLinks = projectId
     ? Links
-    : Links.filter((link) => link.name === 'Projects');
+    : Links.filter((link) => ['Projects', 'My Statistics'].includes(link.name));
   return (
     <>
-      <div className="h-16 bg-surface-low flex items-center justify-between px-[27.86px] w-full">
+      <div className="h-16 bg-surface-low flex items-center justify-between px-4 w-full">
         {sidebarLinks.map((link, idx) => (
           <NavLink
             to={
-              link.path === '/project'
+              link.path.startsWith('/')
                 ? link.path
                 : `/project/${projectId}/${link.path}`
             }

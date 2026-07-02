@@ -3,6 +3,7 @@ import ProjectDetailIcon from '../../assets/icons/ProjectDetailIcon';
 import ProjectEpicIcon from '../../assets/icons/ProjectEpicIcon';
 import ProjectMemberIcon from '../../assets/icons/ProjectMemberIcon';
 import ProjectTaskIcon from '../../assets/icons/ProjectTaskIcon';
+import StatisticsIcon from '../../assets/icons/StatisticsIcon';
 import type { linkItem } from '../types/linkItem';
 
 export const Links: linkItem[] = [
@@ -11,6 +12,12 @@ export const Links: linkItem[] = [
     mobileName: 'Projects',
     path: '/project',
     icon: <ProjecsIcon />,
+  },
+  {
+    name: 'My Statistics',
+    mobileName: 'Statistics',
+    path: '/my-statistics',
+    icon: <StatisticsIcon />,
   },
   {
     name: 'Project Epic',
